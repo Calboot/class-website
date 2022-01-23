@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>卡路里大挑战</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="./static/calorie/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./static/calorie/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./static/calorie/css/index.css">
+</head>
+
+<body>
+    <div class="mask"></div>
+    <div id="bg"></div>
+    <div id="container">
+        <header>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+                <a href="/main" class="goBack">
+                    <img src="./static/calorie/images/back.png">
+                    <span class="goBackIndex">返回首页</span>
+                </a>
+            </div>
+            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+                <img class="" src="./static/calorie/images/avatar.png">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+                 <img src="/static/monkey/images/avatar.png">
+                <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+                <div class="pull-right welcomt"></div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="gameWrap">
+                <div id="game">
+                    <canvas id="main" width="843" height="550">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        COPYRIGHT© {{nickname}} 2020
+    </div>
+    <script>
+        var bgImg = new Image()
+        bgImg.src = './static/calorie/images/bg.png'
+        var tomatoImgAry = []
+        for (var i = 1; i <= 2; i++) {
+            var img = new Image()
+            img.src = './static/calorie/images/tomato' + i + '.png'
+            tomatoImgAry.push(img)
+        }
+        var broccoliImgAry = []
+        for (var i = 1; i <= 2; i++) {
+            var img = new Image()
+            img.src = './static/calorie/images/broccoli' + i + '.png'
+            broccoliImgAry.push(img)
+        }
+        var mushroomImgAry = []
+        for (var i = 1; i <= 2; i++) {
+            var img = new Image()
+            img.src = './static/calorie/images/mushroom' + i + '.png'
+            mushroomImgAry.push(img)
+        }
+        var potatoImgAry = []
+        for (var i = 1; i <= 2; i++) {
+            var img = new Image();
+            img.src = './static/calorie/images/potato' + i + '.png'
+            potatoImgAry.push(img)
+        }
+        var radishImgAry = []
+        for (var i = 1; i <= 2; i++) {
+            var img = new Image()
+            img.src = './static/calorie/images/radish' + i + '.png'
+            radishImgAry.push(img)
+        }
+        var pigImgAry = []
+        for (var i = 1; i <= 8; i++) {
+            var img = new Image()
+            img.src = './static/calorie/images/pig' + i + '.png'
+            pigImgAry.push(img)
+        }
+        var pigLevel = [
+            [pigImgAry[0], pigImgAry[1]],
+            [pigImgAry[2], pigImgAry[3]],
+            [pigImgAry[4], pigImgAry[5]],
+            [pigImgAry[6], pigImgAry[7]]
+        ]
+        var pig = {
+            x: 358,y: 460,
+            imgAry: pigLevel[0],
+            img: pigLevel[0][0],
+            imgIndex: 0,
+            lastTime: 0,
+            intervalTime: 100,
+            width: 122,
+            height: 83,
+            cal: 0
+        }
+        var calImg = new Image()
+        calImg.src = './static/calorie/images/calorie.png'
+        var successImg = new Image()
+        successImg.src = './static/calorie/images/success.png'
+        var timeImg = new Image()
+        timeImg.src = './static/calorie/images/time.png'
+        var canvas = document.getElementById('main')
+        var ctx = canvas.getContext('2d')
+        var canvasWidth = 843
+        var canvasHeight = 550
+        var fenceRootY = 505
+        function randomVeg() {
+            var num = parseInt(Math.random() * 5)
+            var veg = null
+            if (num == 0) {
+                veg = {
+                    imgAry: broccoliImgAry,
+                    img: broccoliImgAry[0],
+                    width: 74,
+                    height: 66,
+                    cal: 20
+                }
+            } else if (num == 1) {
+                veg = {
+                    imgAry: radishImgAry,
+                    img: radishImgAry[0],
+                    width: 52,
+                    height: 92,
+                    cal: 60
+                }
+            } else if (num == 2) {
+                veg = {
+                    imgAry: potatoImgAry,
+                    img: potatoImgAry[0],
+                    width: 52,
+                    height: 72,
+                    cal: 50
+                }
+            } else if (num == 3) {
+                veg = {
+                    imgAry: tomatoImgAry,
+                    img: tomatoImgAry[0],
+                    width: 72,
+                    height: 81,
+                    cal: 80
+                }
+            } else if (num == 4) {
+                veg = {
+                    imgAry: mushroomImgAry,
+                    img: mushroomImgAry[0],
+                    width: 72,
+                    height: 70,
+                    cal: -100
+                }
+            }
+            veg.x = canvasWidth
+            var y = parseInt(Math.random() * (fenceRootY - veg.height + 1))
+            veg.y = y
+            veg.imgIndex = 0
+            veg.lastTime = 0
+            veg.intervalTime = 100
+            return veg
+        }
+        var vegAry = [randomVeg()]
+        var key_pressed = {
+            left: false,    
+            up: false,      
+            right: false,   
+            down: false     
+        }
+        const GAME_RUNNING = 1
+        const GAME_OVER = -1
+        var gameState = GAME_RUNNING
+        var startTime = null
+        var endTime = null
+        window.onload = function () {
+            setInterval(addVeg, 1500)
+            startTime = new Date().getTime()
+            setInterval(gameHandler, 1000 / 60)
+            document.onkeydown = function(e) {
+                var code = e.keyCode
+                if (code == 37) {
+                    key_pressed.left = true
+                } else if (code == 38) {
+                    key_pressed.up = true
+                } else if (code == 39) {
+                    key_pressed.right = true
+                } else if (code == 40) {
+                    key_pressed.down = true
+                }
+            }
+            document.onkeyup = function (e) {
+                var code = e.keyCode
+                if (code == 37) {
+                    key_pressed.left = false
+                } else if (code == 38) {
+                    key_pressed.up = false
+                } else if (code == 39) {
+                    key_pressed.right = false
+                } else if (code == 40) {
+                    key_pressed.down = false
+                }
+            }
+        }
+        function addVeg() {
+            vegAry.push(randomVeg())
+        }
+        function gameHandler() {
+            if (gameState=GAME_RUNNING){
+                ctx.drawImage(bgImg, 0, 0)
+                drawVeg()
+                drawPig()
+                moveVeg()
+                addAnimation()
+                deleteVeg()
+                movePig()
+                checkHit()
+                drawCal()
+                changeLevel()
+                drawTime()
+                isGameover()
+            }
+            if (gameState==GAME_OVER){
+                ctx.drawImage(bgImg, 0, 0) 
+                pig.img = pigImgAry[6]
+                drawPig()
+                drawCal() 
+                ctx.drawImage(successImg, 230, 100)
+                ctx.font = '45px Arial'
+                ctx.fillStyle = '#ffffff'
+                time = endTime - startTime
+                var timeStr = time + '秒'
+                ctx.fillText(timeStr, 330, 320)
+            }
+        }
+        function drawVeg() {
+            for (var i = 0; i < vegAry.length; i++) {
+                var veg = vegAry[i]
+                ctx.drawImage(veg.img, veg.x, veg.y)
+            }
+        }
+        function moveVeg() {
+            for (var i = 0; i < vegAry.length; i++) {
+                var veg = vegAry[i]
+                veg.x = veg.x - 4
+            }
+        }
+        function animation(obj) {
+            var currentTime = new Date().getTime()
+            if (currentTime - obj.lastTime >= obj.intervalTime) {
+                obj.imgIndex = obj.imgIndex + 1
+                if (obj.imgIndex == obj.imgAry.length) {
+                    obj.imgIndex = 0
+                }
+                obj.img = obj.imgAry[obj.imgIndex]
+                obj.lastTime = currentTime
+            }
+        }
+        function addAnimation() {
+            for (var i = 0; i < vegAry.length; i++) {
+                var veg = vegAry[i]
+                animation(veg)
+            }
+            animation(pig)
+        }
+        function deleteVeg() {
+            for (var i = vegAry.length - 1; i >= 0; i--) {
+                var veg = vegAry[i]
+                if (veg.x <= -veg.width) {
+                    vegAry.splice(i, 1)
+                }
+            }
+        }
+        function drawPig() {
+            ctx.drawImage(pig.img, pig.x, pig.y)
+        }
+        function movePig() {
+            if (key_pressed.left == true) {
+                pig.x = pig.x - 4
+            } 
+            if (key_pressed.up == true) {
+                pig.y = pig.y - 4
+            } 
+            if (key_pressed.right == true) {
+                pig.x = pig.x + 4
+            }
+            if (key_pressed.down == true) {
+                pig.y = pig.y + 4
+            }
+            if (pig.x < 0) {
+                pig.x = 0
+            } 
+            if (pig.x > canvasWidth - pig.width) {
+                pig.x = canvasWidth - pig.width
+            } 
+            if (pig.y < 0) {
+                pig.y = 0
+            } 
+            if (pig.y > canvasHeight - pig.height) {
+                pig.y = canvasHeight - pig.height
+            }
+        }
+        function checkHit() {
+            for (var i = vegAry.length - 1; i >= 0; i--) {
+                var veg = vegAry[i]
+                var minX = veg.x - pig.width
+                var maxX = veg.x + veg.width
+                var minY = veg.y - pig.height
+                var maxY = veg.y + veg.height
+                if (pig.x >= minX && pig.x <= maxX) {
+                    if (pig.y >= minY && pig.y <= maxY) {
+                        vegAry.splice(i, 1)
+                        pig.cal = pig.cal + veg.cal
+                    }
+                }
+            }
+        }
+        function drawCal() {
+            ctx.drawImage(calImg, 30, 20)
+            ctx.font = '30px Arial'
+            ctx.fillStyle = '#8B4513'
+            ctx.fillText('' + pig.cal, 70, 55)
+        }
+        function changeLevel() {
+            if (pig.cal < 300) {
+                pig.imgAry = pigLevel[0]
+                pig.width = 122
+                pig.height = 83
+            } else if (pig.cal < 600) {
+                pig.imgAry = pigLevel[1]
+                pig.width = 127
+                pig.height = 88
+            } else if (pig.cal < 900) {
+                pig.imgAry = pigLevel[2]
+                pig.width = 138
+                pig.height = 105
+            } else {
+                pig.imgAry = pigLevel[3]
+                pig.width = 142
+                pig.height = 119
+            }
+        }
+        function isGameOver() {
+            if (pig.cal>=900){
+                gameState=GAME_OVER
+                pig.img=pigLevel[7]
+                var endTime= new Date().getTime()
+            }
+        }
+        function drawTime() {
+            var currentTime = new Date().getTime()
+            var time = (currentTime - startTime) / 1000
+            time = parseInt(time)
+            ctx.drawImage(timeImg, 593, 20)
+            ctx.font = '30px Arial'
+            ctx.fillStyle = '#8B4513'
+            ctx.fillText(time, 643, 60)
+        }
+    </script>
+    <script src="./static/calorie/js/jquery-3.3.1.min.js"></script>
+</body>
+
+</html>

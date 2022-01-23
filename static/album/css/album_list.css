@@ -1,0 +1,127 @@
+.main {
+    padding-bottom: 50px;
+}
+
+.main .btn {
+    width: 100%;
+    height: 58px;
+    margin: 0 auto 20px;
+    background: #F9B52E;
+    position: relative;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: inherit;
+    cursor: unset;
+}
+
+.main .btn span {
+    font-size: 25px;
+    color: #fff;
+}
+
+.main .btn a {
+    display: inline-block;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    width: 98px;
+    height: 35px;
+    line-height: 35px;
+    background: #fff;
+    color: #F9B52E;
+    border-radius: 5px;
+}
+
+.main .btn a:nth-child(1) {
+    background: #F9B52E;
+}
+
+.container {
+    padding-top: 20px;
+}
+
+.main .albumCover {
+    margin-bottom: 10px;
+
+}
+
+.main .albumCover .coverImg {
+    box-shadow: 0px 0px 5px silver;
+    padding: 4px;
+    border-radius: 5px;
+    height: 151px;
+
+}
+
+.main .albumCover .coverImg div {
+    height: 142px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+}
+
+.main .albumCover .coverImg img {
+    width: 100%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+.main .albumCover .albumNum {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    color: #757575;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.main .albumList div img {
+    border-radius: 5px;
+}
+
+@media screen and (max-width:375px) {
+    .main .btn span {
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .main .btn a {
+        display: inline-block;
+        position: relative;
+        font-size: 12px;
+        font-weight: 600;
+        width: 50px;
+        height: 35px;
+        line-height: 35px;
+        background: #fff;
+        color: #F9B52E;
+        border-radius: 5px;
+    }
+
+}
+
+@media screen and (max-width:990px) {
+    .createImg img {
+        width: 100%;
+        height: 160px !important;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .createImg img {
+        width: 100%;
+        height: 150px !important;
+    }
+    .main .albumCover .coverImg{
+        height:180px;
+    }
+    .main .albumCover .coverImg div{
+        height:171px;
+    }
+}

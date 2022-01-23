@@ -1,0 +1,113 @@
+.box {
+    width: 325px;
+    margin: 20px auto 60px;
+}
+
+.word {
+    background: #54A8FF;
+    width: 325px;
+    height: 54px;
+    line-height: 54px;
+    color: #fff;
+    font-size: 23px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.box form {
+    position: relative;
+}
+
+.albumName {
+    width: 325px;
+    height: 38px;
+    background: #EEEEEE;
+    border: 2px solid #DCDFE6;
+    border-radius: 5px;
+    margin-top: 26px;
+    outline: none;
+}
+
+
+.a-upload {
+    color: #ccc;
+    background: #EEEEEE;
+    border: 2px solid #DCDFE6;
+    border-radius: 5px;
+    width: 214px;
+    height: 41px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+    float: left;
+    margin-top: 26px;
+    *zoom: 1
+}
+
+.file {
+    /* width:325px;
+    height:38px;
+    background:#EEEEEE;
+    border:2px solid #DCDFE6;
+    border-radius:5px; */
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    opacity: 0;
+}
+
+.a-upload .label {
+    /* color: #444;
+    background: #eee;
+    border-color: #ccc; */
+    font-size: 14px;
+    height: 38px;
+    line-height: 32px;
+    display: inline-block;
+    color: #ccc;
+    cursor: pointer;
+    text-decoration: none;
+    width:100%;
+}
+
+.a-upload p {
+    position: relative;
+    top: -39px;
+    z-index: 3;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+
+
+.btn {
+    width: 97px;
+    height: 40px;
+    background: #F9B52E;
+    float: left;
+    margin-left: 12px;
+    margin-top: 26px;
+}
+
+.clearfloat {
+    clear: both
+}
+
+@media screen and (max-width:400px) {
+    .box {
+        width: 250px;
+    }
+    .word {
+        width: 250px;
+    }
+    .albumName {
+        width: 250px;
+    }
+    .btn {
+        width: 50px;
+        margin-left: 5px;
+    }
+}

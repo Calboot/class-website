@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/user/css/common.css">
+    <link rel="stylesheet" href="/static/user/css/login.css">
+</head>
+<body>
+    <div class="mask"></div>
+    <form action = "/login_check" method = "post">
+        <div class="loginBox">
+            <div class="loginBox-top">
+                <a href="#">登录</a>
+                {% if t_color == '1' %}
+                    <span style="color: orange">{{ t_error }}</span>
+                {% elif t_color == '2' %}
+                    <span style="color: purple">{{ t_error }}</span>
+                {% else %}
+                    <span style="color: red">{{ t_error }}</span>
+                {% endif %}
+                <a href="/main"><img class="fr" src = "/static/user/images/close.png"></a>
+            </div>
+            <input type="text" name="username" id="account" placeholder="账号">
+			<input type="password" name="password" id="password" placeholder="密码">
+            <input type = "submit" value = "登&nbsp;&nbsp;录" id = "sub1">
+            <a style="color: rgba(77,132,255,1); margin-bottom: 10px" class="register" href = "/register">注&nbsp;&nbsp;册</a>
+        </div>
+    </form>
+</body>
+</html>

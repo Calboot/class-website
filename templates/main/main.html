@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>主页</title>
+    <link rel="stylesheet" href="/static/main/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main/css/common.css">
+    <link rel="stylesheet" href="/static/main/css/main.css">
+</head>
+<body>
+<div class="mask"></div>
+<div class="box">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="navbar-header col-md-8 col-lg-8">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand pl" href="javascript:;">
+                        <img class="hidden-md hidden-lg pull-left" height="60" src="/static/main/images/avatar.png"
+                             alt="">
+                        <div class="pull-left  mynav_leftuser pl">
+                            <!--<span>{{date}}</span>-->
+                            <div class="mynav_user">
+                                <img class="hidden-sm hidden-xs vm" height="60" src="/static/main/images/avatar.png">
+                                <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse mobiologinangregist" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            {% if t_is_login==False %}
+                                <a class="loginOutBtn" href="notice">网站公告</a>
+                                <a class="loginBtn" href="/login">登录</a>/
+                                <a class="registBtn" href="/register">注册</a>
+                            {% else %}
+                                <a class="loginOutBtn" href="notice">网站公告</a>
+                                <a class="loginOutBtn" href="/change_password">更改密码</a>
+                                <a class="loginOutBtn" href="/logout">退出登录</a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="mainContiner container-fluid">
+        <div class="boxone row">
+            <div class="mainTitle col-xs-12">工具区</div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/trans">在线翻译</a></div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/todo">TODO</a></div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/album_list">EDP-6-1文件库</a></div>
+        </div>
+        <div class="boxtwo row" class="manypeopleplay">
+            <div class="mainTitle col-xs-12">休闲区</div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/typing">打字游戏</a></div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/monkey">宇宙の猴</a></div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/calorie">卡路里大挑战</a></div>
+<!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/mario">超级马里奥</a></div>-->
+<!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/pvz">植物大战僵尸</a></div>-->
+<!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/a2048">2048</a></div>-->
+        </div>
+    </div>
+</div>
+<script src="/static/main/js/jquery-3.3.1.min.js"></script>
+<script src="/static/main/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

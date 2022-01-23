@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新建文件库</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/album/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/album/css/common.css">
+    <link rel="stylesheet" href="/static/album/css/create_album.css">
+</head>
+
+<body>
+    <div class="mask"></div>
+    <div id="bg"></div>
+
+    <div id="container">
+        <header>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+                <a href="/album_list" class="goBack">
+                    <img src="/static/album/images/back.png">
+                    <span class="goBackIndex">返回</span>
+                </a>
+            </div>
+            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+                <img class="" src="/static/album/images/avatar.png">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+                <img src="/static/album/images/avatar.png">
+                <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+
+            </div>
+        </header>
+        <div class="main">
+            <div class="box">
+                <p class="word">新建文件库</p>
+                <form action="/create_check" method="post" enctype="multipart/form-data">
+                    <input class="albumName" type="text" name="albumname" value="{{t_albumname}}" placeholder="文件库名称："required>
+                    <span class="error" style="color:red">{{t_error}}</span>
+
+                    <div class="a-upload">
+                        <label class="label" for="file">选择初始文件：</label>
+                        <input class="file" id="file" type="file" name="img" placeholder="初始文件：" required value="{{filename}}">
+                    </div>
+
+                    <button class="btn" type="submit">创建</button>
+                </form>
+                <div class="clearfloat"></div>
+            </div>
+            <div class="clearfloat"></div>
+            <!-- <a href="/album_list">返回相册页面</a>
+            <br><br>
+            <a href="/album_list">返回相册列表</a> -->
+        </div>
+
+    </div>
+    <div id="footer">
+        COPYRIGHT© {{t_username}} 2020
+    </div>
+    <script src="/static/album/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/album/js/input.js"></script>
+</body>
+</html>
