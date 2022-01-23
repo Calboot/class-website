@@ -37,11 +37,13 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             {% if t_is_login==False %}
-                                <a class="loginOutBtn" href="notice">网站公告</a>
+                                <a class="loginOutBtn" href="/log">更新日志</a>
+                                <a class="loginOutBtn" href="/notice">网站公告</a>
                                 <a class="loginBtn" href="/login">登录</a>/
                                 <a class="registBtn" href="/register">注册</a>
                             {% else %}
-                                <a class="loginOutBtn" href="notice">网站公告</a>
+                                <a class="loginOutBtn" href="/log">更新日志</a>
+                                <a class="loginOutBtn" href="/notice">网站公告</a>
                                 <a class="loginOutBtn" href="/change_password">更改密码</a>
                                 <a class="loginOutBtn" href="/logout">退出登录</a>
                             {% endif %}

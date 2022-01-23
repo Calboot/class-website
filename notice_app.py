@@ -4,7 +4,7 @@ notice_app = Blueprint('notice_app', __name__)
 
 
 @notice_app.route('/notice')
-def index():
+def notice():
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_notice = client['db_notice']
     c_notice = db_notice['notice']
