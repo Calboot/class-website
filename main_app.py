@@ -9,9 +9,6 @@ from typing_app import typing_app
 from notice_app import notice_app
 from log_app import log_app
 import pymongo
-# from mario_app import mario_app
-# from pvz_app import pvz_app
-# from a2048_app import a2048_app
 
 app = Flask(__name__)
 app.secret_key = 'anbio3h4i34og'
@@ -24,9 +21,6 @@ app.register_blueprint(calorie_app)
 app.register_blueprint(typing_app)
 app.register_blueprint(notice_app)
 app.register_blueprint(log_app)
-# app.register_blueprint(mario_app)
-# app.register_blueprint(pvz_app)
-# app.register_blueprint(a2048_app)
 
 
 @app.route('/')
