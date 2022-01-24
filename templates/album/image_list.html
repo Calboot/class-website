@@ -44,7 +44,7 @@
                 <!-- 模板变量t_imgs_list存储该相册所有图片地址-->
                 {% for img in t_imgs_list %}
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 image">
-                    由{{img.owner}}上传：
+                    由{{img.owner}}上传于{{img.time}}：
                     {% set arr = img.path.split('.') %}
                     {% if arr[-1] != 'png' and arr[-1] != 'jpg' and arr[-1] != 'jpeg' %}
                         <div>

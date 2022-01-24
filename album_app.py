@@ -1,3 +1,4 @@
+import datetime
 from bson import ObjectId
 from flask import Blueprint, render_template, request, redirect, session, send_file
 import uuid
@@ -42,6 +43,7 @@ def create():
 
 @album_app.route('/create_check', methods=['POST'])
 def create_check():
+    today = datetime.date.today()
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
@@ -49,7 +51,7 @@ def create_check():
     img.save(img_path)
     albumname = request.form['albumname']
     username = session.get('username')
-    new_album = {'albumname': albumname, 'name': filename, 'path': img_path, 'owner': username}
+    new_album = {'albumname': albumname, 'name': filename, 'path': img_path, 'owner': username, 'time': today}
     insert_album(new_album)
     return redirect('/album_list')
 
@@ -81,6 +83,7 @@ def download():
 
 @album_app.route('/upload_check', methods=['POST'])
 def upload_check():
+    today = datetime.date.today()
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
@@ -88,7 +91,7 @@ def upload_check():
     img.save(img_path)
     albumname = request.form['albumname']
     username = session.get('username')
-    new_album = {'albumname': albumname, 'name': filename, 'path': img_path, 'owner': username}
+    new_album = {'albumname': albumname, 'name': filename, 'path': img_path, 'owner': username, 'time': today}
     insert_album(new_album)
     return redirect('/album_list')
 
