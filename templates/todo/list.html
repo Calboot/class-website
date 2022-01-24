@@ -83,7 +83,7 @@
                         <span class="time">{{item.date}}</span>
                         <span class="note"><span class="biancheng object">【{{item.subject}}】</span>
                             <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span>
-                            <span class="noteCont">{{item.content}}</span></span>
+                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
                         </p>
                     </li>
                     {% endif %}
@@ -99,7 +99,7 @@
                         <p>
                         <span class="time">{{item.date}}</span>
                         <span class="note"><span class="biancheng object">【{{item.subject}}】</span>
-                            <span class="noteCont">{{item.content}}</span></span>
+                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
                         </p>
                         <p>
                             <a class="delBtn btn fr" href="/todo/deleted?_id={{ item._id }}"></a>
@@ -119,7 +119,7 @@
                     <li class="listItem clearfix">
                         <span class="time">{{item.date}}</span>
                         <span class="note"><span class="math object">【{{item.subject}}】</span>
-                            <span class="noteCont">{{ item.content}}</span></span>
+                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
                         <a class="repeatBtn btn fr" href="/todo/unfinished?_id={{ item._id }}"></a>
                     </li>
                     {% endif %}
