@@ -43,7 +43,7 @@ def create():
 
 @album_app.route('/create_check', methods=['POST'])
 def create_check():
-    today = datetime.date.today()
+    today = str(datetime.date.today())
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
@@ -83,7 +83,7 @@ def download():
 
 @album_app.route('/upload_check', methods=['POST'])
 def upload_check():
-    today = datetime.date.today()
+    today = str(datetime.date.today())
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
