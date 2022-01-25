@@ -22,7 +22,7 @@ task
     <div class="mainContiner container-fluid" style="padding-top: 0px">
         <div class="boxone row">
             {% for log in t_log %}
-            <div class="mainTitle col-xs-12" style="line-height: 30px; margin-bottom: 30px">{{log['content']|safe}}</div>
+            <div class="mainTitle col-xs-12" style="line-height: 30px; margin-bottom: 30px">{% set s = '<br>'.join(log.content.split('\n')) %}{{s|safe}}</div>
             {% endfor %}
     </div>
 </div>

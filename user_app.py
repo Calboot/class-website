@@ -55,6 +55,23 @@ def change_submit():
 '''
 
 
+@user_app.route('/update_score', methods=['POST'])
+def update_score():
+    username = session.get('username')
+    name = request.form["name"]
+    score = request.form["score"]
+    client = pymongo.MongoClient("mongodb://localhost:27017")
+    db_game = client['db_user']
+    c_game = db_game['game']
+    glist = c_game.find_one({"username": username, "name": name})
+    if glist is None or len(glist) == 0:
+        c_game.insert_one({"username": username, "name": name, "score": score})
+    else:
+        if score > glist["score"]:
+            c_game.update_one({"username": username, "name": name}, {"$set": {"score": score}})
+    return {'state': 'ok'}
+
+
 @user_app.route('/login')
 def login():
     return render_template('user/login.html')

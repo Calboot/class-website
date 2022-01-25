@@ -274,10 +274,11 @@
         var wordList = [nextWord()]
         var line = ''
         var score = 0
-        var time = 120
+        var time = 15
         var isMiss = false
         var sign = false
         var count = 0
+        var lastScore = 0
         window.onload = function() {
             document.onkeydown = function (e) {
                 if (e.keyCode == 8) {
@@ -300,9 +301,12 @@
                 clearInterval(timerNextWord)
                 clearInterval(timerCanvas)
                 drawTime()
-            }, 120 * 1000) 
+                saveScore()
+            }, (time + 1) * 1000)
         }
+        function saveScore(){
 
+        }
         function gameHandler() {
             // 绘制背景
             ctx.clearRect(0, 0, canvasWidth, canvasHeight)
@@ -335,6 +339,19 @@
             ctx.font = "20px Arial"
             ctx.fillStyle = "#074f6d"
             ctx.fillText('' + score, 20, 45)
+            console.log('current score='+score);
+            if (score != lastScore) {
+                   lastScore = score;
+                $.post(
+                "/update_score",
+                { "name": "typing", "score": score},
+                function( data ) {
+                    console.log(data);
+                },
+                "json"
+                );
+            }
+
         }
         // 绘制时间
         function drawTime() {
