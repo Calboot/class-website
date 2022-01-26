@@ -59,7 +59,7 @@ def change_submit():
 def update_score():
     username = session.get('username')
     name = request.form["name"]
-    score = request.form["score"]
+    score = int(request.form["score"])
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_game = client['db_user']
     c_game = db_game['game']
@@ -67,7 +67,7 @@ def update_score():
     if glist is None or len(glist) == 0:
         c_game.insert_one({"username": username, "name": name, "score": score})
     else:
-        if score > glist["score"]:
+        if score > int(glist["score"]):
             c_game.update_one({"username": username, "name": name}, {"$set": {"score": score}})
     return {'state': 'ok'}
 
