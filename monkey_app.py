@@ -1,9 +1,9 @@
 import pymongo
 from flask import Blueprint, render_template, session
-
-from user_app import user_app
-
+import user_app
 monkey_app = Blueprint('monkey_app', __name__)
+
+
 @monkey_app.route('/monkey')
 def index():
     username = session.get("username")

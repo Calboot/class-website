@@ -64,6 +64,7 @@ def update_score():
     db_game = client['db_user']
     c_game = db_game['game']
     glist = c_game.find_one({"username": username, "name": name})
+    print(glist)
     if glist is None or len(glist) == 0:
         c_game.insert_one({"username": username, "name": name, "score": score})
     else:

@@ -41,14 +41,37 @@
             </div>
         </div>
     </div>
+    <div style="position: absolute;
+    right: 10%;
+    width: 20%;
+    top: 140px;
+    z-index: 100;">
+                <table class="table table-strip table-bordered">
+                    <tr>
+                        <th>名次</th>
+                        <th>用户名</th>
+                        <th>得分</th>
+                    </tr>
+                    {% set ns = namespace(s=1) %}
+                {% for item in t_scoreList %}
+                          <tr {% if item.username == t_username %}style="color: blue; font-weight:bold"{% endif %}>
+                            <td>{{ns.s}}</td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.score}}</td>
+                        </tr>
+                    {% set ns.s=ns.s+1 %}
+                {% endfor %}
+                    </table>
+            </div>
     
     <div id="footer">
         COPYRIGHT© {{t_nickname}} 2020
     </div>
    <!-- 创建画布 -->
-    <canvas id="main" width="396" height="644"></canvas>
+<!--    <canvas id="main" width="396" height="644"></canvas>-->
 
     <script>
+        var saved = 0
         // 获取画布
         var canvas = document.getElementById('main')
         // 创建画笔
@@ -126,6 +149,12 @@
             // 给画布绑定点击事件，
             // 当事件被触发时修改小猿速度，实现重新绘制页面时，小猿向上移动
             canvas.onclick = mouseClickHandler
+            $('body').keydown(function(e){
+                var code = e.keyCode || e.which;
+                 if(code == 32) {
+                    mouseClickHandler()
+                 }
+            });
             setInterval(gameHandler, 1000 / 60)
         }   
         // 定时器执行的方法
@@ -136,7 +165,7 @@
                 ctx.drawImage(bgImg, 0, 0)
                 ctx.drawImage(readyImg, 0, 0)
                 ctx.drawImage(monkey.img, 183, 200)
-
+                saved = 0
             } else if (gameState == GAME_RUNNING) {    // 否则如果游戏状态为运行状态
                 ctx.clearRect(0, 0, canvasWidth, canvasHeight)
                 ctx.drawImage(bgImg, 0, 0)
@@ -158,7 +187,21 @@
 
             } else if (gameState == GAME_OVER) {
                 ctx.drawImage(overImg, 0, 0)
+                if (!saved) {
+                    saved = 1
+                    saveScore()
+                }
             }
+        }
+        function saveScore(){
+            $.post(
+                "/update_score",
+                {"name": "monkey", "score": score},
+                function( data ) {
+                    console.log(data);
+                },
+                "json"
+            );
         }
         function columnMove() {
             column.x = column.x - 1

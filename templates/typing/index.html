@@ -297,7 +297,7 @@
         var wordList = [nextWord()]
         var line = ''
         var score = 0
-        var time = 120
+        var time = 5
         var isMiss = false
         var sign = false
         var count = 0
@@ -318,6 +318,7 @@
             var timerCanvas = setInterval(gameHandler, 1000 / 120)
             var timer = setInterval(function() {
                 time = time - 1
+                if (time < 0) time = 0
             }, 1000)
             setTimeout(function() {
                 clearInterval(timer)
@@ -328,7 +329,14 @@
             }, (time + 1) * 1000)
         }
         function saveScore(){
-
+            $.post(
+                "/update_score",
+                {"name": "typing", "score": score},
+                function( data ) {
+                    console.log(data);
+                },
+                "json"
+            );
         }
         function gameHandler() {
             // 绘制背景
@@ -362,18 +370,6 @@
             ctx.font = "20px Arial"
             ctx.fillStyle = "#074f6d"
             ctx.fillText('' + score, 20, 45)
-            if (score != lastScore) {
-                   lastScore = score;
-                $.post(
-                "/update_score",
-                { "name": "typing", "score": score},
-                function( data ) {
-                    console.log(data);
-                },
-                "json"
-                );
-            }
-
         }
         // 绘制时间
         function drawTime() {
