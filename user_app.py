@@ -63,12 +63,14 @@ def update_score():
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_game = client['db_user']
     c_game = db_game['game']
+    c_user = db_game['user']
     glist = c_game.find_one({"username": username, "name": name})
-    print(glist)
+    ulist = c_user.find_one({"username": username})
     if glist is None or len(glist) == 0:
-        c_game.insert_one({"username": username, "name": name, "score": score})
+        if ulist['state'] != '3':
+            c_game.insert_one({"username": username, "name": name, "score": score})
     else:
-        if score > int(glist["score"]):
+        if score > int(glist["score"]) and ulist['state'] != '3':
             c_game.update_one({"username": username, "name": name}, {"$set": {"score": score}})
     return {'state': 'ok'}
 
