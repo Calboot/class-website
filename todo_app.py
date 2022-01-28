@@ -20,7 +20,7 @@ def list_page():
     condition = {
         '$or': [
             {'public': '0', 'owner': username},
-            {'public': '1', 'date': {'$gt': "2021-01-20"}}
+            {'public': '1'}
             # {'public': '2', 'to': {'$in': [username]}}
         ]
     }
