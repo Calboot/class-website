@@ -88,8 +88,8 @@ def add_check():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
-    todo = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_today(),
-            '_id': str(uuid.uuid1()), 'state': 'unfinished', 'owner': username, 'public': request.form.get('public')}
+    todo = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
+            '_id': str(uuid.uuid1()), 'state': 'unfinished', 'owner': username, 'public': request.form.get('public') or "0"}
     insert_todo(todo)
     return redirect('/todo')
 
