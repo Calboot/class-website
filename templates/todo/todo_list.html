@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/todo/bootstrap-3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/todo/css/common.css">
     <link rel="stylesheet" href="/static/todo/css/index.css">
+    <link rel="stylesheet" href="/static/todo/css/form.css">
 </head>
 <body>
 <div class="mask"></div>
@@ -31,16 +32,8 @@
         </div>
     </header>
     <div class="main row">
-        <div class="taskDateWrap">
-            <div class="mainTop col-xs-12 col-md-12 col-sm-12 col-lg-12">
-                <a class="addtask" href="/todo/add">
-                    <img width="46" src="/static/todo/images/addtask.png" alt="">
-                    <span class="hidden-xs">回复</span>
-                </a>
-            </div>
-        </div>
         <div class="clearfix"></div>
-        <div id="content">
+        <div id="content" style="height: auto; width: auto">
             <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
                     {% for item in t_todo_list %}
@@ -57,6 +50,15 @@
                     {% endfor %}
                 </ul>
             </div>
+            <form action="reply_check" method="post">
+                <input type="hidden" name="id" value="{{t_id}}">
+                <div class="textareaBox clearfix" >
+                    <label class="fl" style="width: auto" for="contText">回复：</label>
+                    <textarea name="content" id="contText" style="width:400px; height:120px" required></textarea>
+                    <label class="submitLabel" for="sub"></label>
+                    <input id="sub" type="submit" value="">
+                </div>
+            </form>
         </div>
     </div>
 </div>

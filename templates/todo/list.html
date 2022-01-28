@@ -98,7 +98,7 @@
                         <span class="time">{{item.date}}</span>
                         <a class="note"><span class="biancheng object">【{{item.subject}}】</span>
                             <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span>
-                            <a class="noteCont" href="/todo_list?id={{item._id}}" style="color: blue; ">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</a>
+                            <a class="noteCont" href="/todo_list?id={{item._id}}" style="color: blue; text-decoration: underline">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</a>
                         </p>
                     </li>
                     {% endif %}

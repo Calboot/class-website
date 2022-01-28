@@ -53,8 +53,20 @@ def todo_list():
         ]
     }
     todo_list = find_todo(condition)
-    print(todo_list)
     return render_template('todo/todo_list.html', t_todo_list=todo_list, t_id=_id)
+
+
+@todo_app.route('/reply_check', methods=['POST'])
+def reply_check():
+    client = pymongo.MongoClient("mongodb://localhost:27017")
+    db_todo = client['db_todo']
+    c_todo = db_todo['todo']
+    username = session.get("username")
+    parent = request.form.get("id")
+    content = request.form.get("content")
+    today = str_now()
+    c_todo.insert_one({'content': content, 'date': today, 'parent':parent, 'owner': username})
+    return redirect('/todo_list?id='+parent)
 
 
 @todo_app.route('/todo/add')
@@ -178,6 +190,11 @@ def delete_todo(todo_id):
     todo = c_todo.find_one({'_id': todo_id})
     todo['state'] = 'deleted'
     c_todo.update_one({'_id': todo_id}, {"$set": {'state': 'deleted'}})
+
+
+def str_now():
+    today = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return today
 
 
 def str_today():
