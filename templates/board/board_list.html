@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{t_title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/board/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/board/css/common.css">
+    <link rel="stylesheet" href="/static/board/css/index.css">
+    <link rel="stylesheet" href="/static/board/css/form.css">
+    <link rel="stylesheet" href="/static/board/css/markdown-palettes.css">
+    <script src="/static/board/js/jquery-3.3.1.min.js"></script>
+<script src="/static/board/js/markdown-palettes.min.js"></script>
+</head>
+<body>
+<div class="mask"></div>
+<div id="bg"></div>
+<div id="container" class="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/board" class="goBack">
+                <img src="/static/trans/images/back.png">
+                <span class="goBackIndex">返回列表</span>
+            </a>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/board/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+            <div class="pull-right welcomt"></div>
+        </div>
+    </header>
+    <div class="main row">
+        <div class="clearfix"></div>
+        <div id="content" style="height: auto; width: auto; padding-top: 0px">
+            <div style="text-align: center; font-size:30px; margin-bottom: 25px">{{t_title}}</div>
+            <div style="margin-bottom:30px" class="public cont clearfix">
+                <ul>
+                    {% for item in t_board_list %}
+                    <li class="listItem clearfix">
+                        <p>
+                        <span class="time">{{item.date}}</span>
+                        <a class="note">
+                            <span class="biancheng object">
+                                {% if item._id == t_id %}【{{item.subject}}】{% endif %}</span>
+                            <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span><br>
+                            <span class="biancheng object">{{item.html|safe}}</span>
+                        </a>
+                        </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <form action="reply_check" method="post" id="form1">
+                <input type="hidden" name="id" value="{{t_id}}">
+                <div class="textareaBox clearfix" >
+                    <label class="fl" style="width: auto" for="contText">回复：</label><br>
+                </div>
+                <div id="editor-container" style="height: 300px;">
+                      <div id="editor"></div>
+                    </div>
+                <div class="textareaBox clearfix" style="height: 60px">
+                    <label class="submitLabel"  style="left: 0; top: 20px"  for="sub"></label>
+                    <input id="sub" type="submit" value="">
+                </div>
+                <input type="hidden" name="content" id="hidden-content">
+            </form>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    COPYRIGHT© {{t_username}} 2019
+</div>
+<script>
+  var markdownEditor = new MarkdownPalettes("#editor");
+  //markdownEditor.contenet = "**content**";
+  var code = markdownEditor.content;
+  $(function(){
+    $('#form1').submit(function(){
+        var code = markdownEditor.content;
+        $('#hidden-content').val(code);
+    });
+  });
+</script>
+</body>
+</html>

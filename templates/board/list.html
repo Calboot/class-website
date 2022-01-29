@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>任务本</title>
+    <title>讨论区</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/todo/bootstrap-3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/todo/css/common.css">
-    <link rel="stylesheet" href="/static/todo/css/index.css">
+    <link rel="stylesheet" href="/static/board/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/board/css/common.css">
+    <link rel="stylesheet" href="/static/board/css/index.css">
 </head>
 <body>
 <div class="mask"></div>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-            <img src="/static/todo/images/avatar.png">
+            <img src="/static/board/images/avatar.png">
             <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
         </div>
 
@@ -34,18 +34,18 @@
         <div class="taskDateWrap" style="padding-bottom: 0px">
             <div class="mainTop col-xs-12 col-md-12 col-sm-12 col-lg-12">
                         <span class="user">
-                            <span class="userName">{{t_username}}的任务本</span>
+                            <span class="userName">讨论区</span>
                         </span>
                 <img class="monkey" height="90" src="/static/images/work.png" alt="">
-                <a class="addtask" href="/todo/add">
-                    <img width="46" src="/static/todo/images/addtask.png" alt="">
-                    <span class="hidden-xs">添加任务</span>
+                <a class="addtask" href="/board/add">
+                    <img width="46" src="/static/board/images/addtask.png" alt="">
+                    <span class="hidden-xs">发帖</span>
                 </a>
             </div>
             <div class="subjectTime col-xs-12 col-md-12 col-sm-12 col-lg-12 ">
-                <form action="/todo" name='f1' method="get">
+                <form action="/board" name='f1' method="get">
                     <div class="dateSubjectWrap">
-                        <label for="object" class="object">科目：</label>
+                        <label for="object" class="object">板块：</label>
                         <select name="subject" onchange="f1.submit()" id="object">
                             {% for item in t_subject_options %}
                             {% if item==t_subject %}
@@ -61,38 +61,19 @@
         </div>
         <div class="clearfix"></div>
         <div id="content" style="padding-top: 0px">
-            <div class="noFinsh cont clearfix">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;讨论区
+            <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
-                    {% for item in t_todo_list %}
-                    {% if item.state == 'unfinished' and item.public != '1' %}
+                    {% for item in t_board_list %}
                     <li class="listItem clearfix">
                         <p>
                         <span class="time">{{item.date}}</span>
-                        <span class="note"><span class="biancheng object">【{{item.subject}}】</span>
-                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
-                        </p>
-                        <p>
-                            <a class="delBtn btn fr" href="/todo/deleted?_id={{ item._id }}"></a>
-                            <a class="rightBtn btn fr" href="/todo/finished?_id={{ item._id }}"></a>
+                        <a class="note"><span class="biancheng object">【{{item.subject}}】</span>
+                            <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span>
+                            <a class="noteCont" href="/board_list?id={{item._id}}" style="color: blue; text-decoration: underline">{{ item.title }}</a>
+                        </a>
                         </p>
                     </li>
-
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="finshed cont clearfix">
-                <ul>
-                    {% for item in t_todo_list %}
-                    {% if item.state == 'finished' %}
-                    <li class="listItem clearfix">
-                        <span class="time">{{item.date}}</span>
-                        <span class="note"><span class="math object">【{{item.subject}}】</span>
-                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
-                        <a class="repeatBtn btn fr" href="/todo/unfinished?_id={{ item._id }}"></a>
-                    </li>
-                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -102,6 +83,6 @@
 <div id="footer">
     COPYRIGHT© {{t_username}} 2019
 </div>
-<script src="/static/todo/js/jquery-3.3.1.min.js"></script>
+<script src="/static/board/js/jquery-3.3.1.min.js"></script>
 </body>
 </html>

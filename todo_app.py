@@ -17,21 +17,15 @@ def list_page():
     today = datetime.date.today()
     one_day = datetime.timedelta(days=7)
     yesterday = str(today - one_day)
-    condition = {
-        '$or': [
-            {'public': '0', 'owner': username},
-            {'public': '1'}
-            # {'public': '2', 'to': {'$in': [username]}}
-        ]
-    }
+    condition = {'public': '0', 'owner': username}
     date = request.args.get('date')
     subject = request.args.get('subject')
-    if date is None:
-        date = '全部'
-    elif date == '今天':
-        condition['date'] = str_today()
-    elif date == '昨天':
-        condition['date'] = str_yesterday()
+    # if date is None:
+    #     date = '全部'
+    # elif date == '今天':
+    #     condition['date'] = str_today()
+    # elif date == '昨天':
+    #     condition['date'] = str_yesterday()
     if subject is None:
         subject = '全部'
     elif subject != '全部':
@@ -41,32 +35,6 @@ def list_page():
     subject_options = ['全部', '综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('todo/list.html', t_username=username, t_todo_list=todo_list, t_date_options=date_options,
                            t_subject_options=subject_options, t_date=date, t_subject=subject)
-
-
-@todo_app.route('/todo_list')
-def todo_list():
-    _id = request.args['id']
-    condition = {
-        '$or': [
-            {'_id': _id},
-            {'parent': _id}
-        ]
-    }
-    todo_list = find_todo(condition)
-    return render_template('todo/todo_list.html', t_todo_list=todo_list, t_id=_id)
-
-
-@todo_app.route('/reply_check', methods=['POST'])
-def reply_check():
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
-    username = session.get("username")
-    parent = request.form.get("id")
-    content = request.form.get("content")
-    today = str_now()
-    c_todo.insert_one({'content': content, 'date': today, 'parent':parent, 'owner': username})
-    return redirect('/todo_list?id='+parent)
 
 
 @todo_app.route('/todo/add')

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发帖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/board/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/board/css/common.css">
+    <link rel="stylesheet" href="/static/board/css/form.css">
+    <link rel="stylesheet" href="/static/board/css/markdown-palettes.css">
+</head>
+<body>
+<div class="mask"></div>
+<div id="bg"></div>
+<div id="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/board" class="goBack">
+                <img src="/static/board/images/back.png">
+                <span class="goBackIndex">返回讨论区</span>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/board/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+        </div>
+    </header>
+    <div class="main">
+        <div id="content" style="width: 80%; margin-left: 10%; padding-top: 10px; height: auto">
+            <form action="/board/add_check" method="post" id="form1">
+                <div class="inputBox clearfix">
+                    <div class="displaInline subject">
+                        <label class="fl" for="data">板块：</label>
+                        <select name="subject" id="data">
+                            {% for item in t_subject_options %}
+                            <option value={{ item }}>{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="displaInline time">
+                        <label>时间：</label>
+                        <span class="time">{{ t_date }}</span>
+                    </div>
+                </div>
+                <div class="textareaBox clearfix">
+                    <label class="fl" for="contText">标题：</label>
+                    <input type="text" name="title" style="border: 1px solid rgba(32,53,128,0.16); width: 40%" required>
+                </div>
+                <div class="textareaBox clearfix">
+                    <label class="fl" for="contText">内容：</label>
+                </div>
+
+     <div id="editor-container" style="height: 300px;">
+                      <div id="editor"></div>
+                    </div>
+                <div class="textareaBox clearfix" style="height: 60px">
+<!--                    <textarea name="content" id="contText" required></textarea>-->
+                    <label class="submitLabel"  style="left: 0; top: 20px"  for="sub"></label>
+                    <input id="sub"type="submit" value="">
+                </div>
+                <input type="hidden" name="content" id="hidden-content">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<div id="footer">
+    COPYRIGHT© {{t_username}} 2019
+</div>
+<script src="/static/board/js/jquery-3.3.1.min.js"></script>
+<script src="/static/board/js/markdown-palettes.min.js"></script>
+<script>
+  var markdownEditor = new MarkdownPalettes("#editor");
+  //markdownEditor.contenet = "**content**";
+  var code = markdownEditor.content;
+  $(function(){
+    $('#form1').submit(function(){
+        var code = markdownEditor.content;
+        $('#hidden-content').val(code);
+    });
+  });
+</script>
+</body>
+</html>
