@@ -53,7 +53,7 @@ def board_list():
     board_list = find_board(condition)
     for item in board_list:
         item['html'] = markdown.markdown(
-            item['content'], extensions=["fenced_code"]
+            item['content'], extensions=["fenced_code", "tables"]
         )
     board_list.reverse()
     return render_template('board/board_list.html', t_board_list=board_list, t_id=_id, t_title=title, t_content=content, t_username=username)

@@ -29,12 +29,9 @@ app.register_blueprint(board_app)
 def welcome():
     return render_template('main/welcome.html', t_my_name='早六1班开发组')
 
-
 @app.route('/main')
 def main():
     ip = request.remote_addr
-    if (ip == "219.142.145.159"):
-        return render_template('user/login.html', t_error='此IP已被封禁', t_color=1)
     username = session.get('username')
     if username is not None:
         is_login = True

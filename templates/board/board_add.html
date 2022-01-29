@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="/static/board/css/common.css">
     <link rel="stylesheet" href="/static/board/css/form.css">
     <link rel="stylesheet" href="/static/board/css/markdown-palettes.css">
+    <style>
+        form {
+            line-height: inherit;
+        }
+    </style>
 </head>
 <body>
 <div class="mask"></div>
@@ -54,9 +59,9 @@
                     <label class="fl" for="contText">内容：</label>
                 </div>
 
-     <div id="editor-container" style="height: 300px;">
+                <div id="editor-container" style="height: 300px;">
                       <div id="editor"></div>
-                    </div>
+                </div>
                 <div class="textareaBox clearfix" style="height: 60px">
 <!--                    <textarea name="content" id="contText" required></textarea>-->
                     <label class="submitLabel"  style="left: 0; top: 20px"  for="sub"></label>

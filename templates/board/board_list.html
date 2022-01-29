@@ -12,6 +12,28 @@
     <link rel="stylesheet" href="/static/board/css/markdown-palettes.css">
     <script src="/static/board/js/jquery-3.3.1.min.js"></script>
 <script src="/static/board/js/markdown-palettes.min.js"></script>
+    <style>
+        .my-content ul {
+            margin-left: 20px
+        }
+        .my-content ul li {
+            list-style: outside disc;
+        }
+        .my-content ol {
+            margin-left: 20px
+        }
+        .my-content ol li {
+            list-style: outside decimal;
+        }
+        .my-content table tr th,
+        .my-content table tr td {
+            padding: 6px 13px;
+            border: 1px solid #ddd;
+        }
+        form {
+            line-height: inherit;
+        }
+    </style>
 </head>
 <body>
 <div class="mask"></div>
@@ -48,9 +70,11 @@
                             <span class="biancheng object">
                                 {% if item._id == t_id %}【{{item.subject}}】{% endif %}</span>
                             <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span><br>
-                            <span class="biancheng object">{{item.html|safe}}</span>
                         </a>
                         </p>
+                        <div class="my-content">
+                            {{item.html|safe}}
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
