@@ -29,6 +29,7 @@ app.register_blueprint(board_app)
 def welcome():
     return render_template('main/welcome.html', t_my_name='早六1班开发组')
 
+
 @app.route('/main')
 def main():
     ip = request.remote_addr

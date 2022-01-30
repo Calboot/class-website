@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect
+from flask_paginate import Pagination, get_page_parameter
 import pymongo
 import datetime
 import uuid
@@ -6,14 +7,22 @@ import user_app
 import markdown
 
 board_app = Blueprint('board_app', __name__)
+per_page = 10
+client = pymongo.MongoClient("mongodb://localhost:27017")
+db_board = client['db_todo']
+c_board = db_board['todo']
 
 
-@board_app.route('/board')
-def list_page():
+@board_app.before_request
+def before_request():
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+
+
+@board_app.route('/board')
+def list_page():
     username = session.get('username')
     condition = {'public': '1'}
     date = request.args.get('date')
@@ -28,19 +37,18 @@ def list_page():
         subject = '全部'
     elif subject != '全部':
         condition['subject'] = subject
-    board_list = find_board(condition)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    board_list = find_board(condition, page)
+    pagination = Pagination(page=page, per_page=per_page, total=c_board.count_documents(condition), search=False,
+                            record_name='board_list')
     date_options = ['全部', '今天', '昨天']
     subject_options = ['全部', '综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('board/list.html', t_username=username, t_board_list=board_list, t_date_options=date_options,
-                           t_subject_options=subject_options, t_date=date, t_subject=subject)
+                           t_subject_options=subject_options, t_date=date, t_subject=subject, pagination=pagination)
 
 
 @board_app.route('/board_list')
 def board_list():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get("username")
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
@@ -65,10 +73,6 @@ def board_list():
 
 @board_app.route('/reply_check', methods=['POST'])
 def reply_check():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
     c_board = db_board['todo']
@@ -82,10 +86,6 @@ def reply_check():
 
 @board_app.route('/board/add')
 def board_add():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
@@ -98,10 +98,6 @@ def board_add():
 
 @board_app.route('/board/add_check', methods=['POST'])
 def add_check():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     board = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
             '_id': str(uuid.uuid1()), 'owner': username, 'public': "1", 'title': request.form.get("title")}
@@ -128,11 +124,11 @@ def insert_board(board):
     c_board.insert_one(board)
 
 
-def find_board(condition):
+def find_board(condition, page):
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
     c_board = db_board['todo']
-    res = c_board.find(condition).sort("date", pymongo.DESCENDING)
+    res = c_board.find(condition).sort("date", pymongo.DESCENDING).skip((page - 1) * per_page).limit(per_page)
     board_list = []
     for item in res:
         board_list.append(item)
