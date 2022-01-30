@@ -124,11 +124,14 @@ def insert_board(board):
     c_board.insert_one(board)
 
 
-def find_board(condition, page):
+def find_board(condition, page = 0):
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
     c_board = db_board['todo']
-    res = c_board.find(condition).sort("date", pymongo.DESCENDING).skip((page - 1) * per_page).limit(per_page)
+    if page == 0:
+        res = c_board.find(condition).sort("date", pymongo.DESCENDING)
+    else:
+        res = c_board.find(condition).sort("date", pymongo.DESCENDING).skip((page - 1) * per_page).limit(per_page)
     board_list = []
     for item in res:
         board_list.append(item)
