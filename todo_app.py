@@ -9,11 +9,11 @@ todo_app = Blueprint('todo_app', __name__)
 
 @todo_app.route('/todo')
 def list_page():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     today = datetime.date.today()
     one_day = datetime.timedelta(days=7)
     yesterday = str(today - one_day)
@@ -39,11 +39,11 @@ def list_page():
 
 @todo_app.route('/todo/add')
 def todo_add():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     today = str_today()
     subjects = ['综合', '公告','语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('todo/todo_add.html', t_subject_options=subjects, t_date=today, t_username=username)
@@ -51,11 +51,11 @@ def todo_add():
 
 @todo_app.route('/add_check', methods=['POST'])
 def add_check():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     todo = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
             '_id': str(uuid.uuid1()), 'state': 'unfinished', 'owner': username, 'public': request.form.get('public') or "0"}
     insert_todo(todo)
@@ -64,7 +64,6 @@ def add_check():
 
 @todo_app.route('/todo/finished')
 def todo_finish():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
@@ -77,7 +76,6 @@ def todo_finish():
 
 @todo_app.route('/todo/unfinished')
 def todo_unfinish():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
@@ -90,7 +88,6 @@ def todo_unfinish():
 
 @todo_app.route('/todo/deleted')
 def todo_delete():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():

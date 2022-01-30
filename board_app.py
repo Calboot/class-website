@@ -10,11 +10,11 @@ board_app = Blueprint('board_app', __name__)
 
 @board_app.route('/board')
 def list_page():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     condition = {'public': '1'}
     date = request.args.get('date')
     subject = request.args.get('subject')
@@ -37,6 +37,10 @@ def list_page():
 
 @board_app.route('/board_list')
 def board_list():
+    if user_app.check_login():
+        return render_template('user/login.html', t_error='请登录')
+    if user_app.check_user():
+        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get("username")
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
@@ -61,6 +65,10 @@ def board_list():
 
 @board_app.route('/reply_check', methods=['POST'])
 def reply_check():
+    if user_app.check_login():
+        return render_template('user/login.html', t_error='请登录')
+    if user_app.check_user():
+        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     client = pymongo.MongoClient("mongodb://localhost:27017")
     db_board = client['db_todo']
     c_board = db_board['todo']
@@ -74,6 +82,10 @@ def reply_check():
 
 @board_app.route('/board/add')
 def board_add():
+    if user_app.check_login():
+        return render_template('user/login.html', t_error='请登录')
+    if user_app.check_user():
+        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
@@ -86,11 +98,11 @@ def board_add():
 
 @board_app.route('/board/add_check', methods=['POST'])
 def add_check():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     board = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
             '_id': str(uuid.uuid1()), 'owner': username, 'public': "1", 'title': request.form.get("title")}
     insert_board(board)

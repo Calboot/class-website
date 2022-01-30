@@ -10,39 +10,43 @@ album_app = Blueprint('album_app', __name__)
 
 @album_app.route('/album_list')
 def album_list():
-    album_list = find_all_album()
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
+    album_list = find_all_album()
     return render_template('album/album_list.html', t_album_list=album_list, t_username=username)
 
 
 @album_app.route('/image_list')
 def image_list():
-    albumname = request.args['albumname']
-    imgs_list = find_album(albumname)
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
+    albumname = request.args['albumname']
+    imgs_list = find_album(albumname)
     return render_template('album/image_list.html', t_albumname=albumname, t_imgs_list=imgs_list, t_username=username)
 
 
 @album_app.route('/create')
 def create():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     return render_template('album/create_album.html', t_username=username)
 
 
 @album_app.route('/create_check', methods=['POST'])
 def create_check():
+    if user_app.check_login():
+        return render_template('user/login.html', t_error='请登录')
+    if user_app.check_user():
+        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str(datetime.date.today())
     img = request.files['img']
     filename = img.filename
@@ -58,11 +62,11 @@ def create_check():
 
 @album_app.route('/upload')
 def upload():
-    username = session.get('username')
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+    username = session.get('username')
     album_list = find_all_album()
     return render_template('album/upload.html', t_album_list=album_list, t_username=username)
 
@@ -83,6 +87,10 @@ def download():
 
 @album_app.route('/upload_check', methods=['POST'])
 def upload_check():
+    if user_app.check_login():
+        return render_template('user/login.html', t_error='请登录')
+    if user_app.check_user():
+        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str(datetime.date.today())
     img = request.files['img']
     filename = img.filename
