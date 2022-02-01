@@ -6,6 +6,10 @@ import user_app
 
 todo_app = Blueprint('todo_app', __name__)
 
+client = pymongo.MongoClient("mongodb://localhost:27017")
+db_todo = client['db_web']
+c_todo = db_todo['todo']
+
 
 @todo_app.route('/todo')
 def list_page():
@@ -14,9 +18,9 @@ def list_page():
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
-    today = datetime.date.today()
-    one_day = datetime.timedelta(days=7)
-    yesterday = str(today - one_day)
+    # today = datetime.date.today()
+    # one_day = datetime.timedelta(days=7)
+    # yesterday = str(today - one_day)
     condition = {'public': '0', 'owner': username}
     date = request.args.get('date')
     subject = request.args.get('subject')
@@ -32,7 +36,7 @@ def list_page():
         condition['subject'] = subject
     todo_list = find_todo(condition)
     date_options = ['全部', '今天', '昨天']
-    subject_options = ['全部', '综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
+    subject_options = ['全部', '综合', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('todo/list.html', t_username=username, t_todo_list=todo_list, t_date_options=date_options,
                            t_subject_options=subject_options, t_date=date, t_subject=subject)
 
@@ -45,7 +49,7 @@ def todo_add():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     today = str_today()
-    subjects = ['综合', '公告','语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
+    subjects = ['综合', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('todo/todo_add.html', t_subject_options=subjects, t_date=today, t_username=username)
 
 
@@ -57,7 +61,8 @@ def add_check():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     todo = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
-            '_id': str(uuid.uuid1()), 'state': 'unfinished', 'owner': username, 'public': request.form.get('public') or "0"}
+            '_id': str(uuid.uuid1()), 'state': 'unfinished', 'owner': username,
+            'public': request.form.get('public') or "0"}
     insert_todo(todo)
     return redirect('/todo')
 
@@ -113,16 +118,10 @@ def todo_delete():
 
 
 def insert_todo(todo):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
     c_todo.insert_one(todo)
 
 
 def find_todo(condition):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
     res = c_todo.find(condition)
     todo_list = []
     for item in res:
@@ -131,27 +130,18 @@ def find_todo(condition):
 
 
 def finish_todo(todo_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
     todo = c_todo.find_one({'_id': todo_id})
     todo['state'] = 'finished'
     c_todo.update_one({'_id': todo_id}, {"$set": {'state': 'finished'}})
 
 
 def unfinish_todo(todo_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
     todo = c_todo.find_one({'_id': todo_id})
     todo['state'] = 'unfinished'
     c_todo.update_one({'_id': todo_id}, {"$set": {'state': 'unfinished'}})
 
 
 def delete_todo(todo_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_todo = client['db_todo']
-    c_todo = db_todo['todo']
     todo = c_todo.find_one({'_id': todo_id})
     todo['state'] = 'deleted'
     c_todo.update_one({'_id': todo_id}, {"$set": {'state': 'deleted'}})

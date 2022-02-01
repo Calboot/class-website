@@ -9,7 +9,7 @@ import markdown
 board_app = Blueprint('board_app', __name__)
 per_page = 10
 client = pymongo.MongoClient("mongodb://localhost:27017")
-db_board = client['db_todo']
+db_board = client['db_web']
 c_board = db_board['todo']
 
 
@@ -50,9 +50,6 @@ def list_page():
 @board_app.route('/board_list')
 def board_list():
     username = session.get("username")
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     _id = request.args['id']
     title = c_board.find_one({'_id': _id})['title']
     content = c_board.find_one({'_id': _id})['content']
@@ -68,14 +65,12 @@ def board_list():
             item['content'], extensions=["fenced_code", "tables"]
         )
     board_list.reverse()
-    return render_template('board/board_list.html', t_board_list=board_list, t_id=_id, t_title=title, t_content=content, t_username=username)
+    return render_template('board/board_list.html', t_board_list=board_list, t_id=_id, t_title=title, t_content=content,
+                           t_username=username)
 
 
 @board_app.route('/reply_check', methods=['POST'])
 def reply_check():
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     username = session.get("username")
     parent = request.form.get("id")
     content = request.form.get("content")
@@ -92,7 +87,7 @@ def board_add():
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str_today()
-    subjects = ['综合', '公告','语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
+    subjects = ['综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('board/board_add.html', t_subject_options=subjects, t_date=today, t_username=username)
 
 
@@ -100,7 +95,7 @@ def board_add():
 def add_check():
     username = session.get('username')
     board = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
-            '_id': str(uuid.uuid1()), 'owner': username, 'public': "1", 'title': request.form.get("title")}
+             '_id': str(uuid.uuid1()), 'owner': username, 'public': "1", 'title': request.form.get("title")}
     insert_board(board)
     return redirect('/board')
 
@@ -118,16 +113,10 @@ def add_check():
 
 
 def insert_board(board):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     c_board.insert_one(board)
 
 
-def find_board(condition, page = 0):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
+def find_board(condition, page=0):
     if page == 0:
         res = c_board.find(condition).sort("date", pymongo.DESCENDING)
     else:
@@ -139,27 +128,18 @@ def find_board(condition, page = 0):
 
 
 def finish_board(board_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     board = c_board.find_one({'_id': board_id})
     board['state'] = 'finished'
     c_board.update_one({'_id': board_id}, {"$set": {'state': 'finished'}})
 
 
 def unfinish_board(board_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     board = c_board.find_one({'_id': board_id})
     board['state'] = 'unfinished'
     c_board.update_one({'_id': board_id}, {"$set": {'state': 'unfinished'}})
 
 
 def delete_board(board_id):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_board = client['db_todo']
-    c_board = db_board['todo']
     board = c_board.find_one({'_id': board_id})
     board['state'] = 'deleted'
     c_board.update_one({'_id': board_id}, {"$set": {'state': 'deleted'}})

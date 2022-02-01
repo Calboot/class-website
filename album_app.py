@@ -7,6 +7,10 @@ import user_app
 
 album_app = Blueprint('album_app', __name__)
 
+client = pymongo.MongoClient("mongodb://localhost:27017")
+db_album = client['db_web']
+c_album = db_album['album']
+
 
 @album_app.route('/album_list')
 def album_list():
@@ -77,9 +81,6 @@ def download():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_album = client['db_album']
-    c_album = db_album['album']
     condition = {'_id': ObjectId(request.args.get('id'))}
     album = c_album.find_one(condition)
     return send_file(album['path'], as_attachment=True, download_name=album['name'])
@@ -116,31 +117,23 @@ def upload_check():
 
 
 def insert_album(album):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_album = client['db_album']
-    c_album = db_album['album']
     c_album.insert_one(album)
 
 
 def find_album(albumname):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_album = client['db_album']
-    c_album = db_album['album']
     condition = {'albumname': albumname}
     album = c_album.find(condition)
     return album
 
 
 def find_all_album():
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_album = client['db_album']
-    c_album = db_album['album']
     res = c_album.aggregate(
         [{
             "$group":
                 {"_id": "$albumname",
                  "num": {"$sum": 1}
-                 }}
+                 }
+            }
         ])
     # for i in res:
     #     print(i)
@@ -152,9 +145,6 @@ def find_all_album():
 
 
 def update_album(albumname, img_path):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_album = client['db_album']
-    c_album = db_album['album']
     condition = {'albumname': albumname}
     album = c_album.find_one(condition)
     imgs_list = album['imgs']

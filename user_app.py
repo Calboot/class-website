@@ -4,6 +4,10 @@ import hashlib
 
 user_app = Blueprint('user_app', __name__)
 
+client = pymongo.MongoClient("mongodb://localhost:27017")
+db_user = client['db_web']
+c_user = db_user['user']
+
 
 @user_app.route('/register')
 def register():
@@ -36,9 +40,6 @@ def change_submit():
     pwd = encrypt(password)
     user_list = find_user({'username': username, 'password': pwd})
     if len(user_list) == 1:
-        client = pymongo.MongoClient("mongodb://localhost:27017")
-        db_user = client['db_user']
-        c_user = db_user['user']
         c_user.update_one({'username': username}, {"$set": {'password': encrypt(request.form['new_password'])}})
         session.pop('username')
         return render_template('user/login.html', t_error='密码修改成功，请重新登录')
@@ -60,10 +61,8 @@ def update_score():
     username = session.get('username')
     name = request.form["name"]
     score = int(request.form["score"])
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_game = client['db_user']
+    db_game = client['db_web']
     c_game = db_game['game']
-    c_user = db_game['user']
     glist = c_game.find_one({"username": username, "name": name})
     ulist = c_user.find_one({"username": username})
     if glist is None or len(glist) == 0:
@@ -114,16 +113,10 @@ def logout():
 
 
 def insert_user(user):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_user = client['db_user']
-    c_user = db_user['user']
     c_user.insert_one(user)
 
 
 def find_user(condition):
-    client = pymongo.MongoClient("mongodb://localhost:27017")
-    db_user = client['db_user']
-    c_user = db_user['user']
     res = c_user.find(condition)
     user_list = []
     for item in res:
