@@ -42,11 +42,6 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 body{font-family: Arial,Verdana, Helvetica, sans-serif,'Microsoft YaHei'; word-break:break-all;position: relative;}
 html,body{
     height: 100%;
-    -moz-user-select:none;/*火狐*/
-    -webkit-user-select:none;/*webkit浏览器*/
-    -ms-user-select:none;/*IE10*/
-    -khtml-user-select:none;/*早期浏览器*/
-    user-select:none;
 }
 .goBackIndex,.welcomtitle,.welcomt,a{
     font-size: 0.5rem;
