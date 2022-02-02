@@ -49,7 +49,8 @@ def list_page():
     date_options = ['全部', '今天', '昨天']
     subject_options = ['全部', '综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('board/list.html', t_username=username, t_board_list=alist, t_date_options=date_options,
-                           t_subject_options=subject_options, t_date=date, t_subject=subject, pagination=pagination)
+                           t_subject_options=subject_options, t_date=date, t_subject=subject, pagination=pagination,
+                           t_kw=kw or '')
 
 
 @board_app.route('/board_list')

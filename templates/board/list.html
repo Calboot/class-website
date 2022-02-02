@@ -34,7 +34,6 @@
         <div class="taskDateWrap" style="padding-top: 0px; padding-bottom: 0px">
             <div class="mainTop col-xs-12 col-md-12 col-sm-12 col-lg-12">
                             <span style="font-size: 30px; font-weight: bold">讨论区</span>
-                <img class="monkey" height="90" src="/static/images/work.png" alt="">
                 <a class="addtask" href="/board/add">
                     <img width="46" src="/static/board/images/addtask.png" alt="">
                     <span class="hidden-xs">发帖</span>
@@ -54,8 +53,9 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <input type="text" value="" name="kw" style="border: 1px solid rgba(32,53,128,0.16); height: 40px">
-                    <input type="submit" value="搜索">
+                    <input type="text" id="kw" value="{{t_kw}}" name="kw" style="border: 1px solid rgba(32,53,128,0.16); height: 34px">
+                    <input type="submit" value="搜索" class="btn btn-primary">
+                    <input type="submit" onclick="$('#kw').val('')" value="重置" class="btn btn-default">
                 </form>
             </div>
         </div>
