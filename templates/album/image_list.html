@@ -66,6 +66,11 @@
                             <input type="submit" value="分享" onclick="document.location.href='/album/set_share?id={{img._id}}';" class="btn btn-primary">
                         {% endif %}
                     {% endif %}
+                    {% if img.owner == session.get("username") %}
+                        {% if ('deleted' is not in img or img.deleted == '0') and t_albumname != '共享的文件' %}
+                            <input type="submit" value="删除" onclick="if(confirm('是否确定删除此文件？')){document.location.href='/album/set_delete?id={{img._id}}';}" class="btn btn-danger">
+                        {% endif %}
+                    {% endif %}
                     </div>
                 {% endfor %}
             </div>

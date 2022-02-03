@@ -82,6 +82,20 @@ def share():
     return redirect("/album_list")
 
 
+@album_app.route('/album/set_delete')
+def delete():
+    id = request.args.get("id")
+    album = c_album.find_one({"_id": ObjectId(id), "owner": session.get("username")})
+    if album is not None:
+        if (not "deleted" in album) or album["deleted"] == "0":
+            c_album.update_one({"_id": ObjectId(id)}, {"$set": {'deleted': '1'}})
+        else:
+            c_album.update_one({"_id": ObjectId(id)}, {"$set": {'deleted': '0'}})
+        return redirect("/image_list?albumname="+album["albumname"])
+    return redirect("/album_list")
+
+
+
 @album_app.route('/upload')
 def upload():
     if user_app.check_login():
@@ -139,7 +153,7 @@ def insert_album(album):
 
 
 def find_album(albumname):
-    condition = {'albumname': albumname, "owner": session.get("username")}
+    condition = {'$and': [{'albumname': albumname}, {"owner": session.get("username")}, {'$or':[{'deleted': {'$exists': False}}, {'deleted': '0'}]}]}
     album = c_album.find(condition)
     return album
 
@@ -148,7 +162,10 @@ def find_all_album():
     res = c_album.aggregate([
         {
             "$match":
-                {"owner": session.get("username")}
+                {'$and':[
+                    {"owner": session.get("username")},
+                    {'$or': [{'deleted': {'$exists': False}}, {'deleted': '0'}]}
+                ]}
         },
         {
             "$group":
