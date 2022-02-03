@@ -20,7 +20,9 @@ def album_list():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     album_list = find_all_album()
-    return render_template('album/album_list.html', t_album_list=album_list, t_username=username)
+    total = c_album.count_documents({"public": "1"})
+    return render_template('album/album_list.html', t_album_list=album_list, t_username=username,
+                            t_total=total)
 
 
 @album_app.route('/image_list')
@@ -31,7 +33,10 @@ def image_list():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     albumname = request.args['albumname']
-    imgs_list = find_album(albumname)
+    if albumname == "共享的文件":
+        imgs_list = c_album.find({"public": "1"})
+    else:
+        imgs_list = find_album(albumname)
     return render_template('album/image_list.html', t_albumname=albumname, t_imgs_list=imgs_list, t_username=username)
 
 
@@ -62,6 +67,19 @@ def create_check():
     new_album = {'albumname': albumname, 'name': filename, 'path': img_path, 'owner': username, 'time': today}
     insert_album(new_album)
     return redirect('/album_list')
+
+
+@album_app.route('/album/set_share')
+def share():
+    id = request.args.get("id")
+    album = c_album.find_one({"_id": ObjectId(id), "owner": session.get("username")})
+    if album is not None:
+        if (not "public" in album) or album["public"] == "0":
+            c_album.update_one({"_id": ObjectId(id)}, {"$set": {'public': '1'}})
+        else:
+            c_album.update_one({"_id": ObjectId(id)}, {"$set": {'public': '0'}})
+        return redirect("/image_list?albumname="+album["albumname"])
+    return redirect("/album_list")
 
 
 @album_app.route('/upload')
@@ -121,19 +139,23 @@ def insert_album(album):
 
 
 def find_album(albumname):
-    condition = {'albumname': albumname}
+    condition = {'albumname': albumname, "owner": session.get("username")}
     album = c_album.find(condition)
     return album
 
 
 def find_all_album():
-    res = c_album.aggregate(
-        [{
+    res = c_album.aggregate([
+        {
+            "$match":
+                {"owner": session.get("username")}
+        },
+        {
             "$group":
                 {"_id": "$albumname",
                  "num": {"$sum": 1}
                  }
-            }
+        }
         ])
     # for i in res:
     #     print(i)

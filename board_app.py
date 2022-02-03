@@ -127,7 +127,7 @@ def find_board(condition, page=0, kw=''):
         plist = []
         for item in res:
             plist.append(item['parent'])
-        print(plist)
+        plist = list(set(plist))
         condition['parent'] = {'$in': plist}
     cond = {'$and': [condition]}
     if page == 0:

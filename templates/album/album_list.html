@@ -50,13 +50,20 @@
                                     style=" height:auto;max-width:100%">
                             </a>
                         </div>
-
                     </div>
-
-
-                    <p class="albumNum">
-
-                    </p>
+                    <p class="albumNum"></p>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
+                <div class="coverImg">
+                    <div style="text-align: center; margin-top: 50px">
+                        <a style="font-size: 30px; color: green; font-weight: bold" href="/image_list?albumname=共享的文件">
+                            共享的文件
+                        </a>
+                    </div>
+                </div>
+                <p class="albumNum">
+                    ({{t_total}}个文件)
+                </p>
                 </div>
                 {% for album in t_album_list %}
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
@@ -70,17 +77,13 @@
                                 {{ album._id }}
                             </a>
                         </div>
-
                     </div>
-
-
                     <p class="albumNum">
                         {{album.albumname}} ({{album.num}}个文件)
                     </p>
                 </div>
 
                 {% endfor %}
-
             </div>
         </div>
 
