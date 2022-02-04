@@ -51,8 +51,8 @@
                     {% endif %}
                     {% set arr = img.path.split('.') %}
                     {% if arr[-1] != 'png' and arr[-1] != 'jpg' and arr[-1] != 'jpeg' %}
-                        <div>
-                            <a href="/download?id={{img._id}}" style="font-size: 24px; margin-top: 30px; display: block">{{ img.name }}</a>
+                        <div style="display: flex;align-items: center;justify-content: center;" class="well well-sm">
+                            <a href="/download?id={{img._id}}" style="font-size: 24px;">{{ img.name }}</a>
                         </div>
                     {% else %}
                         <div>
