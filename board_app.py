@@ -76,7 +76,7 @@ def reply_check():
     parent = request.form.get("id")
     content = request.form.get("content")
     today = str_now()
-    c_board.insert_one({'content': content, 'date': today, 'public': '1', 'parent': parent, 'owner': username})
+    c_board.insert_one({'content': content, 'date': today, 'parent': parent, 'owner': username})
     return redirect('/board_list?id=' + parent)
 
 
