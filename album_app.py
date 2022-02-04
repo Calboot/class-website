@@ -56,7 +56,7 @@ def create_check():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
-    today = str(datetime.date.today())
+    today = str_now()
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
@@ -124,7 +124,7 @@ def upload_check():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
-    today = str(datetime.date.today())
+    today = str_now()
     img = request.files['img']
     filename = img.filename
     ext = filename.split('.')[-1]
@@ -189,3 +189,8 @@ def update_album(albumname, img_path):
     imgs_list = album['imgs']
     imgs_list.append(img_path)
     c_album.update_one({'albumname': albumname},  {"$set": album})
+
+
+def str_now():
+    today = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return today
