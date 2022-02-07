@@ -9,6 +9,7 @@ from typing_app import typing_app
 from notice_app import notice_app
 from log_app import log_app
 from board_app import board_app
+from snake_app import snake_app
 import pymongo
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.register_blueprint(typing_app)
 app.register_blueprint(notice_app)
 app.register_blueprint(log_app)
 app.register_blueprint(board_app)
+app.register_blueprint(snake_app)
 
 
 @app.route('/')
