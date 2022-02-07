@@ -121,7 +121,7 @@ def delete_all():
             path = item["path"]
             os.remove(path)
             c_album.delete_one({'_id': ObjectId(item["_id"])})
-            return redirect("/image_list?albumname=回收站")
+        return redirect("/image_list?albumname=回收站")
     return redirect("/album_list")
 
 
