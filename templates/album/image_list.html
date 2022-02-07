@@ -39,7 +39,11 @@
                 <span>{{ city }}</span><span class="picNum"></span>
             </div> -->
             <!-- 显示相册名 -->
-            <h2>{{t_albumname}}</h2>
+            <h2>{{t_albumname}}
+            {% if t_albumname == '回收站' %}
+                    <input type="submit" value="清空回收站" onclick="if(confirm('是否确定清空回收站？')){document.location.href='/album/delete_all';}" class="btn btn-danger btn-sm">
+            {% endif %}
+                </h2>
             <div class="container">
                 <!-- 模板变量t_imgs_list存储该相册所有图片地址-->
                 {% for img in t_imgs_list %}
@@ -59,16 +63,22 @@
                             <img src="{{img.path}}" class="pic">
                         </div>
                     {% endif %}
-                    {% if img.owner == session.get("username") %}
+                    {% if img.owner == session.get("username") and t_albumname != '回收站' %}
                         {% if img.public == "1" %}
                             <input type="submit" value="取消分享" onclick="document.location.href='/album/set_share?id={{img._id}}';" class="btn btn-primary">
                         {% else %}
                             <input type="submit" value="分享" onclick="document.location.href='/album/set_share?id={{img._id}}';" class="btn btn-primary">
                         {% endif %}
                     {% endif %}
+                    {% if t_albumname == '回收站' %}
+                        <input type="submit" value="恢复" onclick="document.location.href='/album/set_delete?id={{img._id}}';" class="btn btn-primary">
+                    {% endif %}
                     {% if img.owner == session.get("username") %}
                         {% if ('deleted' is not in img or img.deleted == '0') and t_albumname != '共享的文件' %}
                             <input type="submit" value="删除" onclick="if(confirm('是否确定删除此文件？')){document.location.href='/album/set_delete?id={{img._id}}';}" class="btn btn-danger">
+                        {% endif %}
+                        {% if img.deleted == '1' %}
+                            <input type="submit" value="彻底删除" onclick="if(confirm('是否确定彻底删除此文件？')){document.location.href='/album/delete_file?id={{img._id}}';}" class="btn btn-danger">
                         {% endif %}
                     {% endif %}
                     </div>
