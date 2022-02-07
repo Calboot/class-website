@@ -98,11 +98,12 @@
                     {% for item in t_board_list %}
                     <li class="listItem clearfix">
                         <p>
-                        <span class="time">{{item.date}}</span>
+                        <span class="time">{{item.date}}&nbsp;</span>
                         <a class="note">
-                            <span class="biancheng object">
-                                {% if item._id == t_id %}【{{item.subject}}】{% endif %}</span>
-                            <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span><br>
+                            {% if item._id == t_id %}
+                                <span class="label label-success">{{item.subject}}</span>
+                            {% endif %}
+                            <span class="label label-default">{{item.owner}}</span><br>
                         </a>
                         </p>
                         <div class="my-content">

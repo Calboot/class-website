@@ -61,16 +61,19 @@
         </div>
         <div class="clearfix"></div>
         <div id="content" style="padding-top: 0px">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;讨论区
             <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
                     {% for item in t_board_list %}
                     <li class="listItem clearfix">
                         <p>
-                        <span class="time">{{item.date}}</span>
-                        <a class="note"><span class="biancheng object">【{{item.subject}}】</span>
-                            <span class="biancheng object">【by&nbsp;&nbsp;{{item.owner}}】</span>
-                            <a class="noteCont" href="/board_list?id={{item._id}}" style="color: blue; text-decoration: underline">{{ item.title }}</a>
+                        <span class="time">{{item.date}}&nbsp;</span>
+                        <a class="note">
+                            {% if item.sticky == 1 %}
+                                <span class="label label-info">置顶</span>
+                            {% endif %}
+                            <span class="label label-success">{{item.subject}}</span>
+                            <span class="label label-default">{{item.owner}}</span>
+                            <a class="noteCont" href="/board_list?id={{item._id}}" style="color: blue; 1text-decoration: underline">{{ item.title }}</a>
                         </a>
                         </p>
                     </li>
