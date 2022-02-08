@@ -39,8 +39,12 @@ def change_submit():
     password = request.form['old_password']
     pwd = encrypt(password)
     user_list = find_user({'username': username, 'password': pwd})
-    if len(user_list) == 1:
-        c_user.update_one({'username': username}, {"$set": {'password': encrypt(request.form['new_password'])}})
+    new_pwd = request.form['new_password']
+    new_pwd2 = request.form['new_password2']
+    if new_pwd != new_pwd2:
+        return render_template('user/change_password.html', t_msg='新密码错误')
+    elif len(user_list) == 1:
+        c_user.update_one({'username': username}, {"$set": {'password': encrypt(new_pwd)}})
         session.pop('username')
         return render_template('user/login.html', t_error='密码修改成功，请重新登录')
     else:
