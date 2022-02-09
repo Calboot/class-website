@@ -45,7 +45,28 @@
             </div>
         </div>
     </div>
-
+    <div style="position: absolute;
+                right: 6%;
+                width: 20%;
+                top: 140px;
+                z-index: 100;">
+                <table class="table table-strip table-bordered">
+                    <tr>
+                        <th>名次</th>
+                        <th>用户名</th>
+                        <th>得分</th>
+                    </tr>
+                    {% set ns = namespace(s=1) %}
+                {% for item in t_scoreList %}
+                          <tr {% if item.username == t_username %} style="color: blue; font-weight:bold" {% endif %}>
+                            <td>{{ns.s}}</td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.score}}</td>
+                        </tr>
+                    {% set ns.s=ns.s+1 %}
+                {% endfor %}
+                    </table>
+            </div>
     <div id="footer">
         COPYRIGHT© {{nickname}} 2022
     </div>
@@ -105,6 +126,7 @@
         let size = 600;
         let cell = 20;
         let n = size / cell;
+        var saved = 0
         var canvas = document.getElementById('gameRegion');
         var ctx = canvas.getContext('2d');
         let start_time = new Date();
@@ -148,7 +170,16 @@
                     break;
             }
         }
-
+        function saveScore(){
+            $.post(
+                "/update_score",
+                {"name": "snake", "score": score},
+                function( data ) {
+                    console.log(data);
+                },
+                "json"
+            );
+        }
         function render() {
             ctx.save();
             // 清空
@@ -303,7 +334,7 @@
         }
 
         function gameLoop() {
-            console.log("running");
+            //console.log("running");
             if (stopped) return;
             for (var i = 0; i < n; i++) {
                 for (var j = 0; j < n; j++) {
@@ -323,12 +354,23 @@
                     ctx.textAlign = "center";
                     ctx.fillStyle = "black";
                     ctx.fillText("GAME OVER", size / 2 + cell, size / 2 + 2 * cell);
+
+                    if (!saved) {
+                        saved = 1
+                        saveScore()
+                    }
                 } else alert(err);
                 stopped = true;
             }
             requestAnimationFrame(gameLoop);
         }
     </script>
+<script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+<script>
+    if (typeof DisableDevtool == 'undefined') history.back();
+    DisableDevtool({});
+</script>
 </body>
 
 </html>
