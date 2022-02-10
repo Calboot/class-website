@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宇宙猴</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/monkey/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/monkey/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/monkey/css/index.css">
+</head>
+<body>
+    <div class = "mask"></div>
+    <div id ="bg"></div>
+    <div id="container">
+        <header>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+                <a href="/main" class="goBack">
+                    <img src="/static/monkey/images/back.png">
+                    <span class="goBackIndex">返回首页</span>
+                </a>
+            </div>
+            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+                <img class="" src="/static/monkey/images/avatar.png">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+                 <img src="/static/monkey/images/avatar.png">
+                <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+                <div class="pull-right welcomt"></div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="gameWrap">
+                <div id = "game">
+                    <canvas id="main" width="386" height="644">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: absolute;
+    right: 10%;
+    width: 20%;
+    top: 140px;
+    z-index: 100;">
+                <table class="table table-strip table-bordered">
+                    <tr>
+                        <th>名次</th>
+                        <th>用户名</th>
+                        <th>得分</th>
+                    </tr>
+                    {% set ns = namespace(s=1) %}
+                {% for item in t_scoreList %}
+                          <tr {% if item.username == t_username %}style="color: blue; font-weight:bold"{% endif %}>
+                            <td>{{ns.s}}</td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.score}}</td>
+                        </tr>
+                    {% set ns.s=ns.s+1 %}
+                {% endfor %}
+                    </table>
+            </div>
+
+    <div id="footer">
+        COPYRIGHT© {{t_nickname}} 2020
+    </div>
+   <!-- 创建画布 -->
+<!--    <canvas id="main" width="396" height="644"></canvas>-->
+
+    <script>
+        var saved = 0
+        // 获取画布
+        var canvas = document.getElementById('main')
+        // 创建画笔
+        var ctx = canvas.getContext('2d')
+        // 设置背景图片
+        var bgImg = new Image()
+        bgImg.src = 'static/monkey/images/bg.png'
+        // 设置管道图片
+        var columnImg = new Image()
+        columnImg.src = 'static/monkey/images/column.png'
+        // 设置地面图片
+        var groundImg = new Image()
+        groundImg.src = 'static/monkey/images/ground.png'
+        // 加载猴用于实现动画的图片
+        var monkeyImg1 = new Image()
+        monkeyImg1.src = 'static/monkey/images/1.png'
+        var monkeyImg2 = new Image()
+        monkeyImg2.src = 'static/monkey/images/2.png'
+        var monkeyImg3 = new Image()
+        monkeyImg3.src = 'static/monkey/images/3.png'
+        var monkeyImg4 = new Image()
+        monkeyImg4.src = 'static/monkey/images/4.png'
+        var monkeyImgAry = [monkeyImg1, monkeyImg2, monkeyImg3, monkeyImg4]
+        // 加载游戏结束图片
+        var overImg = new Image()
+        overImg.src = 'static/monkey/images/over.png'
+        // 加载用于“准备”状态的图片
+        var readyImg = new Image()
+        readyImg.src = 'static/monkey/images/ready.png'
+        // 画布宽高
+        var canvasWidth = 396
+        var canvasHeight = 644
+        var run;
+        var speed = 60;
+        // 地面对象
+        var ground = {
+            img: groundImg,
+            x: 0,
+            y: canvasHeight - 147,
+            width: 803,
+            height: 147
+        }
+        // 管道对象
+        var column = {
+            img: columnImg,
+            x: canvasWidth,
+            y: getColumnY(),
+            width: 83,
+            height: 1547,
+            // 添加管道上部分高度数据和上下管道空隙数据
+            columnUp: 676,
+            columnGap: 194
+        }
+        // 修改添加猴对象的属性
+        var monkey = {
+            img: monkeyImgAry[0],
+            imgAry: monkeyImgAry,
+            imgIndex: 0,
+            x: 183,
+            y: 200,
+            v: 0,       // v是小猿的下落速度，初始速度设为0
+            width: 53,
+            height: 58
+        }
+        var a = 500 // 加速度
+        var t = 1 / 60 // 时间(秒)
+        // 定义常量存储游戏运行状态、结束状态
+        const GAME_RUNNING = 1
+        const GAME_OVER = -1
+        // 定义常量GAME_READY为准备状态
+        const GAME_READY = 0
+        // 定义变量存储游戏当前状态，游戏初始状态设置为准备状态
+        var gameState = GAME_READY
+        // 定义变量score存储得分，初始值为0
+        var score = 0
+        window.onload = function() {
+            // 给画布绑定点击事件，
+            // 当事件被触发时修改小猿速度，实现重新绘制页面时，小猿向上移动
+            canvas.onclick = mouseClickHandler
+            $('body').keydown(function(e){
+                var code = e.keyCode || e.which;
+                 if(code == 32) {
+                    mouseClickHandler()
+                 }
+            });
+            run = setInterval(gameHandler, 1000 / speed)
+        }
+        // 定时器执行的方法
+        function gameHandler() {
+            // 判断当前游戏状态是否为准备状态
+            if (gameState == GAME_READY) {
+                // 绘制背景图片、准备状态图片、小猿图片
+                ctx.drawImage(bgImg, 0, 0)
+                ctx.drawImage(readyImg, 0, 0)
+                ctx.drawImage(monkey.img, 183, 200)
+                saved = 0
+                speed = 60
+            } else if (gameState == GAME_RUNNING) {    // 否则如果游戏状态为运行状态
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+                ctx.drawImage(bgImg, 0, 0)
+                ctx.drawImage(column.img, column.x, column.y)
+                ctx.drawImage(ground.img, ground.x, ground.y)
+                //绘制小猿
+                ctx.drawImage(monkey.img, monkey.x, monkey.y)
+
+                // 将分数写在画布上
+                ctx.font = "30px Arial"
+                ctx.fillStyle = "#ffffff"
+                ctx.fillText("" + score, 6, 30)
+                columnMove()
+                groundMove()
+                monkeyMove()
+                checkHit()
+                addScore()
+                monkeyAnimation()
+
+            } else if (gameState == GAME_OVER) {
+                ctx.drawImage(overImg, 0, 0)
+                if (!saved) {
+                    saved = 1
+                    saveScore()
+                }
+            }
+        }
+        function saveScore(){
+            $.post(
+                "/update_score",
+                {"name": "monkey2", "score": score},
+                function( data ) {
+                    console.log(data);
+                },
+                "json"
+            );
+        }
+        function columnMove() {
+            column.x = column.x - 1
+            if (column.x <= -column.width) {
+                column.x = canvasWidth
+                column.y = getColumnY()
+            }
+        }
+
+        function groundMove() {
+            ground.x = ground.x - 1
+            if (ground.x <= -canvasWidth) {
+                ground.x = 0
+            }
+        }
+        function getColumnY() {
+            var columnUp = 676 // 管道上部分高度
+            var columnGap = 194 // 上下管道空隙高度
+            var gap = 30 // 管道预留最小高度
+            var minY = -(columnUp - gap) // 最小Y坐标
+            var maxY = -(columnUp + columnGap + gap - (canvasHeight - ground.height)) // 最大Y坐标
+            var y = parseInt(Math.random() * (maxY - minY) + minY) // 随机Y坐标
+            return y
+        }
+        function monkeyMove() {
+            // 计算移动距离(速度 * 时间 + 加速度 * 时间 * 时间 / 2)
+            var s = monkey.v * t + a * t * t / 2
+            // 改变小猿当前的y坐标(小猿y坐标 + 移动距离)
+            monkey.y = monkey.y + s
+            // 更新小猿现在的速度(速度 + 加速度 * 时间)
+            monkey.v = monkey.v + a * t
+        }
+        // 给画布绑定点击事件时要设置的函数
+        function mouseClickHandler() {
+            // 如果当前游戏状态为准备状态
+            clearInterval(run);
+            run = setInterval(gameHandler, 1000 / speed);
+            if (gameState == GAME_READY) {
+                // 鼠标点击更改为运行状态
+                gameState = GAME_RUNNING
+                speed = 60
+            } else if (gameState == GAME_RUNNING) {    // 否则如果当前游戏状态为运行状态
+                // 更改猴的速度
+                monkey.v = -210;
+            } else if (gameState == GAME_OVER) {    // 否则如果当前游戏状态为结束状态
+                // 鼠标点击更改为准备状态
+                gameState = GAME_READY
+                // 游戏结束时重置猴的对象的图片相关属性
+                monkey.img = monkeyImgAry[0]
+                monkey.imgAry = monkeyImgAry
+                monkey.imgIndex = 0
+                // 重置猴的x、y坐标、速度
+                monkey.x = 183
+                monkey.y = 200
+                monkey.v = 0
+                // 重置管道、地面的x坐标
+                column.x = canvasWidth
+                ground.x = 0
+                // 重置管道的y坐标
+                column.y = getColumnY()
+                // 游戏结束时重置分数为0
+                score = 0
+            }
+        }
+        // 定义函数实现碰撞检测
+        function checkHit() {
+            var monkeyTop = monkey.y
+            var monkeyBottom = monkey.y + monkey.height
+            if (monkeyTop <= 0 || monkeyBottom >= ground.y) {
+                //alert("猴飞出了天空或碰到了地面")
+                gameState = GAME_OVER
+            }
+            // 定义变量存储小猿会碰撞管道的X坐标范围内的最小坐标、最大坐标
+            var minX = column.x - monkey.width
+            var maxX = column.x + column.width
+            // 定义变量存储管道空隙顶部、底部的Y坐标
+            var gapTop = column.y + column.columnUp
+            var gapBottom = gapTop + column.columnGap
+            if (monkey.x >= minX && monkey.x <= maxX) {
+                if (monkeyTop <= gapTop || monkeyBottom >= gapBottom) {
+                    //alert('猴碰到了管道')
+                    gameState = GAME_OVER
+                }
+            }
+        }
+
+        // 定义函数实现游戏计分
+        function addScore() {
+            var columnRight = column.x + column.width
+            if (monkey.x - columnRight > 0 && monkey.x - columnRight <= 1) {
+                //console.log('小猿穿过了管道')
+                // 若猴通过管道则加分
+                score = score + 100
+                clearInterval(run);
+                speed += 2500 / score;
+                console.log(speed);
+                run = setInterval(gameHandler, 1000 / speed)
+            }
+        }
+        function monkeyAnimation() {
+            monkey.imgIndex = monkey.imgIndex + 1
+            if (monkey.imgIndex == monkey.imgAry.length) {
+                monkey.imgIndex = 0
+            }
+            monkey.img = monkey.imgAry[monkey.imgIndex]
+        }
+    </script>
+    <script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+<script>
+    if (typeof DisableDevtool == 'undefined') history.back();
+    DisableDevtool({});
+</script>
+</body>
+</html>
