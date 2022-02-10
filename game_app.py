@@ -38,7 +38,7 @@ def typing():
     return render_template('typing/index.html', t_scoreList=scoreList, t_username=username)
 
 
-@game_app.route('/calorie')
-def calorie():
-    return render_template('calorie/index.html')
+# @game_app.route('/calorie')
+# def calorie():
+#     return render_template('calorie/index.html')
 
