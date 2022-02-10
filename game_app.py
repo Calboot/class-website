@@ -17,25 +17,27 @@ def before_request():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
 
 
+def game(name, sort_method=pymongo.DESCENDING):
+    username = session.get("username")
+    scoreList = c_game.find({"name": name}).sort("score", sort_method)
+    return render_template(name + '/index.html', t_scoreList=scoreList, t_username=username)
+
+
+    
+
 @game_app.route('/snake')
 def snake():
-    username = session.get("username")
-    scoreList = c_game.find({"name": "snake"}).sort("score", pymongo.DESCENDING)
-    return render_template('snake/index.html', t_scoreList=scoreList, t_username=username)
+    return game('snake')
 
 
 @game_app.route('/monkey')
 def monkey():
-    username = session.get("username")
-    scoreList = c_game.find({"name": "monkey"}).sort("score", pymongo.DESCENDING)
-    return render_template('monkey/index.html', t_scoreList=scoreList, t_username=username)
+    return game('monkey')
 
 
 @game_app.route('/typing')
 def typing():
-    username = session.get("username")
-    scoreList = c_game.find({"name": "typing"}).sort("score", pymongo.DESCENDING)
-    return render_template('typing/index.html', t_scoreList=scoreList, t_username=username)
+    return game('typing')
 
 
 # @game_app.route('/calorie')
