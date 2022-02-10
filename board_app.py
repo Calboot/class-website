@@ -57,8 +57,7 @@ def list_page():
 def board_list():
     username = session.get("username")
     _id = request.args['id']
-    title = c_board.find_one({'_id': _id})['title']
-    content = c_board.find_one({'_id': _id})['content']
+    parent = c_board.find_one({'_id': _id})
     condition = {'parent': _id}
     alist = find_board(condition)
     for item in alist:
@@ -66,8 +65,7 @@ def board_list():
             item['content'], extensions=["fenced_code", "tables", "codehilite"]
         )
     alist.reverse()
-    return render_template('board/board_list.html', t_board_list=alist, t_id=_id, t_title=title, t_content=content,
-                           t_username=username)
+    return render_template('board/board_list.html', t_board_list=alist, t_id=_id, t_parent=parent, t_username=username)
 
 
 @board_app.route('/reply_check', methods=['POST'])

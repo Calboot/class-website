@@ -92,7 +92,10 @@
     <div class="main row">
         <div class="clearfix"></div>
         <div id="content" style="height: auto; width: auto; padding-top: 0px">
-            <div style="text-align: center; font-size:30px; margin-bottom: 25px">{{t_title}}</div>
+            <div style="text-align: center; font-size:30px; margin-bottom: 25px">
+                {{t_parent.title}}
+                <label class="label label-success">{{t_parent.subject}}</label>
+            </div>
             <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
                     {% for item in t_board_list %}
@@ -100,9 +103,6 @@
                         <p>
                         <span class="time">{{item.date}}&nbsp;</span>
                         <a class="note">
-                            {% if item._id == t_id %}
-                                <span class="label label-success">{{item.subject}}</span>
-                            {% endif %}
                             <span class="label label-default">{{item.owner}}</span><br>
                         </a>
                         </p>
