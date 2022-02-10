@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title id='title'> {{ num }} 数码游戏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/monkey/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/monkey/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/snake/css/index.css">
+</head>
+
+<body>
+    <div class="mask"></div>
+    <div id="bg"></div>
+    <div id="container">
+        <header>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+                <a href="/main" class="goBack">
+                    <img src="/static/calorie/images/back.png">
+                    <span class="goBackIndex">返回首页</span>
+                </a>
+            </div>
+            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+                <img class="" src="/static/monkey/images/avatar.png">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+                 <img src="/static/monkey/images/avatar.png">
+                <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+                <div class="pull-right welcomt"></div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="gameWrap">
+                <div id="game">
+                    <canvas id="gameRegion" width='600' height='600' style='border:1px solid #3a3a3aad;'></canvas>
+                </div>
+                <p>用方向键操控空格或点击要移到空格处的木块</p>
+            </div>
+        </div>
+    </div>
+    <!-- <p style="color:" -->
+    <script>
+        function randInt(n, m) {
+            return Math.floor(Math.random() * (m - n) + n);
+        }
+
+        function isInt(a) {
+            return Math.abs(a - Math.round(a)) <= 1e-3;
+        }
+
+        function appequal(a, b) {
+            console.log(Math.abs(a - b));
+            return Math.abs(a - b) <= 1e-3;
+        }
+    </script>
+    <script>
+        // 坐标系
+        // +-------y
+        // |
+        // |
+        // |
+        // x
+        var n = '{{ num }}';
+        if(n == '3' || n == '4' || n == '5'){
+            n = n - '0';
+        }else{
+            n = randInt(3, 6);
+            document.getElementById('title').innerText = n.toString() + "数码游戏";
+        }
+        let size = 600;
+        let cell = size / n;
+        class Game {
+            constructor(randomized) {
+                this.mat = new Array();
+                for (var i = 0; i < n; i++) {
+                    this.mat.push(new Array());
+                    for (var j = 0; j < n; j++) {
+                        this.mat[i].push(i * n + j + 1);
+                    }
+                }
+                this.mat[n - 1][n - 1] = 0;
+                this.x = n - 1; // 空位x
+                this.y = n - 1; // 空位y
+                this.mx = n - 1; // 移动中的空位x坐标
+                this.my = n - 1; // 移动中的空位y坐标
+                // 旁边的方块向空位移动的方向
+                this.dir = new Array();
+                this.dir[0] = 0;
+                this.dir[1] = 0;
+                if (randomized) {
+                    var cnt = randInt(200, 300);
+                    for (var i = 0; i < cnt; i++) {
+                        this.dir = [[0, 1], [0, -1], [1, 0], [-1, 0]][randInt(0, 4)]
+                        this.move(false);
+                    }
+                }
+                console.log(this.dir);
+            }
+            move(slow = true) {
+                if (this.dir[0] == 0 && this.dir[1] == 0) return 0;
+                if (!slow) {
+                    var nx = this.mx + 1 * this.dir[0];
+                    var ny = this.my + 1 * this.dir[1];
+
+                    if (nx < 0 || nx >= n || ny < 0 || ny >= n) return 0;
+                    [this.mat[nx][ny], this.mat[this.x][this.y]] = [this.mat[this.x][this.y], this.mat[nx][ny]];
+
+                    this.x = Math.round(nx);
+                    this.y = Math.round(ny);
+                    this.mx = this.x;
+                    this.my = this.y;
+                    this.dir[0] = 0;
+                    this.dir[1] = 0;
+                    var xyzaaa=0;
+                }
+                else {
+                    // 下一步移动
+                    var nx = this.mx + 0.1 * this.dir[0];
+                    var ny = this.my + 0.1 * this.dir[1];
+                    if (nx < -1e-3 || nx > n - 1 + 1e-3 || ny < -1e-3 || ny > n - 1 + 1e-3) return 0;
+                    if (appequal(nx, this.x + this.dir[0]) && appequal(ny, this.y + this.dir[1])) {
+                        [this.mat[Math.round(nx)][Math.round(ny)], this.mat[this.x][this.y]] = [this.mat[this.x][this.y], this.mat[Math.round(nx)][Math.round(ny)]];
+                        this.x += this.dir[0];
+                        this.y += this.dir[1];
+                        this.mx = this.x;
+                        this.my = this.y;
+                        this.dir[0] = 0;
+                        this.dir[1] = 0;
+                        return 0;
+                    }
+                    this.mx = nx;
+                    this.my = ny;
+                    return 1;
+                }
+            }
+            check() {
+                var ok = true;
+                for (var i = 0; i < n; i++) {
+                    for (var j = 0; j < n; j++) {
+                        if (this.mat[i][j] != (i * n + j + 1) % (n * n)) {
+                            ok = false;
+                        }
+                    }
+                }
+                return ok;
+            }
+            render(ctx) {
+                for (var i = 0; i < n; i++) {
+                    for (var j = 0; j < n; j++) {
+                        if (this.mat[i][j] == 0) continue;
+                        var realx = i;
+                        var realy = j;
+                        if ((this.dir[0] != 0 || this.dir[1] != 0) && this.x + this.dir[0] == i && this.y + this.dir[1] == j) {
+                            var realx = i - (this.mx - this.x);
+                            var realy = j - (this.my - this.y);
+                        }
+                        createBlock(ctx, realy * cell, realx * cell, cell, cell, this.mat[i][j]);
+                    }
+                }
+            }
+        }
+        function createBlock(ctx, x, y, w, h, n) { // 这个坐标系是反过来的
+            ctx.strokeStyle = "grey";
+            ctx.beginPath();
+            ctx.moveTo(x + 10, y, x + w, y, 10);
+            ctx.arcTo(x + w, y, x + w, y + h, 10);
+            ctx.arcTo(x + w, y + h, x, y + h, 10);
+            ctx.arcTo(x, y + h, x, y, 10);
+            ctx.arcTo(x, y, x + w, y, 10);
+            ctx.stroke();
+
+            ctx.fillStyle = "burlywood";
+            ctx.beginPath();
+            ctx.moveTo(x, y, x + w, y, 10);
+            ctx.arcTo(x + w, y, x + w, y + h, 10);
+            ctx.arcTo(x + w, y + h, x, y + h, 10);
+            ctx.arcTo(x, y + h, x, y, 10);
+            ctx.arcTo(x, y, x + w, y, 10);
+            ctx.fill();
+            ctx.textAlign = "center";
+            ctx.textBaseLine = "middle";
+            ctx.fillStyle = "chocolate";
+            ctx.font = Math.round(0.3 * cell).toString() + "px sans-serif";
+            ctx.fillText(n.toString(), x + w / 2, y + h / 2 + 0.075 * cell);
+        }
+    </script>
+    <script>
+        var canvas = document.getElementById('gameRegion')
+            , ctx = canvas.getContext('2d');
+        var game = new Game(true);
+        console.log(game.dir);
+        var dir = [];
+        var stopped = false;
+        window.addEventListener('keydown', keyDownCallback, false);
+        canvas.addEventListener('click', mouseClickCallback);
+        function mouseClickCallback(event) {
+            console.log("click");
+            // 反过来的坐标系+1
+            var x = event.clientX - canvas.getBoundingClientRect().left;
+            var y = event.clientY - canvas.getBoundingClientRect().top;
+            [x, y] = [Math.floor(y / cell), Math.floor(x / cell)];
+            var gamex = game.x + game.dir[0];
+            var gamey = game.y + game.dir[1];
+            console.log(x, y, gamex, gamey, game.x, game.y);
+
+            for(var i=0;i<dir.length;i++){
+                var nx = gamex + dir[i][0];
+                var ny = gamey + dir[i][1];
+                if (nx < -1e-3 || nx > n - 1 + 1e-3 || ny < -1e-3 || ny > n - 1 + 1e-3);
+                else{
+                    gamex = nx;
+                    gamey = ny;
+                }
+            }
+            console.log(gamex, gamey);
+            if(appequal((gamex - x) * (gamex - x) + (gamey - y) * (gamey - y), 1)){
+                dir.push([x - gamex, y - gamey]);
+            }
+        }
+        gameLoop();
+
+        function keyDownCallback(e) { // 反过来的坐标系+2
+            if (e.repeat) return;
+            var code = e.code;
+            console.log(code);
+            // var dirlast = dir[dir.length - 1]
+            switch (code) {
+                case 'ArrowUp': case 'KeyW':
+                    /* if (dirlast[0] != 0 || dirlast[1] != 1)  */dir.push([-1, 0]);
+                    break;
+                case 'ArrowDown': case 'keyS':
+                    /* if (dirlast[0] != 0 || dirlast[1] != -1)  */dir.push([1, 0]);
+                    break;
+                case 'ArrowLeft': case 'keyA':
+                    /* if (dirlast[0] != 1 || dirlast[1] != 0)  */dir.push([0, -1]);
+                    break;
+                case 'ArrowRight': case 'keyD':
+                    /* if (dirlast[0][0] != -1 || dirlast[1] != 0)  */dir.push([0, 1]);
+                    break;
+            }
+        }
+
+        function gameLoop() {
+            console.log("running");
+            if (stopped) return;
+            try {
+                var busy = game.move();
+                // 清空
+                ctx.fillStyle = "wheat";
+                ctx.fillRect(0, 0, size, size);
+                game.render(ctx);
+                if (!busy && dir.length > 0) {
+                    game.dir[0] = dir[0][0];
+                    game.dir[1] = dir[0][1];
+                    dir.splice(0, 1);
+                }
+                if (game.check()) throw "victory";
+
+            } catch (err) {
+                if (err == "victory") {
+                    var grd = ctx.createRadialGradient(size / 2, size / 2, 100, size / 2, size / 2, 300);
+                    grd.addColorStop(0, "#ffffffa0");
+                    grd.addColorStop(1, "#ffffff30");
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(0, 0, size, size);
+                    ctx.font = Math.round(0.3 * cell).toString() + "px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "gold";
+                    ctx.fillText("胜利", size / 2, size / 2 + 0.075 * cell);
+                    ctx.strokeStyle = "darkred";
+                    ctx.strokeText("胜利", size / 2, size / 2 + 0.075 * cell);
+                } else alert(err);
+                stopped = true;
+            }
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
+    <script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script>
+        if (typeof DisableDevtool == 'undefined') history.back();
+        DisableDevtool({});
+    </script>
+</body>
+
+</html>

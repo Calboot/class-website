@@ -69,6 +69,21 @@
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/monkey">宇宙の猴</a></div>
 <!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/calorie">卡路里大挑战</a></div>-->
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/snake">贪吃蛇</a></div>
+            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                <a href="javascript:void(0)" onclick="ndigit()">
+                    <select id="ndigit_n" onclick="sel_click()">
+                        <option value="3">3*3</option>
+                        <option value="4">4*4</option>
+                        <option value="5">5*5</option>
+                    </select>
+                    数码游戏(数字华容道)
+                </a>
+                <script>
+                var select_clicked = false;
+                function ndigit(){if(select_clicked)select_clicked=false;else window.location.href = "/ndigit/" + $('#ndigit_n :selected').val();}
+                function sel_click(){select_clicked=true;}
+                </script>
+            </div>
         </div>
     </div>
 </div>

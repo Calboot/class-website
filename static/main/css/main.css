@@ -142,3 +142,9 @@ body {
 .manypeopleplay{
     margin-top: 60px;
 }
+
+#ndigit_n {
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background-color: #ffffff00;
+}

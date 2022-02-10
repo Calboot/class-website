@@ -17,10 +17,10 @@ def before_request():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
 
 
-def game(name, sort_method=pymongo.DESCENDING):
+def game(name, sort_method=pymongo.DESCENDING, **kwargs):
     username = session.get("username")
     scoreList = c_game.find({"name": name}).sort("score", sort_method)
-    return render_template(name + '/index.html', t_scoreList=scoreList, t_username=username)
+    return render_template(name + '/index.html', t_scoreList=scoreList, t_username=username, **kwargs)
 
 
     
@@ -38,6 +38,10 @@ def monkey():
 @game_app.route('/typing')
 def typing():
     return game('typing')
+
+@game_app.route('/ndigit/<int:n>')
+def ndigit(n):
+    return game('ndigit', num=n)
 
 
 # @game_app.route('/calorie')
