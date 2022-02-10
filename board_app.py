@@ -47,7 +47,7 @@ def list_page():
     pagination = Pagination(page=page, per_page=per_page, total=c_board.count_documents(condition), search=False,
                             record_name='alist')
     date_options = ['全部', '今天', '昨天']
-    subject_options = ['全部', '综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
+    subject_options = ['全部', '综合', '公告', '灌水', '学术', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('board/list.html', t_username=username, t_board_list=alist, t_date_options=date_options,
                            t_subject_options=subject_options, t_date=date, t_subject=subject, pagination=pagination,
                            t_kw=kw or '')
@@ -88,7 +88,7 @@ def board_add():
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str_today()
-    subjects = ['综合', '公告', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
+    subjects = ['综合', '公告', '灌水', '学术', '语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治', '编程']
     return render_template('board/board_add.html', t_subject_options=subjects, t_date=today, t_username=username)
 
 
