@@ -44,7 +44,7 @@ def typing():
 
 @game_app.route('/ndigit/<int:n>')
 def ndigit(n):
-    return game('ndigit', num=n)
+    return render_template('ndigit/index.html', num=n)
 
 
 # @game_app.route('/calorie')
