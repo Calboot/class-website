@@ -23,6 +23,9 @@ def game(name, sort_method=pymongo.DESCENDING, **kwargs):
     return render_template(name + '/index.html', t_scoreList=scoreList, t_username=username, **kwargs)
 
 
+@game_app.route('/monkey2')
+def monkey2():
+    return game('monkey2')
     
 
 @game_app.route('/snake')
