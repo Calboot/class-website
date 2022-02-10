@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset='UTF-8'>
     <title>贪吃蛇</title>
@@ -28,7 +29,7 @@
                 <img class="" src="/static/monkey/images/avatar.png">
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-                 <img src="/static/monkey/images/avatar.png">
+                <img src="/static/monkey/images/avatar.png">
                 <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
             </div>
 
@@ -50,23 +51,23 @@
                 width: 20%;
                 top: 140px;
                 z-index: 100;">
-                <table class="table table-strip table-bordered">
-                    <tr>
-                        <th>名次</th>
-                        <th>用户名</th>
-                        <th>得分</th>
-                    </tr>
-                    {% set ns = namespace(s=1) %}
-                {% for item in t_scoreList %}
-                          <tr {% if item.username == t_username %} style="color: blue; font-weight:bold" {% endif %}>
-                            <td>{{ns.s}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.score}}</td>
-                        </tr>
-                    {% set ns.s=ns.s+1 %}
-                {% endfor %}
-                    </table>
-            </div>
+        <table class="table table-strip table-bordered">
+            <tr>
+                <th>名次</th>
+                <th>用户名</th>
+                <th>得分</th>
+            </tr>
+            {% set ns = namespace(s=1) %}
+            {% for item in t_scoreList %}
+            <tr {% if item.username == t_username %} style="color: blue; font-weight:bold" {% endif %}>
+                <td>{{ns.s}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+            {% set ns.s=ns.s+1 %}
+            {% endfor %}
+        </table>
+    </div>
     <div id="footer">
         COPYRIGHT© {{nickname}} 2022
     </div>
@@ -126,7 +127,8 @@
         let size = 600;
         let cell = 20;
         let n = size / cell;
-        var saved = 0
+        let speed = 0.05;
+        var saved = 0;
         var canvas = document.getElementById('gameRegion');
         var ctx = canvas.getContext('2d');
         let start_time = new Date();
@@ -170,11 +172,11 @@
                     break;
             }
         }
-        function saveScore(){
+        function saveScore() {
             $.post(
                 "/update_score",
-                {"name": "snake", "score": score},
-                function( data ) {
+                { "name": "snake", "score": score },
+                function (data) {
                     console.log(data);
                 },
                 "json"
@@ -272,7 +274,6 @@
         }
 
         function move() {
-            let speed = 0.05;
             // 对头部拐弯处理
             var last = points.length - 1;
             var x = points[last][0];
@@ -293,8 +294,8 @@
                 // 对尾部拐弯处理
                 var x = points[0][0] + 0.375 * enddir[0];
                 var y = points[0][1] + 0.375 * enddir[1];
-                var nextx = x + 0.05 * enddir[0];
-                var nexty = y + 0.05 * enddir[1];
+                var nextx = x + speed * enddir[0];
+                var nexty = y + speed * enddir[1];
                 var dist_now = Math.abs(x - points[1][0]) + Math.abs(y - points[1][1]);
                 var dist_next = Math.abs(nextx - points[1][0]) + Math.abs(nexty - points[1][1]);
                 if (dist_next >= dist_now) { // dist_next >= dist_now 表示已走过下一个拐点
@@ -313,7 +314,7 @@
 
         function check() {
             for (var i = 0; i < points.length; i++) {
-                if (points[i][0] < -0.06 || points[i][0] > n + 0.06 || points[i][1] < -0.06 || points[i][1] > n + 0.06) {
+                if (points[i][0] < -(speed + 0.01) || points[i][0] > n + (speed + 0.01) || points[i][1] < -(speed + 0.01) || points[i][1] > n + (speed + 0.01)) {
                     throw "game over";
                 }
             }
@@ -365,12 +366,12 @@
             requestAnimationFrame(gameLoop);
         }
     </script>
-<script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-<script>
+    <script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script>
     if (typeof DisableDevtool == 'undefined') history.back();
     DisableDevtool({});
-</script>
+    </script>
 </body>
 
 </html>
