@@ -42,6 +42,12 @@ def monkey():
 def typing():
     return game('typing')
 
+
+@game_app.route('/snake2')
+def snake2():
+    return game('snake2')
+
+
 @game_app.route('/ndigit/<int:n>')
 def ndigit(n):
     return render_template('ndigit/index.html', num=n)

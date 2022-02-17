@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>宇宙猴</title>
+    <title>宇宙猴2.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/monkey/bootstrap-3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/monkey/css/common.css">
@@ -190,10 +190,7 @@
 
             } else if (gameState == GAME_OVER) {
                 ctx.drawImage(overImg, 0, 0)
-                if (!saved) {
-                    saved = 1
-                    saveScore()
-                }
+                saveScore()
             }
         }
         function saveScore(){

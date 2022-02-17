@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='UTF-8'>
+    <title>贪吃蛇2.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/monkey/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/monkey/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/snake/css/index.css">
+</head>
+
+<body>
+    <!-- <p style="color:#c0f060;">浅色</p>
+    <p style="color:#a0c850;">深色</p>
+    <p style="color:#80a040;">超深色</p>
+    <p style="color:#40a0ff">蓝色</p> -->
+    <div class="mask"></div>
+    <div id="bg"></div>
+    <div id="container">
+        <header>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+                <a href="/main" class="goBack">
+                    <img src="/static/calorie/images/back.png">
+                    <span class="goBackIndex">返回首页</span>
+                </a>
+            </div>
+            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+                <img class="" src="/static/monkey/images/avatar.png">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+                <img src="/static/monkey/images/avatar.png">
+                <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+                <div class="pull-right welcomt"></div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="gameWrap">
+                <div id="game">
+                    <canvas id="gameRegion" width='640' height='680' style='border:1px solid #3a3a3aad;'></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="position: absolute;
+                right: 6%;
+                width: 20%;
+                top: 140px;
+                z-index: 100;">
+        <table class="table table-strip table-bordered">
+            <tr>
+                <th>名次</th>
+                <th>用户名</th>
+                <th>得分</th>
+            </tr>
+            {% set ns = namespace(s=1) %}
+            {% for item in t_scoreList %}
+            <tr {% if item.username == t_username %} style="color: blue; font-weight:bold" {% endif %}>
+                <td>{{ns.s}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+            {% set ns.s=ns.s+1 %}
+            {% endfor %}
+        </table>
+    </div>
+    <div id="footer">
+        COPYRIGHT© {{nickname}} 2022
+    </div>
+    <!--由于连线都平行于x或y，所以距离均没有采用欧氏距离-->
+    <script>
+        function randInt(n, m) {
+            return Math.floor(Math.random() * (m - n) + n);
+        }
+
+        function isInt(a) {
+            return Math.abs(a - Math.round(a)) <= 1e-3;
+        }
+
+        function floor(a) {
+            if (a < 0) return 0;
+            if (a >= n) return n - 1;
+            else return Math.floor(a);
+        }
+        function matFillLine(mat, x1, y1, x2, y2, symbol, contain_end = true) {
+            x1 = floor(x1);
+            y1 = floor(y1);
+            x2 = floor(x2);
+            y2 = floor(y2);
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            var dis = Math.abs(dx) + Math.abs(dy);
+            var idx = dx / dis;
+            var idy = dy / dis;
+            var overrides = new Array();
+            for (var x = x1, y = y1; x != x2 || y != y2; x += idx, y += idy) {
+                if (mat[y][x] != '.')
+                    overrides.push([x, y, mat[y][x]]);
+                mat[y][x] = symbol;
+            };
+            if (contain_end) {
+                if (mat[y2][x2] != '.')
+                    overrides.push([x2, y2, mat[y2][x2]]);
+                mat[y2][x2] = symbol;
+            }
+            return [mat, overrides];
+        }
+
+        function createObj(mat, symbol) {
+            var a = 0;
+            var b = mat.length;
+           // if (speed == 0.15){
+                //a = 1;
+                //b = b - 1;
+            //}
+            var x;
+            var y;
+            do {
+                x = randInt(a, b);
+                y = randInt(a, b);
+            }
+            while (mat[y][x] != '.');
+            mat[x][y] = symbol;
+            return mat;
+        }
+    </script>
+    <script>
+        window.location.hash = "game"; // 自动移到游戏区
+        let size = 600;
+        let cell = 20;
+        let n = size / cell;
+        var saved = 0;
+        var canvas = document.getElementById('gameRegion');
+        var ctx = canvas.getContext('2d');
+        let start_time = new Date();
+        window.addEventListener('keydown', keyDownCallback, false);
+        var dir = [[1, 0]];// 当前方向+指令队列
+        var enddir = [1, 0];
+        var points = [[1.5, 14.5], [3.5, 14.5]];
+        var stopped = false;
+        var remain_growing = 0;
+        var score = 0;
+        var matrix = new Array();
+        var speed;
+        var a = 0;
+        var b = n;
+        //if (speed == 0.15){
+            //a = 1;
+            //b = n - 1;
+        //}
+        for (var i = a; i < b; i++) {
+            matrix.push(new Array(n).fill('.'));
+        }
+        matrix = matFillLine(matrix, 1, 14, 3, 14, 's')[0];
+
+        matrix = createObj(matrix, 'f');
+        matrix = createObj(matrix, 'f');
+        matrix = createObj(matrix, 'f');
+
+        gameLoop();
+        //game();
+
+        function keyDownCallback(e) {
+            if (e.repeat) return;
+            var code = e.code;
+            console.log(code);
+            var dirlast = dir[dir.length - 1]
+            switch (code) {
+                case 'ArrowUp': case 'KeyW':
+                    if (dirlast[0] != 0 || dirlast[1] != 1) dir.push([0, -1]);
+                    break;
+                case 'ArrowDown': case 'keyS':
+                    if (dirlast[0] != 0 || dirlast[1] != -1) dir.push([0, 1]);
+                    break;
+                case 'ArrowLeft': case 'keyA':
+                    if (dirlast[0] != 1 || dirlast[1] != 0) dir.push([-1, 0]);
+                    break;
+                case 'ArrowRight': case 'keyD':
+                    if (dirlast[0][0] != -1 || dirlast[1] != 0) dir.push([1, 0]);
+                    break;
+            }
+        }
+        function saveScore() {
+            $.post(
+                "/update_score",
+                { "name": "snake2", "score": score },
+                function (data) {
+                    console.log(data);
+                },
+                "json"
+            );
+        }
+        function render() {
+            ctx.save();
+            // 清空
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, size + 2 * cell, size + 4 * cell);
+
+            // 绘制分数区
+            ctx.fillStyle = "wheat";
+            ctx.fillRect(0, 0, size + 2 * cell, 2 * cell);
+            ctx.fillStyle = "brown";
+            ctx.font = "20px futura";
+            ctx.textAlign = "center";
+            ctx.fillText("Score: " + score.toString(), size / 2 + 10, 25);
+            ctx.translate(0, 2 * cell); // 腾出来分数的空间
+
+            // 绘制墙壁
+            ctx.fillStyle = "#80a040";
+            ctx.fillRect(0, 0, size + 2 * cell, size + 2 * cell);
+            ctx.clearRect(cell, cell, size, size);
+
+            ctx.translate(cell, cell);
+
+            // 绘制网格
+            for (var i = 0; i < n; i++) {
+                for (var j = 0; j < n; j++) {
+                    if ((i ^ j) & 1) ctx.fillStyle = "#a0c850";
+                    else ctx.fillStyle = "#c0f060";
+                    ctx.fillRect(i * cell, j * cell, cell, cell);
+                }
+            }
+
+            // 绘制蛇身
+            var last = points.length - 1;
+            ctx.strokeStyle = "#40a0ff";
+            ctx.lineWidth = cell * 0.75;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(cell * (points[0][0] + 0.375 * enddir[0]), cell * (points[0][1] + 0.375 * enddir[1]));
+            for (var i = 1; i < last; i++) {
+                ctx.lineTo(cell * points[i][0], cell * points[i][1]);
+            }
+            ctx.lineTo(cell * (points[last][0] - 0.375 * dir[0][0]), cell * (points[last][1] - 0.375 * dir[0][1]))
+            ctx.stroke();
+
+            // 重置格式
+            ctx.lineWidth = 1;
+            ctx.lineCap = "butt";
+            ctx.lineJoin = "miter";
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "white";
+
+            // 绘制蛇眼白
+            ctx.beginPath();
+            ctx.arc(cell * (points[last][0] - 0.25 * dir[0][1] - 0.1 * dir[0][0]), cell * (points[last][1] + 0.25 * dir[0][0] - 0.1 * dir[0][1]), 3, 0, 2 * Math.PI, false);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(cell * (points[last][0] + 0.25 * dir[0][1] - 0.1 * dir[0][0]), cell * (points[last][1] - 0.25 * dir[0][0] - 0.1 * dir[0][1]), 3, 0, 2 * Math.PI, false);
+            ctx.fill();
+
+            // 绘制蛇眼黑
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.arc(cell * (points[last][0] - 0.25 * dir[0][1] - 0.1 * dir[0][0]), cell * (points[last][1] + 0.25 * dir[0][0] - 0.1 * dir[0][1]), 2, 0, 2 * Math.PI, false);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(cell * (points[last][0] + 0.25 * dir[0][1] - 0.1 * dir[0][0]), cell * (points[last][1] - 0.25 * dir[0][0] - 0.1 * dir[0][1]), 2, 0, 2 * Math.PI, false);
+            ctx.fill();
+
+            // 绘制水果
+            a = 0;
+            b = n;
+            //if (speed == 0.15){
+                //a = 1;
+                //b = n - 1;
+            //}
+            for (var i = a; i < b; i++) {
+                for (var j = a; j < b; j++) {
+                    if (matrix[j][i] == 'f') {
+                        ctx.fillStyle = "red";
+                        ctx.beginPath();
+                        ctx.arc(cell * (i + 0.5), cell * (j + 0.5), cell * 0.375, 0, 2 * Math.PI, false);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            ctx.restore();
+            if (stopped == true) {
+                // Game over
+                console.log("game over rendering");
+                ctx.fillStyle = "#00000080";
+                ctx.fillRect(0, 2 * cell, size + 2 * cell, size + 4 * cell);
+            }
+
+        }
+
+        function move() {
+            speed = Math.min(0.05 + floor(score / 10) * 0.05, 0.15);
+            // 对头部拐弯处理
+            var last = points.length - 1;
+            var x = points[last][0];
+            var y = points[last][1];
+            if (dir.length > 1 && (isInt(x) || isInt(y))) {
+                points[last][0] = Math.floor(points[last][0] - 0.01 * dir[0][0]) + 0.5;
+                points[last][1] = Math.floor(points[last][1] - 0.01 * dir[0][1]) + 0.5;
+                dir.splice(0, 1);
+                points.push([points[last][0] + 0.5 * dir[0][0], points[last][1] + 0.5 * dir[0][1]]);
+                last++;
+            }
+            // 移动头部
+            points[last][0] += speed * dir[0][0];
+            points[last][1] += speed * dir[0][1];
+
+            if (remain_growing > 0) remain_growing -= speed;
+            else {
+                // 对尾部拐弯处理
+                var x = points[0][0] + 0.375 * enddir[0];
+                var y = points[0][1] + 0.375 * enddir[1];
+                var nextx = x + speed * enddir[0];
+                var nexty = y + speed * enddir[1];
+                var dist_now = Math.abs(x - points[1][0]) + Math.abs(y - points[1][1]);
+                var dist_next = Math.abs(nextx - points[1][0]) + Math.abs(nexty - points[1][1]);
+                if (dist_next >= dist_now) { // dist_next >= dist_now 表示已走过下一个拐点
+                    var dis = Math.abs(points[2][0] - points[1][0]) + Math.abs(points[2][1] - points[1][1]);
+                    enddir[0] = (points[2][0] - points[1][0]) / dis;
+                    enddir[1] = (points[2][1] - points[1][1]) / dis;
+                    points.splice(0, 1);
+                    points[0][0] -= 0.375 * enddir[0];
+                    points[0][1] -= 0.375 * enddir[1];
+                }
+                // 移动尾部
+                points[0][0] += speed * enddir[0];
+                points[0][1] += speed * enddir[1];
+            }
+        }
+
+        function check() {
+            for (var i = 0; i < points.length; i++) {
+                if (points[i][0] < -(speed + 0.01) || points[i][0] > n + (speed + 0.01) || points[i][1] < -(speed + 0.01) || points[i][1] > n + (speed + 0.01)) {
+                    throw "game over";
+                }
+            }
+            for (var i = 0; i < points.length - 1; i++) {
+                var info = matFillLine(matrix, points[i][0], points[i][1], points[i + 1][0], points[i + 1][1], 's', i == points.length - 2 ? true : false);
+                matrix = info[0];
+                for (var j = 0; j < info[1].length; j++) {
+                    if (info[1][j][2] == 'f') {
+                        remain_growing++;
+                        score++;
+                        matrix = createObj(matrix, 'f');
+                    } else if (info[1][j][2] == 's') {
+                        throw "game over";
+                    }
+                }
+            }
+
+        }
+
+        function gameLoop() {
+            //console.log("running");
+            if (stopped) return;
+            for (var i = 0; i < n; i++) {
+                for (var j = 0; j < n; j++) {
+                    if (matrix[i][j] == 's') matrix[i][j] = '.';
+                }
+            }
+            try {
+                move();
+                check();
+                render();
+
+            } catch (err) {
+                if (err == "game over") {
+                    ctx.fillStyle = "#00000080";
+                    ctx.fillRect(0, 2 * cell, size + 2 * cell, size + 2 * cell);
+                    ctx.font = "50px futura";
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "black";
+                    ctx.fillText("GAME OVER", size / 2 + cell, size / 2 + 2 * cell);
+
+                    if (!saved) {
+                        saved = 1
+                        saveScore()
+                    }
+                } else alert(err);
+                stopped = true;
+            }
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
+    <script src="/static/monkey/js/jquery-3.3.1.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script>
+    if (typeof DisableDevtool == 'undefined') history.back();
+    DisableDevtool({});
+    </script>
+</body>
+
+</html>
