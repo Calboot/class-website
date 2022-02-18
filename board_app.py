@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, session, redirect,escape
 from flask_paginate import Pagination, get_page_parameter
 import pymongo
 import datetime
@@ -72,7 +72,7 @@ def board_list():
 def reply_check():
     username = session.get("username")
     parent = request.form.get("id")
-    content = request.form.get("content")
+    content = escape(request.form.get("content"))
     today = str_now()
     c_board.insert_one({'content': content, 'date': today, 'parent': parent, 'owner': username})
     return redirect('/board_list?id=' + parent)
@@ -94,8 +94,8 @@ def board_add():
 def add_check():
     username = session.get('username')
     id = str(uuid.uuid1())
-    board = {'subject': request.form.get('subject'), 'content': request.form.get('content'), 'date': str_now(),
-             '_id': str(id), 'owner': username, 'public': "1", 'title': request.form.get("title"),
+    board = {'subject': request.form.get('subject'), 'content': escape(request.form.get('content')), 'date': str_now(),
+             '_id': str(id), 'owner': username, 'public': "1", 'title': escape(request.form.get("title")),
              'parent': str(id)}
     insert_board(board)
     return redirect('/board')
