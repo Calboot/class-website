@@ -7,6 +7,7 @@ from trans_app import trans_app
 # from log_app import log_app
 from board_app import board_app
 from game_app import game_app
+from wcg_app import wcg_app
 import pymongo
 
 app = Flask(__name__)
@@ -16,6 +17,7 @@ app.register_blueprint(todo_app)
 app.register_blueprint(album_app)
 app.register_blueprint(trans_app)
 app.register_blueprint(game_app)
+app.register_blueprint(wcg_app)
 # app.register_blueprint(notice_app)
 # app.register_blueprint(log_app)
 app.register_blueprint(board_app)
