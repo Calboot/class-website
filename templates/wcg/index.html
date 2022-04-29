@@ -16,6 +16,8 @@
     <div style="position: absolute; left: 3px; bottom: 3px; color: blue;" id="zdyarea">
         用户pid(不能重复)：<input type="text" id="username"><button style="font-size: 14px;" onclick="setuser()">提交</button>
         <br>
+        对手pid(不能重复)：<input type="text" id="enemy"><button style="font-size: 14px;" onclick="setenemy()">提交</button>
+        <br>
         自定义牌组：<input type="" id="zdy"><button id="sub" style="font-size: 14px;">提交</button>
     </div>
     <img src="/static/wcg/img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
@@ -60,12 +62,14 @@
             </tr>
             {% set ns = namespace(s=1) %}
             {% for item in t_user_list %}
-                <!-- <tr {% if item.username == t_username %}style="display: none"{% endif %}> -->
-                <tr>
+                <tr {% if item == t_username %}style="display: none"{% endif %}>
+                <!-- <tr> -->
                     <td>{{ns.s}}</td>
                     <td>{{item}}</td>
                 </tr>
-                {% set ns.s=ns.s+1 %}
+                {% if item != t_username %}
+                    {% set ns.s=ns.s+1 %}
+                {% endif %}
             {% endfor %}
         </table>
     </div>
