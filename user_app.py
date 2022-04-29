@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, session
 import pymongo
 import hashlib
@@ -7,6 +8,7 @@ user_app = Blueprint('user_app', __name__)
 client = pymongo.MongoClient("mongodb://localhost:27017")
 db_user = client['db_web']
 c_user = db_user['user']
+c_online = db_user['online']
 
 
 @user_app.route('/register')
@@ -146,4 +148,10 @@ def check_user():
         return False
     if user_list[0]['state'] == '1':
         return True
+    print(1)
+    ts = datetime.timestamp(datetime.now())
+    if c_online.count_documents({'username': username}) != 0:
+        c_online.update_one({'username': username}, {"$set": {'time': ts}})
+    else:
+        c_online.insert_one({'username': username, 'time': ts})
     return False

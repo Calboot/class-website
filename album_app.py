@@ -13,13 +13,16 @@ client = pymongo.MongoClient("mongodb://localhost:27017")
 db_album = client['db_web']
 c_album = db_album['album']
 
-
-@album_app.route('/album_list')
-def album_list():
+@album_app.before_request
+def before_request():
     if user_app.check_login():
         return render_template('user/login.html', t_error='请登录')
     if user_app.check_user():
         return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
+
+
+@album_app.route('/album_list')
+def album_list():
     username = session.get('username')
     album_list = find_all_album()
     total = c_album.count_documents({"public": "1"})
@@ -30,10 +33,6 @@ def album_list():
 
 @album_app.route('/image_list')
 def image_list():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     albumname = request.args['albumname']
     if albumname == "共享的文件":
@@ -47,20 +46,12 @@ def image_list():
 
 @album_app.route('/create')
 def create():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     return render_template('album/create_album.html', t_username=username)
 
 
 @album_app.route('/create_check', methods=['POST'])
 def create_check():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str_now()
     img = request.files['img']
     filename = img.filename
@@ -128,10 +119,6 @@ def delete_all():
 
 @album_app.route('/upload')
 def upload():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     username = session.get('username')
     album_list = find_all_album()
     return render_template('album/upload.html', t_album_list=album_list, t_username=username)
@@ -139,10 +126,6 @@ def upload():
 
 @album_app.route('/download')
 def download():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     condition = {'_id': ObjectId(request.args.get('id'))}
     album = c_album.find_one(condition)
     return send_file(album['path'], as_attachment=True, download_name=album['name'])
@@ -150,10 +133,6 @@ def download():
 
 @album_app.route('/upload_check', methods=['POST'])
 def upload_check():
-    if user_app.check_login():
-        return render_template('user/login.html', t_error='请登录')
-    if user_app.check_user():
-        return render_template('user/login.html', t_error='此账号已被封禁', t_color=1)
     today = str_now()
     img = request.files['img']
     filename = img.filename
