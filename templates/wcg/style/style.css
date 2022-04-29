@@ -1,0 +1,71 @@
+button{
+    color: white;
+    background-color: black;
+    box-shadow: 3px 3px 3px black;
+    font-size: 30px;
+}
+img{
+    font-weight: 4px;
+}
+@keyframes movecb{from{top:270px}to{top:300px}}
+.sha {
+    display: inline-block;
+    position: absolute;
+    top: 270px;
+    right: 10%;
+    animation: movecb 1s infinite;
+    -webkit-animation: movecb 1s infinite;
+    animation-direction: alternate;
+    -webkit-animation-direction: alternate;
+}
+@keyframes opd{from{opacity: 1.0;}to{opacity: 0.0;}}
+@-webkit-keyframes opd{from{opacity: 1.0;}to{opacity: 0.0;}}
+@keyframes nopd{from{opacity: 0.0;}to{opacity: 1.0;}}
+@-webkit-keyframes nopd{from{opacity: 0.0;}to{opacity: 1.0;}}
+img.non {
+    animation-name: opd;
+    animation-duration: 1s;
+    -webkit-animation-name: opd;
+    -webkit-animation-duration: 1s;
+}
+img.new {
+    animation-name: nopd;
+    animation-duration: 1s;
+    -webkit-animation-name: nopd;
+    -webkit-animation-duration: 1s;
+}
+@font-face {
+    font-family: sansbold;
+    src: url("font/ClearSans-Bold-webfont.woff");
+}
+@font-face {
+    font-family: sansregular;
+    src: url("font/ClearSans-Regular-webfont.woff");
+}
+
+body{
+    background-color: rgb(148,146,248);
+    font-family: sansregular;
+}
+.rtec{
+    text-align: center;
+    font-size: 32px;
+}
+#c1:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}
+#c2:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}
+#c3:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}
+#c4:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}
+#c5:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}
+#c6:hover{
+    transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<head>
+    <title>WCG-Multiplayer</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/wcg/style/style.css" type="text/css">
+</head>
+
+<body style="background-color: rgb(148,146,248);">
+    {{t_username}}
+    <div id="starting">
+        <div style="text-align: center;" id="select mode">
+            <button id="pipei">匹配模式</button>
+            <button onclick="Room()">房间模式</button>
+            <br>
+            <button id="index" onclick="index()">返回</button>
+        </div>
+        <div style="text-align: center; display: none;" id="select room">
+            <button id="pipei" onclick="Createroom()">创建房间</button>
+            <button onclick="Joinroom()">加入房间</button>
+            <br>
+            <button id="mode" onclick="Mode()">返回</button>
+        </div>
+        <div style="text-align: center; display: none; font-size:72px;" id="create room">
+            <span>房间号：<span id="croomid">获取中...</span></span>
+            <br>
+            <button id="mode" onclick="Room()">返回</button>
+        </div>
+        <div style="text-align: center; display: none; font-size:72px;" id="join room">
+            <span>请输入房间号：<input type="number" id="jroomid" style="font-size:72px;"></span>
+            <br>
+            <button onclick="joinroom()">确定</button>&nbsp;&nbsp;&nbsp;
+            <button id="mode" onclick="Room()">返回</button>
+        </div>
+    </div>
+    <div id="playing" style="display: none;">
+        <img src="/static/wcg/img/0.png" id="big" height="600" width="360" style="position: absolute; left: 5px;">
+        <div style="text-align: center;" id="sp">
+            <div style="position: fixed; top: 15px; right: 40px;">
+                <img src="/static/wcg/img/0.png" id="e1" height="280" width="180">
+                <img src="/static/wcg/img/0.png" id="e2" height="280" width="180">
+                <img src="/static/wcg/img/0.png" id="e3" height="280" width="180">
+                <img src="/static/wcg/img/0.png" id="e4" height="280" width="180">
+                <img src="/static/wcg/img/0.png" id="e5" height="280" width="180">
+                <img src="/static/wcg/img/0.png" id="e6" height="280" width="180">
+            </div>
+            <div style="position: fixed; bottom: 15px;">
+                <img src="/static/wcg/img/0.png" id="c1" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(1)" onmouseout="show(0)" onclick="usecard(1)">&nbsp;
+                <img src="/static/wcg/img/0.png" id="c2" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(2)" onmouseout="show(0)" onclick="usecard(2)">&nbsp;
+                <img src="/static/wcg/img/0.png" id="c3" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(3)" onmouseout="show(0)" onclick="usecard(3)">&nbsp;
+                <img src="/static/wcg/img/0.png" id="c4" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(4)" onmouseout="show(0)" onclick="usecard(4)">&nbsp;
+                <img src="/static/wcg/img/0.png" id="c5" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(5)" onmouseout="show(0)" onclick="usecard(5)">&nbsp;
+                <img src="/static/wcg/img/0.png" id="c6" height="280" width="168"
+                    style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;"
+                    onmouseover="show(6)" onmouseout="show(0)" onclick="usecard(6)"><br><br>
+                <img src="/static/wcg/img/diamond.png" width="70" height="70">
+                <div style="position: absolute; left: 68px; bottom: 9px;">
+                    <span style="font-size: 48px;">:<span id="d"></span></span>
+                    <button id="skip" onclick="messageSkip()">skip</button>&nbsp;&nbsp;&nbsp;&nbsp;<button id="exit"
+                        onclick="messageExit()">放弃</button>
+                </div>
+            </div>
+            <div style="position: absolute; right: 10px; bottom: 10px;"><br>本回合你的数值：+<span
+                    style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;"
+                    id="b">0</span></span><br><span id="blarea"><span style="font-size: 48px;">你的血量：<span
+                            id="bl"></span></span></span>
+            </div>
+            <div id="waiting"
+                style="position: absolute; left: 5px; top: 5px; z-index: 100000; width: 100%; height: 100%; background-color: rgb(0,0,0); color:white; display: none;">
+                等待对方Skip中...</div>
+            <img class="sha" src="/static/wcg/img/card-backn.png" height="280" width="180">
+        </div>
+    </div>
+    <script src="/static/wcg/js/init.js" type="text/javascript"></script>
+    <script src="/static/wcg/js/card.js" type="text/javascript"></script>
+</body>
