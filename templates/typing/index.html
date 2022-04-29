@@ -55,7 +55,7 @@
                     </tr>
                     {% set ns = namespace(s=1) %}
                 {% for item in t_scoreList %}
-                          <tr {% if item.username == t_username %}style="color: blue; font-weight:bold"{% endif %}>
+                          <tr>
                             <td>{{ns.s}}</td>
                             <td>{{item.username}}</td>
                             <td>{{item.score}}</td>
