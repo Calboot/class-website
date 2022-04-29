@@ -1,6 +1,6 @@
 from datetime import datetime
 import pymongo
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, Flask
 import user_app
 
 wcg_app = Blueprint('wcg_app', __name__)
@@ -30,6 +30,22 @@ def main():
     return render_template('wcg/index.html', t_user_list = user_list, t_username = username)
 
 
-@wcg_app.route('/play')
-def play():
-    return render_template('wcg/give.html')
+@wcg_app.route('/wcggame')
+def wcggame():
+    username = session.get('username')
+    return render_template('wcg/game.html', t_username=username)
+
+
+@wcg_app.route('/wcginform')
+def wcginform():
+    return render_template('wcg/inform.html')
+
+
+@wcg_app.route('/wcgpreload')
+def wcgpreload():
+    return render_template('wcg/preload.html')
+
+
+@wcg_app.route('/wcgteach')
+def wcgteach():
+    return render_template('wcg/teach.html')
