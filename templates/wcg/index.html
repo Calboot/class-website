@@ -1,50 +1,162 @@
 <!DOCTYPE html>
-<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>WCG</title>
-    <link type="text/css" rel="stylesheet" href="/static/wcg/style/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/task/static/wcg/style/style.css">
 </head>
-<body style="background: url(/static/wcg/img/bg.png);" id="bk">
-    <div style="text-align: center;" id="tit">
-        <p style="font-size: 48px">Winter Card-Game</p>
-        <button id="start">开始对战</button>
+<body style="background-color: red;" id="bg">
+    <div style="text-align: center; color: maroon;" id="tit">
+        <p style="font-size: 48px">Winter Card-Game Version Alpha</p>
+        <button id="classic">经典版本</button>&nbsp;&nbsp;&nbsp;<button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button id="faststart">开始对战（快速模式）</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
+        <br>
+        <button onclick="mp()">联机版本</button>
     </div>
-    <img src="/static/wcg/img/bruf.png" width="500" height="750" style="top: 250px; text-align: center;" id="pic">
+    <button id="jc" style="position: absolute; right: 3px; bottom: 3px;" onclick="teach()">我是新手（教程）</button>
+    <button id="preload" style="position: absolute; right: 3px; bottom: 60px;" onclick="preload()">预加载（免去卡顿）</button>
+    <div style="position: absolute; left: 3px; bottom: 3px; color: blue;" id="zdyarea">
+        用户pid(不能重复)：<input type="text" id="username"><button style="font-size: 14px;" onclick="setuser()">提交</button>
+        <br>
+        自定义牌组：<input type="" id="zdy"><button id="sub" style="font-size: 14px;">提交</button>
+    </div>
+    <img src="/static/wcg/img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
+    <img src="/static/wcg/img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
     <img src="/static/wcg/img/shanz.png" style="display: none; z-index: 3; position: absolute; left: -250px; top: -76px; transform: rotate(-30deg);" height="2000" width="2000" id="sz">
     <img src="/static/wcg/img/0.png" id="big" height="600" width="360" style="position: absolute; left: 5px;">
     <div style="display: none;" id="sp">
+        <div style="position: fixed; top: 15px; right: 40px;">
+            <img src="/static/wcg/img/0.png" id="e1" height="280" width="180">
+            <img src="/static/wcg/img/0.png" id="e2" height="280" width="180">
+            <img src="/static/wcg/img/0.png" id="e3" height="280" width="180">
+            <img src="/static/wcg/img/0.png" id="e4" height="280" width="180">
+            <img src="/static/wcg/img/0.png" id="e5" height="280" width="180">
+            <img src="/static/wcg/img/0.png" id="e6" height="280" width="180">
+        </div>
         <div style="position: fixed; bottom: 15px;">
-            <img src="/static/wcg/img/0.png" id="c1" height="280" width="168" onmouseover="show(1)" onmouseout="show(0)">&nbsp;
-            <img src="/static/wcg/img/0.png" id="c2" height="280" width="168" onmouseover="show(2)" onmouseout="show(0)">&nbsp;
-            <img src="/static/wcg/img/0.png" id="c3" height="280" width="168" onmouseover="show(3)" onmouseout="show(0)">&nbsp;
-            <img src="/static/wcg/img/0.png" id="c4" height="280" width="168" onmouseover="show(4)" onmouseout="show(0)">&nbsp;
-            <img src="/static/wcg/img/0.png" id="c5" height="280" width="168" onmouseover="show(5)" onmouseout="show(0)">&nbsp;
-            <img src="/static/wcg/img/0.png" id="c6" height="280" width="168" onmouseover="show(6)" onmouseout="show(0)"><br>
-            <span style="font-size: 48px;">Diamond: <span id="d"></span></span>
-            <button id="skip">skip</button>
+            <img src="/static/wcg/img/0.png" id="c1" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(1)" onmouseout="show(0)">&nbsp;
+            <img src="/static/wcg/img/0.png" id="c2" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(2)" onmouseout="show(0)">&nbsp;
+            <img src="/static/wcg/img/0.png" id="c3" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(3)" onmouseout="show(0)">&nbsp;
+            <img src="/static/wcg/img/0.png" id="c4" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(4)" onmouseout="show(0)">&nbsp;
+            <img src="/static/wcg/img/0.png" id="c5" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(5)" onmouseout="show(0)">&nbsp;
+            <img src="/static/wcg/img/0.png" id="c6" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(6)" onmouseout="show(0)"><br><br>
+            <img src="/static/wcg/img/diamond.png" width="70" height="70">
+            <div style="position: absolute; left: 68px; bottom: 9px;">
+                <span style="font-size: 48px;">:<span id="d"></span></span>
+                <button id="skip">skip</button>
+            </div>
         </div>
         <div style="position: absolute; right: 10px; bottom: 10px;">
-            <span style="font-size: 48px;">本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span>
+            <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span id="blarea"><span style="font-size: 48px;">你的血量：<span id="bl"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl"></span></span></span>
         </div>
+        <img class="sha" src="/static/wcg/img/card-backn.png" height="280" width="180">
     </div>
     <button id="adra" style="display: none;">打我！</button>
+    <audio src="" autoplay loop id="bgm" style="display: none;"></audio>
+    <button id="sw" style="position: absolute; right: 10px; top: 10px; z-index: 555;">切换BGM播放状态</button>
     <script>
-        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3];//卡牌消费
-        var asum = 0;
-        var bsum = 0;
-        var clicks;
-        var diamonds = 1,amt = 1; //diamonds最大钻石数，amt目前钻石数
-        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4,1,12,3,1,2]; //卡牌提供的a
-        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4,1,21,2,2,2]; //卡牌提供的b
-        var stat = 0,cards = 19,pcard = 4;//stat是信号，cards卡牌总数
-        var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！","博学者爱因仓坦","wjk的冰雪溶液"];
+        var colors = ["aqua","orange","green","black"];
+        document.getElementById('bg').style = "background-color: " + colors[Math.floor(Math.random() * 5)] + ";";
+        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3,5,2,4,3,1,2,1,4,3];//卡牌消费
+        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4,1,12,3,1,2,3,3,3,1,1,2,1,2,1]; //卡牌提供的a
+        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4,1,21,2,2,2,3,2,3,5,2,2,1,2,3]; //卡牌提供的b
+        var asum = 0,easum = 0;
+        var bsum = 0,ebsum = 0;
+        var pbl = 50;
+        var kx = 1;
+        var monk = 0,spid = 0;
+        var ebl = 50;
+        var cl = 0;
+        var clicks,k;
+        var gdy = 0,egdy = 0;
+        var wm = 0,ewm = 0;
+        var diamonds = 1,amt = 1,emt = 1; //diamonds最大钻石数，amt目前钻石数
+        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4,1,12,3,1,2,3,3,3,1,1,2,1,2,1]; //卡牌提供的a
+        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4,1,21,2,2,2,3,2,3,5,2,2,1,2,3]; //卡牌提供的b
+        var stat = 0,cards = 28,pcard = 4,ecard = 4;//stat是信号，cards卡牌总数
+        var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！","博学者爱因仓坦","wjk的冰雪溶液","引猴向上","摸鱼王","沈班长","觉醒吧！摸鱼时刻","CTJer们的总攻","愿风神忽悠你","2800","一代猴王","刘猴猴","猴子们的集群攻击","怪盗基猴","猴子小兵","蜘蛛纸牌骑手","高粱饴的能量","蜘付宝到账","凡尔赛时间到"];
+        var monkeys = [7,9,13,20,21,22,23,24],mnum = 8;
         var pcd = [0,0,0,0,0,0,0,0]; //player card
-        var had = [2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
+        var ecd = [0,0,0,0,0,0,0,0];
+        var washnum = 0;
+        var spiders = [1,25,26,27],snum = 4;
+        var had = [2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
+        var ehad = [2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         had[16] = 2;
-        had[15] = 1;
+        ehad[16] = 2;
+        ehad[15] = 1;
+        ehad[24] = 2;
+        var ffaggsagididasvcasvhj = 0;
+        had[24] = 2;
+        var cs = "2021100000000002000000022220";
+        var Str;
+        function byzdy(str) {
+            var qwq = 0;
+            if(str.length > cards){
+                alert("溢出！");
+                return;
+            }
+            if(str >= 15 && str[15] != 2 || str.length >= 24 && str[23] != 2) {
+                alert("此编码错误！");
+                return;
+            }
+            for(var i = 0; i < str.length; i++){
+                switch (str[i]) {
+                    case '0':
+                        qwq+=2;
+                        break;
+                    case '1':
+                        qwq+=1;
+                        break;
+                    case '2':
+                        break;
+                    default:
+                        alert("输入错误");
+                        return;
+                }
+            }
+            if(qwq != 40){
+                alert("该编码录入了" + ("" + qwq) + "张牌，牌库必须恰好40张！");
+                return;
+            }
+            for(var i = 1; i <= str.length; i++){
+                had[i] = str[i - 1] - '0';
+            }
+            for(var i = str.length + 1; i <= cards; i++) had[i] = 2;
+            if(ffaggsagididasvcasvhj != 0) alert("提交成功！！");
+        }
+        byzdy(cs);
+        ffaggsagididasvcasvhj = 1;
+        document.getElementById('sub').onclick = function () {
+            byzdy(document.getElementById('zdy').value);
+        }
+        var KKKsc03 = 0;
+        var listsing = ["bgm.mp3",""];
         document.getElementById('adra').onclick = function () {
             clicks+=1;
+        }
+        function sempty() {
+            for(var i = 0; i < snum; i++) if(had[spiders[snum]] < 2) return false;
+            return true;
+        }
+        function mempty(){
+            for(var i = 0; i < mnum; i++) if(had[monkeys[i]] < 2) return false;
+            return true;
+        }
+        document.getElementById('sw').onclick = function () {
+            KKKsc03^=1;
+            document.getElementById('bgm').src = listsing[KKKsc03 ^ 1];
+        }
+        function inform() {
+            window.location.href = "/wcginform";
+        }
+        function eins (i, n) {
+            var cardback = "card-back";
+            if(n == 0) cardback = "0";
+            if(i == 1) document.getElementById('e1').src = "/static/wcg/img/" + cardback + ".png";
+            if(i == 2) document.getElementById('e2').src = "/static/wcg/img/" + cardback + ".png";
+            if(i == 3) document.getElementById('e3').src = "/static/wcg/img/" + cardback + ".png";
+            if(i == 4) document.getElementById('e4').src = "/static/wcg/img/" + cardback + ".png";
+            if(i == 5) document.getElementById('e5').src = "/static/wcg/img/" + cardback + ".png";
+            if(i == 6) document.getElementById('e6').src = "/static/wcg/img/" + cardback + ".png";
         }
         function insert (i, n) { //在玩家手牌第i个的位置插入第n张卡牌
             if(i == 1) document.getElementById('c1').src = "/static/wcg/img/" + ("" + n) + ".png";
@@ -53,28 +165,107 @@
             if(i == 4) document.getElementById('c4').src = "/static/wcg/img/" + ("" + n) + ".png";
             if(i == 5) document.getElementById('c5').src = "/static/wcg/img/" + ("" + n) + ".png";
             if(i == 6) document.getElementById('c6').src = "/static/wcg/img/" + ("" + n) + ".png";
+            for (var x = 1; x < 10; x+=1) {
+                setTimeout(function () {
+                    if(i == 1) document.getElementById('c1').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 2) document.getElementById('c2').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 3) document.getElementById('c3').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 4) document.getElementById('c4').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 5) document.getElementById('c5').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 6) document.getElementById('c6').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                }, x * 50);
+            }
+            setTimeout(function () {
+                if(i == 1) document.getElementById('c1').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 2) document.getElementById('c2').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 3) document.getElementById('c3').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 4) document.getElementById('c4').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 5) document.getElementById('c5').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 6) document.getElementById('c6').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+            }, 500);
+        }
+        function cins(i, n) {
+            if(i == 1) document.getElementById('c1').src = "/static/wcg/img/" + ("" + n) + ".png";
+            if(i == 2) document.getElementById('c2').src = "/static/wcg/img/" + ("" + n) + ".png";
+            if(i == 3) document.getElementById('c3').src = "/static/wcg/img/" + ("" + n) + ".png";
+            if(i == 4) document.getElementById('c4').src = "/static/wcg/img/" + ("" + n) + ".png";
+            if(i == 5) document.getElementById('c5').src = "/static/wcg/img/" + ("" + n) + ".png";
+            if(i == 6) document.getElementById('c6').src = "/static/wcg/img/" + ("" + n) + ".png";
+        }
+        function sxcard() {
+            for(var i = 1; i <= 6; i++) cins(i, pcd[i]);
         }
         function washin(x,num) { //将x张第num个牌洗入你的牌库
             had[num] -= x;
+            washnum+=x;
             return;
         }
+        function ewashin(x,num) { //将x张第num个牌洗入你的牌库
+            ehad[num] -= x;
+            return;
+        }
+        function randc () {
+            var j = Math.floor(Math.random() * cards) + 1;
+            return j;
+        }
+        function inc (num) {
+            if(pcard == 6) return;
+            pcard+=1;
+            pcd[pcard] = num;
+            insert(pcard, num);
+        }
+        function einc (num) {
+            if(ecard == 6) return;
+            ecard+=1;
+            ecd[ecard] = num;
+            eins(ecard, num);
+        }
+        function outc(n, f) {
+            for(var i = 0; i < n; i+=1){
+                var T = randc();
+                while(had[T] == 2) had[T] = randc();
+                had[T]+=1;
+                if(f == 1) {
+                    ewashin(1,T);
+                }
+            }
+        }
+        function eoutc(n, f) {
+            for(var i = 0; i < n; i+=1){
+                var T = randc();
+                while(ehad[T] == 2) T = randc();
+                ehad[T]+=1;
+                if(f == 1) {
+                    washin(1, T);
+                }
+            }
+        }
         function bigger (h,w) { //大屏显示由小变大特效
-            if(h == 603) return;
+            if(h >= 453) return;
             document.getElementById('big').height = h;
             document.getElementById('big').width = w;
             setTimeout(function () {
                 bigger(h + 6, w + 4);
             }, 2);
         }
-        function show (x) {//大屏幕显示函数
+        function show(x) {
+            if (x != 0) document.getElementById("c" + x.toString()).style = "transform:scaleX(1.1) scaleY(1.1); -webkit-transform:scaleX(1.1) scaleY(1.1); -moz-transform:scaleX(1.1) scaleY(1.1); animation-duration: .5s; animation-timing-function: ease;";
+            else {
+                document.getElementById("c1").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c2").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c3").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c4").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c5").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c6").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+            }
             var tmp;
-            if(x == 0) tmp = "/static/wcg/img/0.png";
-            if(x == 1) tmp = document.getElementById('c1').src;
-            if(x == 2) tmp = document.getElementById('c2').src;
-            if(x == 3) tmp = document.getElementById('c3').src;
-            if(x == 4) tmp = document.getElementById('c4').src;
-            if(x == 5) tmp = document.getElementById('c5').src;
-            if(x == 6) tmp = document.getElementById('c6').src;
+            if (x == 0) tmp = "/static/wcg/img/0.png";
+            if (x == 1) tmp = document.getElementById('c1').src;
+            if (x == 2) tmp = document.getElementById('c2').src;
+            if (x == 3) tmp = document.getElementById('c3').src;
+            if (x == 4) tmp = document.getElementById('c4').src;
+            if (x == 5) tmp = document.getElementById('c5').src;
+            if (x == 6) tmp = document.getElementById('c6').src;
             document.getElementById('big').src = tmp;
             bigger(3, 2);
         }
@@ -82,8 +273,15 @@
             for (var i = 1; i <= cards; i++) if(had[i] < 2) return false;
             return true;
         }
+        function eempty() { //判断牌库是否空了
+            for (var i = 1; i <= cards; i++) if(ehad[i] < 2) return false;
+            return true;
+        }
         function randcard() { //返回随机一张玩家手牌的下标
             return Math.floor(Math.random() * pcard) + 1;
+        }
+        function erandcard() {
+            return Math.floor(Math.random() * ecard) + 1;
         }
         function getcard() { //摸一张牌
             if(pcard == 6) {
@@ -102,15 +300,53 @@
             insert(pcard, pcd[pcard]);
             return;
         }
+        function eget() {
+            if(ecard == 6) {
+                return;
+            }
+            if(eempty()){
+                return;
+            }
+            ecard+=1;
+            while(ehad[ecd[ecard]] == 2) {
+                ecd[ecard] = Math.floor(Math.random() * cards) + 1;
+            }
+            ehad[ecd[ecard]] += 1;//记录
+            eins(ecard, pcd[pcard]);
+            return;
+        }
         function pop (pos) { //将第pos张卡牌从玩家手中移除
             if(pcard == 0 || pos > pcard) return;
+            if(pos == 1) document.getElementById('c1').className = "non";
+            if(pos == 2) document.getElementById('c2').className = "non";
+            if(pos == 3) document.getElementById('c3').className = "non";
+            if(pos == 4) document.getElementById('c4').className = "non";
+            if(pos == 5) document.getElementById('c5').className = "non";
+            if(pos == 6) document.getElementById('c6').className = "non";
+            setTimeout(function () {
+                if(pos == 1) document.getElementById('c1').className = "";
+                if(pos == 2) document.getElementById('c2').className = "";
+                if(pos == 3) document.getElementById('c3').className = "";
+                if(pos == 4) document.getElementById('c4').className = "";
+                if(pos == 5) document.getElementById('c5').className = "";
+                if(pos == 6) document.getElementById('c6').className = "";
+                sxcard();
+            }, 400);
             for (var i = pos; i < pcard; i++) {
-                insert(i,pcd[i + 1]);
                 pcd[i] = pcd[i + 1];
             }
             pcard-=1;
             pcd[pcard + 1] = 0;
-            insert(pcard + 1, 0);
+        }
+        function epop (pos) {
+            if(ecard == 0 || pos > ecard) return;
+            for (var i = pos; i < ecard; i++) {
+                eins(i,ecd[i + 1]);
+                ecd[i] = ecd[i + 1];
+            }
+            ecard-=1;
+            ecd[ecard + 1] = 0;
+            eins(ecard + 1, 0);
         }
         function fp () { //发牌
             for(var i = 1; i <= 4; i+=1){
@@ -118,14 +354,32 @@
                 had[pcd[i]] += 1;//记录
                 insert(i,pcd[i]);
             }
+            for(var i = 1; i <= 4; i+=1){
+                while(ehad[ecd[i]] == 2) ecd[i] = Math.floor(Math.random() * cards) + 1;//必须不重
+                ehad[ecd[i]] += 1;//记录
+                eins(i,ecd[i]);
+            }
             document.getElementById('sp').style = "color: blue;";//改变手牌style为可看到，并且位置一定
             document.getElementById('d').innerHTML = diamonds;
+        }
+        function ismonk(num) {
+            for(var i = 0; i < mnum; i++) if(monkeys[i] == num) return true;
+            return false;
+        }
+        function issipder(num) {
+            for(var i = 0; i < snum; i++) if(spiders[i] == num) return true;
+            return false;
+        }
+        document.getElementById('jc').onclick = function () {
+            window.location.href = "/wcgteach";
         }
         function acticard(num) {
             asum += pa[pcd[num]];
             bsum += pb[pcd[num]];
             document.getElementById('a').innerHTML = asum;
             document.getElementById('b').innerHTML = bsum;
+            if(ismonk(pcd[num])) monk++;
+            if(issipder(pcd[num])) spid++;
             if(pcd[num] == 1){
                 pop(num);
                 if(Math.ceil(Math.random() * 10) == 2) {
@@ -149,6 +403,20 @@
                 document.getElementById('b').innerHTML = bsum;
                 return;
             }
+            if(pcd[num] == 6){
+                pop(num);
+                var ca = ecard;
+                for(var i = 1; i <= ecard; i+=1){
+                    if(ecd[i] == 3) {
+                        epop(i);
+                        break;
+                    }
+                }
+                if(ecard == ca){
+                    epop(erandcard());
+                }
+                return;
+            }
             if(pcd[num] == 4){ //GDY有BUG
                 pop(num);
                 if(bsum < asum) {
@@ -156,6 +424,7 @@
                     document.getElementById('a').innerHTML = asum;
                     document.getElementById('b').innerHTML = bsum;
                 }
+                gdy = 1;
                 return;
             }
             if(pcd[num] == 7) { //如果是平行线，那么都取大者
@@ -164,6 +433,12 @@
                 bsum = x;
                 document.getElementById('a').innerHTML = asum;
                 document.getElementById('b').innerHTML = bsum;
+            }
+            if(pcd[num] == 8){
+                eoutc(2,1);
+            }
+            if(pcd[num] == 9){
+                wm+=1;
             }
             if(pcd[num] == 11){ //如果是博学者，那么将没有吃饱的刘仓置入手牌
                 pop(num);
@@ -178,8 +453,10 @@
                 return;
             }
             if(pcd[num] == 13 && pcard > 3) {
-                pop(num);
-                acticard(randcard());
+                setTimeout(function () {
+                    pop(num);
+                    acticard(randcard());
+                }, 600);
                 return;
             }
             if(pcd[num] == 14){
@@ -227,14 +504,75 @@
                 clicks = 0;
                 setTimeout(function () {
                     var tot = 0
-                    if(clicks >= 8) tot+=1;
-                    if(clicks >= 20) tot+=1;
-                    if(clicks >= 42) tot+=1;
+                    if(clicks >= 8) tot+=2;
+                    if(clicks >= 20) tot+=2;
+                    if(clicks >= 32) tot+=1;
                     alert("获得了" + ("" + tot) + "点攻击力");
                     asum += tot;
                     document.getElementById('a').innerHTML = asum;
                     document.getElementById('adra').style = "display: none;";
                 }, 5000);
+            }
+            if(pcd[num] == 20){
+                for(var i = 1; i < monk; i++) {
+                    asum += 3;
+                    bsum += 3;
+                }
+                document.getElementById('a').innerHTML = asum;
+                document.getElementById('b').innerHTML = bsum;
+            }
+            if(pcd[num] == 21){
+                if(monk > 1) inc(21);
+            }
+            if(pcd[num] == 22){
+                washin(2 * monk - 2, 24);
+            }
+            if(pcd[num] == 23){
+                pop(num);
+                while(pcard < 6 && !mempty()){
+                    pcard+=1;
+                    while(had[pcd[pcard]] == 2 || !ismonk(pcd[pcard])) {
+                        pcd[pcard] = Math.floor(Math.random() * cards) + 1;
+                    }
+                    had[pcd[pcard]] += 1;//记录
+                    insert(pcard, pcd[pcard]);
+                }
+                return;
+            }
+            if(pcd[num] == 25){
+                pcard+=1;
+                while(had[pcd[pcard]] == 2 || !issipder(pcd[pcard])) {
+                    pcd[pcard] = Math.floor(Math.random() * cards) + 1;
+                }
+                had[pcd[pcard]] += 1;//记录
+                insert(pcard, pcd[pcard]);
+            }
+            if(pcd[num] == 26){
+                eoutc(spid - 1, 0);
+            }
+            if(pcd[num] == 27){
+                pop(num);
+                var TMP1 = pcard,TMP2 = ecard;
+                while (ecard > 0) epop(ecard);
+                while (pcard > 0) pop(pcard);
+                while (TMP1 > 0) {
+                    TMP1--;
+                    getcard();
+                }
+                while (TMP2 > 0) {
+                    TMP2--;
+                    eget();
+                }
+                return;
+            }
+            if(pcd[num] == 28){
+                pop(num);
+                var TMP = washnum;
+                while (TMP > 0 && pcard < 6) {
+                    TMP--;
+                    getcard();
+                }
+                return;
             }
             pop(num);
         }
@@ -248,15 +586,163 @@
                 alert("not enough diamond!");
             }
         }
+        function eactivec (num) {
+            easum += pa[ecd[num]];
+            ebsum += pb[ecd[num]];
+            var n = ecd[num];
+            if(n == 1 && Math.ceil(Math.random() * 10) == 4) {
+                epop(num);
+                einc(1);
+                return;
+            }
+            if(n == 2){
+                epop(num);
+                ewashin(1, 2);
+                return;
+            }
+            if(n == 4) egdy = 1;
+            if(n == 4 && easum > ebsum){
+                epop(num);
+                easum -= 5;
+                return;
+            }
+            if(n == 5){
+                epop(num);
+                var tmp = easum;
+                easum = ebsum;
+                ebsum = tmp;
+                return;
+            }
+            if(n == 6){
+                epop(num);
+                var ca = pcard;
+                for(var i = 1; i <= pcard; i+=1){
+                    if(pcd[i] == 3) {
+                        pop(i);
+                        break;
+                    }
+                }
+                if(pcard == ca){
+                    pop(randcard());
+                }
+                return;
+            }   
+            if(n == 7){
+                var T = Math.max(easum, ebsum);
+                easum = T;
+                ebsum = T;
+            }
+            if(n == 8){
+                outc(2, 1);
+            }
+            if(n == 9){
+                ewm+=1;
+            }
+            if(n == 11){
+                einc(2);
+            }
+            if(n == 12){
+                eget();
+            }
+            if(n == 14){
+                epop(num);
+                epop(erandcard());
+                return;
+            }
+            if(n == 17){
+                epop(num);
+                epop(erandcard());
+                var maxi = 0;
+                for(var i = 1; i <= cards; i+=1){
+                    if(cardcost[i] > cardcost[maxi] && ehad[i] < 2) maxi = i;
+                }
+                ehad[maxi]+=1;
+                einc(maxi);
+                return;
+            }
+            epop(num);
+        }
+        function eusecard (num) {
+            emt -= cardcost[ecd[num]];
+            eactivec(num);
+            document.getElementById('ea').innerHTML = easum;
+            document.getElementById('eb').innerHTML = ebsum;
+        }
         document.getElementById('skip').onclick = function () { //跳过回合
+            document.getElementById('skip').style = "display: none;";
+            emt = diamonds - wm;
+            eget();
+            for(var i = 1; i <= ecard; i+=1){
+                if(emt >= cardcost[ecd[i]]) {
+                    alert("对方使用了" + names[ecd[i]] + ",并获得+" + ("" + pa[ecd[i]]) + "+" + ("" + pb[ecd[i]]) + ",对手还剩" + ("" + (emt - cardcost[ecd[i]])) + "颗钻石");
+                    eusecard(i);
+                    i -= 1;
+                }
+            }
+            document.getElementById('skip').style = "";
+            if(cl == 1){
+                if(easum > bsum){
+                    pbl-=kx * (gdy^1);
+                }
+                if(asum > ebsum){
+                    ebl-=kx * (egdy^1);
+                }
+            } else {
+                if(easum > bsum){
+                    pbl-=kx*(easum - bsum) * (gdy^1);
+                }
+                if(asum > ebsum){
+                    ebl-=kx*(asum - ebsum) * (egdy^1);
+                }
+            }
+            if(diamonds == 10) {
+                document.getElementById('blarea').style = "color: red;";
+                kx = 2;
+            }
+            if(pbl <= 0 && ebl <= 0) {
+                pbl = 10 - cl * 9;
+                ebl = 10 - cl * 9;
+            }
+            document.getElementById('bl').innerHTML = pbl;
+            document.getElementById('obl').innerHTML = ebl;
+            if(pbl <= 0) {
+                alert("你输了");
+                document.getElementById('pictureb').style = "position: absolute; top: 0px; z-index: 99999;";
+                document.getElementById('pictureb').src = "/static/wcg/img/lose.gif";
+                setTimeout(function () {
+                    window.location.href = "/wcg";
+                }, 5000);
+            }
+            if(ebl <= 0) {
+                alert("你赢了");
+                document.getElementById('pictureb').style = "position: absolute; top: 0px; z-index: 99999;";
+                document.getElementById('pictureb').src = "/static/wcg/img/win.gif";
+                setTimeout(function () {
+                    window.location.href = "/wcg";
+                }, 5000);
+            }
+            washnum = 0;
+            easum = 0;
+            ebsum = 0;
+            gdy = 0;
+            egdy = 0;
             diamonds+=1;
-            amt = diamonds;
+            amt = diamonds - ewm;
             document.getElementById('d').innerHTML = amt;
             getcard();
+            setTimeout(function () {
+                if(diamonds > 15) getcard();
+            }, 250);
             asum = 0;
+            wm = 0;
+            monk = 0;
+            spid = 0;
+            ewm = 0;
             bsum = 0;
-            document.getElementById('a').innerHTML = 0;
-            document.getElementById('b').innerHTML = 0;
+  //        document.getElementById('a').innerHTML = 0;
+//          document.getElementById('b').innerHTML = 0;
+//          document.getElementById('ea').innerHTML = 0;
+//          document.getElementById('eb').innerHTML = 0;
         }
         document.getElementById('c1').onclick = function () {
             usecard(1);
@@ -305,9 +791,46 @@
         }
         document.getElementById('start').onclick = function () {
             document.getElementById('tit').style = "display:none;";
+            document.getElementById('obl').innerHTML = ebl;
+            document.getElementById('bl').innerHTML = pbl;
+            document.getElementById('jc').style = "display: none;";
+            document.getElementById('zdyarea').style = "display: none";
             szt(-180);
         }
-        
+        document.getElementById('fstart').onclick = function () {
+            ebl = 80;
+            document.getElementById('start').onclick();
+        }
+        document.getElementById('faststart').onclick = function () {
+            ebl = 30;
+            pbl = 30;
+            document.getElementById('start').onclick();
+        }
+        document.getElementById('classic').onclick = function () {
+            ebl = 10;
+            cl = 1;
+            pbl = 10;
+            document.getElementById('start').onclick();
+        }
+        function inform(){
+            window.location.href="/wcginform";
+        }
+        function teach(){
+            window.location.href="/wcgteach";
+        }
+        function mp(){
+            window.location.href="/wcggame";
+        }
+        function preload(){
+            window.location.href="/wcgpreload";
+        }
+        function setuser(){
+            localStorage.setItem("pid",document.getElementById("username").value);
+            alert("设置成功！");
+        }
+        function setenemy(){
+            localStorage.setItem("epid",document.getElementById("enemy").value);
+            alert("设置成功！");
+        }
     </script>
 </body>
-</html>
