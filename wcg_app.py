@@ -1,3 +1,4 @@
+from datetime import datetime
 import pymongo
 from flask import Blueprint, render_template, session
 import user_app
@@ -7,6 +8,7 @@ wcg_app = Blueprint('wcg_app', __name__)
 client = pymongo.MongoClient("mongodb://localhost:27017")
 db_wcg = client['db_web']
 c_wcg = db_wcg['wcg']
+c_online = db_wcg['online']
 
 
 @wcg_app.before_request
@@ -19,7 +21,13 @@ def before_request():
 
 @wcg_app.route('/wcg')
 def main():
-    return render_template('wcg/index.html')
+    username = session.get("username")
+    list = c_online.find({})
+    user_list = []
+    for item in list:
+        if datetime.timestamp(datetime.now()) - item['time'] < 300:
+            user_list.append(item['username'])
+    return render_template('wcg/index.html', t_user_list = user_list, t_username = username)
 
 
 @wcg_app.route('/play')

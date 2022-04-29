@@ -28,6 +28,26 @@
             <span style="font-size: 48px;">本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span>
         </div>
     </div>
+    <div style="position: absolute;
+                right: 5%;
+                width: 20%;
+                top: 140px;
+                z-index: 100;">
+        <table class="table table-strip table-bordered">
+            <tr>
+                <th>在线用户</th>
+            </tr>
+            {% set ns = namespace(s=1) %}
+            {% for item in t_user_list %}
+                <!-- <tr {% if item.username == t_username %}style="display: none"{% endif %}> -->
+                <tr>
+                    <td>{{ns.s}}</td>
+                    <td>{{item}}</td>
+                </tr>
+                {% set ns.s=ns.s+1 %}
+            {% endfor %}
+        </table>
+    </div>
     <button id="adra" style="display: none;">打我！</button>
     <script>
         var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3];//卡牌消费
