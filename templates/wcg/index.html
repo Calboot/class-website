@@ -62,8 +62,7 @@
             </tr>
             {% set ns = namespace(s=1) %}
             {% for item in t_user_list %}
-                <tr {% if item == t_username %}style="display: none"{% endif %}>
-                <!-- <tr> -->
+                <tr>
                     <td>{{ns.s}}</td>
                     <td>{{item}}</td>
                 </tr>
