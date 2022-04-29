@@ -148,7 +148,6 @@ def check_user():
         return False
     if user_list[0]['state'] == '1':
         return True
-    print(1)
     ts = datetime.timestamp(datetime.now())
     if c_online.count_documents({'username': username}) != 0:
         c_online.update_one({'username': username}, {"$set": {'time': ts}})
