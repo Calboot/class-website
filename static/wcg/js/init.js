@@ -44,10 +44,8 @@ ws.onmessage = function (evt) {
     }
     
     if (tmp.pid && tmp.epid) {
-        document.getElementById('select mode').style.display='none';
-        document.getElementById('select room').style.display='none';
         document.getElementById('playing').style.display='block';
-        document.getElementById('starting').style.display='none';
+        document.getElementById('userlist').style.display='none';
     }
                         
     update();
@@ -141,8 +139,6 @@ function usecard(num) {
 
 function playing(a, b) {
     enemyID = b;
-    document.getElementById('select mode').style.display='none';
-    document.getElementById('select room').style.display='none';
     // wsf.close();
     var message = JSON.stringify({
         "type": "connection",
@@ -151,7 +147,7 @@ function playing(a, b) {
     });
     wsSend(message);
     document.getElementById('playing').style.display='block';
-    document.getElementById('starting').style.display='none';
+    document.getElementById('userlist').style.display='none';
 }
 
 function Joinroom(){

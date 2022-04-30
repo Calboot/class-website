@@ -93,37 +93,6 @@
                 });
                 wsSend(message);
             }
-
-            /* ws.onmessage = function (evt) {
-                var tmp = JSON.parse(evt.data);
-                console.log(tmp);
-                switch (tmp.type) {
-                    case 'room':
-                        room(tmp.id);
-                        break;
-                    case 'warning':
-                        alert(tmp.text);
-                        break;
-                    default:
-                        if (tmp.pid && tmp.epid) {
-                            document.getElementById('select mode').style.display='none';
-                            document.getElementById('select room').style.display='none';
-                            document.getElementById('playing').style.display='block';
-                            document.getElementById('starting').style.display='none';
-                        }
-                        
-                        break;
-                }
-            } */
-
-            //playing('{{t_username}}', null);
-            // var message = JSON.stringify({
-            //     "type": "connection",
-            //     "pid": '{{t_username}}',
-            //     "epid": ''
-            // });
-            // console.log(message);
-            // wsSend(message);
         });
     </script>
 </body>
