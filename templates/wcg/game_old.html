@@ -4,51 +4,36 @@
     <title>WCG-Multiplayer</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/wcg/style/style.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/static/typing/bootstrap-3.3.7/css/bootstrap.css" type="text/css"> -->
+    <style>
+        #userlist {
+            width: 500px;
+            border-collapse: collapse;
+        }
+        #userlist td {
+            padding: 10px;
+            border: 1px solid #333;
+            font-size: 30px;
+        }
+    </style>
 </head>
 
 <body style="background-color: rgb(148,146,248);">
     <div id="getusername" style="display: none;">{{t_username}}</div>
-    <table class="table table-strip table-bordered">
+    <table align="center" class="table table-strip table-bordered" id="userlist">
         <tr>
-            <th>在线用户</th>
+            <th colspan="3"><h1>在线用户</h1></th>
         </tr>
         {% set ns = namespace(s=1) %}
         {% for item in t_user_list %}
             <tr>
                 <td>{{ns.s}}</td>
-                <td>{{item}}
-                    &nbsp; <button onclick="playing('{{t_username}}', '{{item}}');" {%if item == t_username%} style="display: none;"{%endif%}>对战</button>
-                </td>
+                <td>{{item}}</td>
+                <td width="80"><button onclick="playing('{{t_username}}', '{{item}}');" {%if item == t_username%} style="display: none;"{%endif%}>对战</button></td>
             </tr>
             {% set ns.s=ns.s+1 %}
         {% endfor %}
     </table>
-    <div id="starting">
-    </div>
-        <div style="text-align: center;" id="select mode">
-            <button id="pipei">匹配模式</button>
-            <button onclick="Room()">房间模式</button>
-            <br>
-            <button id="index" onclick="index()">返回</button>
-        </div>
-        <div style="text-align: center; display: none;" id="select room">
-            <button id="pipei" onclick="Createroom()">创建房间</button>
-            <button onclick="Joinroom()">加入房间</button>
-            <br>
-            <button id="mode" onclick="Mode()">返回</button>
-        </div>
-        <div style="text-align: center; display: none; font-size:72px;" id="create room">
-            <span>房间号：<span id="croomid">获取中...</span></span>
-            <br>
-            <button id="mode" onclick="Room()">返回</button>
-        </div>
-        <div style="text-align: center; display: none; font-size:72px;" id="join room">
-            <span>请输入房间号：<input type="number" id="jroomid" style="font-size:72px;"></span>
-            <br>
-            <button onclick="joinroom()">确定</button>&nbsp;&nbsp;&nbsp;
-            <button id="mode" onclick="Room()">返回</button>
-        </div>
-    </div>
     <div id="playing" style="display: none;">
         <img src="/static/wcg/img/0.png" id="big" height="600" width="360" style="position: absolute; left: 5px;">
         <div style="text-align: center;" id="sp">
