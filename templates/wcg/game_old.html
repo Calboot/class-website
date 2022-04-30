@@ -20,9 +20,7 @@
                     &nbsp; <button onclick="playing('{{t_username}}', '{{item}}');" {%if item == t_username%} style="display: none;"{%endif%}>对战</button>
                 </td>
             </tr>
-            {% if item != t_username %}
-                {% set ns.s=ns.s+1 %}
-            {% endif %}
+            {% set ns.s=ns.s+1 %}
         {% endfor %}
     </table>
     <div id="starting">

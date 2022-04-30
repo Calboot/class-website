@@ -1,7 +1,7 @@
 console.log("服务器启动中...");
 const ws = require('ws').Server;
 const WebSocket = require('ws');
-const PORT = 3999;
+const PORT = 4999;
 const wss = new ws({ port: PORT });
 const cards = 28;
 const cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3,5,2,4,3,1,2,1,4,3];//卡牌消费

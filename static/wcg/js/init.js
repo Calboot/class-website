@@ -1,5 +1,5 @@
 var playerID = document.getElementById('getusername').innerHTML;
-var ws = new WebSocket("ws://47.94.158.30:3999/");
+var ws = new WebSocket("ws://47.94.158.30:4999/");
 //var wsf = new WebSocket("ws://47.94.158.30:3888/");
 var enemyID;
 
