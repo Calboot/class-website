@@ -1,6 +1,6 @@
 var playerID = document.getElementById('getusername').innerHTML;
 var ws = new WebSocket("ws://47.94.158.30:3999/");
-var wsf = new WebSocket("ws://47.94.158.30:3888/");
+//var wsf = new WebSocket("ws://47.94.158.30:3888/");
 var enemyID;
 
 function wsSend(content) {
@@ -17,13 +17,13 @@ function wsfSend(content) {
     }
 }
 
-wsf.onopen = function () {
-    var message = JSON.stringify({
-        'type': 'connection',
-        'pid': playerID
-    });
-    wsfSend(message);
-}
+// wsf.onopen = function () {
+//     var message = JSON.stringify({
+//         'type': 'connection',
+//         'pid': playerID
+//     });
+//     wsfSend(message);
+// }
 
 ws.onmessage = function (evt) {
     var tmp = JSON.parse(evt.data);
@@ -42,34 +42,42 @@ ws.onmessage = function (evt) {
         alert("You Win!");
         window.location.href = "index.html";
     }
+    
+    if (tmp.pid && tmp.epid) {
+        document.getElementById('select mode').style.display='none';
+        document.getElementById('select room').style.display='none';
+        document.getElementById('playing').style.display='block';
+        document.getElementById('starting').style.display='none';
+    }
+                        
     update();
     console.log(JSON.parse(evt.data));
 }
 
-wsf.onmessage = function (evt) {
-    var tmp = JSON.parse(evt.data);
-    switch (tmp.type) {
-        case 'room':
-            room(tmp.id);
-            break;
-        case 'warning':
-            alert(tmp.text);
-            break;
-        default:
-            switch (tmp.status) {
-                case 'waiting':
-                    waiting();
-                    break;
-                case 'finding':
-                    finding();
-                    break;
-                case 'playing':
-                    playing(tmp.pid, tmp.epid);
-                    break;
-            }
-            break;
-    }
-}
+// wsf.onmessage = function (evt) {
+//     var tmp = JSON.parse(evt.data);
+//     switch (tmp.type) {
+//         case 'room':
+//             room(tmp.id);
+//             break;
+//         case 'warning':
+//             alert(tmp.text);
+//             break;
+//         default:
+//             switch (tmp.status) {
+//                 case 'waiting':
+//                     waiting();
+//                     break;
+//                 case 'finding':
+//                     finding();
+//                     break;
+//                 case 'playing':
+//                     playing(tmp.pid, tmp.epid);
+//                     break;
+//             }
+//             break;
+//     }
+// }
 
 ws.onerror = function () {
     alert("无法连接至游戏服务器");
@@ -79,9 +87,9 @@ ws.onclose = function () {
     alert("服务器维护中/游戏结束");
 }
 
-wsf.onerror = function () {
-    alert("无法连接至匹配服务器");
-}
+// wsf.onerror = function () {
+//     alert("无法连接至匹配服务器");
+// }
 
 function joinroom() {
     var rmid = document.getElementById('jroomid').value;
@@ -135,7 +143,7 @@ function playing(a, b) {
     enemyID = b;
     document.getElementById('select mode').style.display='none';
     document.getElementById('select room').style.display='none';
-    wsf.close();
+    // wsf.close();
     var message = JSON.stringify({
         "type": "connection",
         "pid": a,

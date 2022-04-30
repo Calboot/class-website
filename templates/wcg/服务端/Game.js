@@ -17,6 +17,8 @@ var playersws = [];
 var playersIndex = -1;
 
 function wsSend(pid, content) {
+    // console.log('playersws');
+    // console.log(playersws);
     for (var i = 0; i <= playersIndex; i++) {
         if (players[i].pid == pid) {
             var clientSocket = playersws[i].ws;
@@ -25,6 +27,12 @@ function wsSend(pid, content) {
                 clientSocket.send(JSON.stringify(content));
             }
         }
+    }
+}
+
+function find(pid){
+    for (var i = 0; i <= playersIndex; i++){
+        if (players[i].pid == pid) return i;
     }
 }
 
@@ -368,34 +376,39 @@ wss.on('connection', function (ws) {
                         if(players[i].playing==true){
                             playersws[i].ws=ws;
                             console.log(ws.ping());
-                            wsSend(pid,players[i]);
-                            wsSend(epid,players[i + 1]);
+                            var p = players[i];
+                            p.epid = epid;
+                            wsSend(pid,p);
+                            if (typeof players[find(epid)] != 'undefined'){
+                                var ep = players[find(epid)];
+                                ep.epid = pid;
+                                wsSend(epid,ep);
+                            }
                             return;
                         }
-                        players[i].epid = epid; players[i + 1].epid = pid;
-                        players[i].pcd=[0,0,0,0,0,0,0,0]; players[i + 1].pcd=[0,0,0,0,0,0,0,0];
-                        players[i].pcard=0; players[i + 1].pcard=0;
-                        playersws[i].ws=ws; playersws[i + 1].ws=ws;
+                        players[i].epid = epid;
+                        players[i].pcd=[0,0,0,0,0,0,0,0];
+                        players[i].pcard=0;
+                        playersws[i].ws=ws;
                         players[i].had=[2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        players[i + 1].had=[2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        players[i].a=0; players[i + 1].a=0;
-                        players[i].b=0; players[i + 1].b=0;
-                        players[i].d=1; players[i + 1].d=1;
-                        players[i].amt=1; players[i + 1].amt=1;
-                        players[i].monk=0; players[i + 1].monk=0;
-                        players[i].spid=0; players[i + 1].spid=0;
-                        players[i].skip=false; players[i + 1].skip=false;
-                        players[i].gdy=false; players[i + 1].gdy=false;
-                        players[i].blood=100; players[i + 1].blood=100;
-                        players[i].playing=true; players[i + 1].playing=true;
-                        players[i].win=false; players[i + 1].win=false;
-                        players[i].lose=false; players[i + 1].lose=false;
-                        console.log("客户端 [%s] 重新连接！", pid);  console.log("客户端 [%s] 重新连接！", epid); 
-                        getcard(pid); getcard(epid);
-                        getcard(pid); getcard(epid);
-                        getcard(pid); getcard(epid);
-                        getcard(pid); getcard(epid);
-                        wsSend(pid,players[i]); wsSend(epid,players[i + 1]);
+                        players[i].a=0;
+                        players[i].b=0;
+                        players[i].d=1;
+                        players[i].amt=1;
+                        players[i].monk=0;
+                        players[i].spid=0;
+                        players[i].skip=false;
+                        players[i].gdy=false;
+                        players[i].blood=100;
+                        players[i].playing=true;
+                        players[i].win=false;
+                        players[i].lose=false;
+                        console.log("客户端 [%s] 重新连接！", pid);
+                        getcard(pid);
+                        getcard(pid);
+                        getcard(pid);
+                        getcard(pid);
+                        wsSend(pid,players[i]);
                         return;
                     }
                 }
@@ -416,7 +429,7 @@ wss.on('connection', function (ws) {
                     "amt": 1,
                     "win": false,
                     "lose": false,
-                    "playing": true
+                    "playing": false
                 });
                 playersws.push({
                     "ws": ws

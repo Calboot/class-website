@@ -10,6 +10,7 @@
         <button id="classic">经典版本</button>&nbsp;&nbsp;&nbsp;<button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button id="faststart">开始对战（快速模式）</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
         <br>
         <button onclick="mp()">联机版本</button>
+        <button onclick="lianji()">联机(老)</button>
     </div>
     <button id="jc" style="position: absolute; right: 3px; bottom: 3px;" onclick="teach()">我是新手（教程）</button>
     <button id="preload" style="position: absolute; right: 3px; bottom: 60px;" onclick="preload()">预加载（免去卡顿）</button>
@@ -847,6 +848,9 @@
         function preload(){
             window.location.href="/wcgpreload";
         }
+        function lianji(){
+            window.location.href="/wcgplay";
+        }
         function setuser(){
             localStorage.setItem("pid",document.getElementById("username").value);
             alert("设置成功！");
@@ -856,4 +860,5 @@
             alert("设置成功！");
         }
     </script>
+    <script src="/static/wcg/js/init.js" type="text/javascript"></script>
 </body>
