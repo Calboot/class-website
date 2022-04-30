@@ -17,7 +17,7 @@
             <tr>
                 <td>{{ns.s}}</td>
                 <td>{{item}}
-                    &nbsp; <button onclick="playing('{{t_username}}', '{{item}}')" {%if item == t_username%} style="display: none;"{%endif%}>对战</button>
+                    &nbsp; <button onclick="playing('{{t_username}}', '{{item}}')" {%if item != t_username%} style="display: none;"{%endif%}>对战</button>
                 </td>
             </tr>
             {% if item != t_username %}
