@@ -32,8 +32,13 @@ def main():
 
 @wcg_app.route('/wcggame')
 def wcggame():
-    username = session.get('username')
-    return render_template('wcg/game.html', t_username=username)
+    username = session.get("username")
+    list = c_online.find({})
+    user_list = []
+    for item in list:
+        if datetime.timestamp(datetime.now()) - item['time'] < 300:
+            user_list.append(item['username'])
+    return render_template('wcg/game.html', t_user_list = user_list, t_username = username)
 
 
 @wcg_app.route('/wcginform')

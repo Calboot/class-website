@@ -7,9 +7,28 @@
 </head>
 
 <body style="background-color: rgb(148,146,248);">
-    {{t_username}}
+    <div id="getusername">{{t_username}}</div>
+    <table class="table table-strip table-bordered">
+        <tr>
+            <th>在线用户</th>
+        </tr>
+        {% set ns = namespace(s=1) %}
+        {% for item in t_user_list %}
+            <tr>
+                <td>{{ns.s}}</td>
+                <td>{{item}}
+                    &nbsp; <button onclick="playing('{{t_username}}', '{{item}}')">对战</button>
+                </td>
+            </tr>
+            {% if item != t_username %}
+                {% set ns.s=ns.s+1 %}
+            {% endif %}
+        {% endfor %}
+    </table>
     <div id="starting">
+    </div>
         <div style="text-align: center;" id="select mode">
+            <button>开始游戏</button>
             <button id="pipei">匹配模式</button>
             <button onclick="Room()">房间模式</button>
             <br>

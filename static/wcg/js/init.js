@@ -1,6 +1,6 @@
 var playerID = document.getElementById('getusername').innerHTML;
-var ws = new WebSocket("ws://localhost:3999/");
-var wsf = new WebSocket("ws://localhost:3888/");
+var ws = new WebSocket("ws://47.94.158.30:3999/");
+var wsf = new WebSocket("ws://47.94.158.30:3888/");
 var enemyID;
 
 function wsSend(content) {
