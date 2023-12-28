@@ -1,0 +1,10 @@
+bson
+flask
+flask_paginate
+markdown
+pymongo
+ybc_trans
+ybc_commons
+ybc_exception
+ybc_config
+requests

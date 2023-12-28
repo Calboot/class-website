@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, session, redirect,escape
+from flask import Blueprint, render_template, request, session, redirect
 from flask_paginate import Pagination, get_page_parameter
+from markupsafe import escape
 import pymongo
 import datetime
 import uuid
