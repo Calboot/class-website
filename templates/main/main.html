@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/main/css/common.css">
     <link rel="stylesheet" href="/static/main/css/main.css">
     <style>
-        #ndigit_n:hover,#ndigit_n:focus {
+        #ndigit_n:hover, #ndigit_n:focus {
             color: #407FFF;
         }
     </style>
@@ -43,14 +43,14 @@
                         <li>
                             {% if t_is_login==False %}
                                 <a class="loginOutBtn" href="http://47.94.158.30/">前往主站</a>
-<!--                                <a class="loginOutBtn" href="/log">更新日志</a>-->
-<!--                                <a class="loginOutBtn" href="/notice">网站公告</a>-->
+                                <!--                                <a class="loginOutBtn" href="/log">更新日志</a>-->
+                                <!--                                <a class="loginOutBtn" href="/notice">网站公告</a>-->
                                 <a class="loginBtn" href="/login">登录</a>/
                                 <a class="registBtn" href="/register">注册</a>
                             {% else %}
                                 <a class="loginOutBtn" href="http://47.94.158.30/">前往主站</a>
-<!--                                <a class="loginOutBtn" href="/log">更新日志</a>-->
-<!--                                <a class="loginOutBtn" href="/notice">网站公告</a>-->
+                                <!--                                <a class="loginOutBtn" href="/log">更新日志</a>-->
+                                <!--                                <a class="loginOutBtn" href="/notice">网站公告</a>-->
                                 <a class="loginOutBtn" href="/change_password">更改密码</a>
                                 <a class="loginOutBtn" href="/logout">退出登录</a>
                             {% endif %}
@@ -72,7 +72,7 @@
             <div class="mainTitle col-xs-12">休闲区</div>
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/typing">打字游戏</a></div>
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/monkey">宇宙の猴</a></div>
-<!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/calorie">卡路里大挑战</a></div>-->
+            <!--            <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/calorie">卡路里大挑战</a></div>-->
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/snake">贪吃蛇</a></div>
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/monkey2">宇宙の猴2.0</a></div>
             <div class="shape1 col-xs-6 col-sm-6 col-md-4 col-lg-4"><a href="/snake2">贪吃蛇2.0</a></div>
@@ -87,9 +87,15 @@
                     数码游戏(数字华容道)
                 </a>
                 <script>
-                var select_clicked = false;
-                function ndigit(){if(select_clicked)select_clicked=false;else window.location.href = "/ndigit/" + $('#ndigit_n :selected').val();}
-                function sel_click(){select_clicked=true;}
+                    var select_clicked = false;
+
+                    function ndigit() {
+                        if (select_clicked) select_clicked = false; else window.location.href = "/ndigit/" + $('#ndigit_n :selected').val();
+                    }
+
+                    function sel_click() {
+                        select_clicked = true;
+                    }
                 </script>
             </div>
         </div>

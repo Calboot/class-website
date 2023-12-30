@@ -1,81 +1,98 @@
 
-.main{
+.main {
     padding: 24px 0;
     display: flex;
     align-items: center;
 }
-body{
-    margin: 0 auto!important; text-align:center!important;
+
+body {
+    margin: 0 auto !important;
+    text-align: center !important;
 }
-.gobackWrap{
+
+.gobackWrap {
     text-align: left;
 }
-#game{
-    border-radius:8px;
-    border:2px solid rgba(192,219,219,1);
+
+#game {
+    border-radius: 8px;
+    border: 2px solid rgba(192, 219, 219, 1);
     padding: 16px;
     width: 100%;
-    max-width:346px;
+    max-width: 346px;
     float: left;
 }
-#game canvas{
+
+#game canvas {
     box-shadow: 5px 5px 5px silver;
     width: 100%;
 }
-.gameWrap{
+
+.gameWrap {
     margin-left: 50%;
     transform: translate(-50%);
 }
-.wrap{
+
+.wrap {
     min-width: 768px;
     display: flex;
     align-items: center;
     margin-left: 50%;
     transform: translate(-50%);
 }
-@media screen and (max-width:800px){
-    #main{
+
+@media screen and (max-width: 800px) {
+    #main {
         width: 700px
     }
-    #game{
+
+    #game {
         float: none;
         width: auto;
     }
 }
-@media screen and (max-width:480px){
+
+@media screen and (max-width: 480px) {
     .cityListWrap {
         padding: 0;
         float: left;
         width: 50%;
     }
-    .city{
+
+    .city {
         width: 91%;
         height: 4rem;
         border-radius: 10px;
-        margin:0 1rem;
+        margin: 0 1rem;
     }
-    .m-text{
+
+    .m-text {
         max-width: 920px;
         padding: 0 0px;
         margin-top: 20px;
     }
-    .m-text >div{
+
+    .m-text > div {
         text-align: left;
         display: block;
         padding: 0 3rem;
         font-size: 1rem;
         line-height: 1.5rem;
     }
-    .city div{
+
+    .city div {
         line-height: 4rem;
     }
-    .cityair,.cityname{
+
+    .cityair, .cityname {
         font-size: 1rem;
     }
-    .cityList{
+
+    .cityList {
         width: 100%;
     }
-    .location{
+
+    .location {
         width: 85%;
         height: 11rem;
         margin: 0;
@@ -83,25 +100,32 @@ body{
         padding: 10px;
         margin-bottom: 1.5rem;
     }
-    .main{
+
+    .main {
         margin: 0 10px;
     }
-    header{
+
+    header {
         padding: 10px;
     }
-    .margin0{
+
+    .margin0 {
         margin: 0;
     }
-    .padding0{
+
+    .padding0 {
         padding: 0;
     }
-    .width28{
+
+    .width28 {
         width: 35%;
     }
-    .width12{
+
+    .width12 {
         width: 12%;
     }
-    .gobackWrap{
+
+    .gobackWrap {
         width: 35%;
     }
 }

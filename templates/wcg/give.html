@@ -6,6 +6,7 @@
         body {
             text-align: center;
         }
+
         #pic img {
             width: 180px;
             /* height: 225px; */
@@ -15,34 +16,34 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <img style="visibility: hidden;" id="big" height="400">
-    <div id="pic"></div>
-    <script>
-        $(function(){
-            var cardcost = [1,1,2,8,4,6];
-            var num = 7; // 卡牌总数
-            var vis = []; // 判断重复
-            var cnt = 0; // 重复的数量
-            for (var i = 1; i <= num + cnt; i++){
-                var rand = Math.round(Math.random() * num); // 卡牌编号
-                if (rand == 0){
-                    rand = num;
-                }
-                if (vis[rand] == 1){
-                    cnt++;
-                    continue;
-                }
-                vis[rand] = 1;
-                $("#pic").append('<img class="card" src="/static/wcg/img/'+ rand + '.png">');
+<img style="visibility: hidden;" id="big" height="400">
+<div id="pic"></div>
+<script>
+    $(function () {
+        var cardcost = [1, 1, 2, 8, 4, 6];
+        var num = 7; // 卡牌总数
+        var vis = []; // 判断重复
+        var cnt = 0; // 重复的数量
+        for (var i = 1; i <= num + cnt; i++) {
+            var rand = Math.round(Math.random() * num); // 卡牌编号
+            if (rand == 0) {
+                rand = num;
             }
-            $('.card').on('mouseover',function(){ // 悬停显示
-                $('#big').attr('src', $(this).attr('src')).css('visibility', 'visible');
-            })
-            .on('mouseout',function(){ // 移走隐藏
+            if (vis[rand] == 1) {
+                cnt++;
+                continue;
+            }
+            vis[rand] = 1;
+            $("#pic").append('<img class="card" src="/static/wcg/img/' + rand + '.png">');
+        }
+        $('.card').on('mouseover', function () { // 悬停显示
+            $('#big').attr('src', $(this).attr('src')).css('visibility', 'visible');
+        })
+            .on('mouseout', function () { // 移走隐藏
                 $('#big').css('visibility', 'hidden');
             });
-        });
-        
-    </script>
+    });
+
+</script>
 </body>
 </html>

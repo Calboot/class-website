@@ -26,7 +26,7 @@ def game(name, sort_method=pymongo.DESCENDING, **kwargs):
 @game_app.route('/monkey2')
 def monkey2():
     return game('monkey2')
-    
+
 
 @game_app.route('/snake')
 def snake():
@@ -52,8 +52,6 @@ def snake2():
 def ndigit(n):
     return render_template('ndigit/index.html', num=n)
 
-
 # @game_app.route('/calorie')
 # def calorie():
 #     return render_template('calorie/index.html')
-

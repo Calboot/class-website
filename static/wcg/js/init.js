@@ -37,17 +37,16 @@ ws.onmessage = function (evt) {
     if (tmp.lose) {
         alert("You Lose!");
         window.location.href = "index.html";
-    }
-    else if (tmp.win) {
+    } else if (tmp.win) {
         alert("You Win!");
         window.location.href = "index.html";
     }
-    
+
     if (tmp.pid && tmp.epid) {
-        document.getElementById('playing').style.display='block';
-        document.getElementById('userlist').style.display='none';
+        document.getElementById('playing').style.display = 'block';
+        document.getElementById('userlist').style.display = 'none';
     }
-                        
+
     update();
     console.log(JSON.parse(evt.data));
 }
@@ -146,19 +145,19 @@ function playing(a, b) {
         "epid": b
     });
     wsSend(message);
-    document.getElementById('playing').style.display='block';
-    document.getElementById('userlist').style.display='none';
+    document.getElementById('playing').style.display = 'block';
+    document.getElementById('userlist').style.display = 'none';
 }
 
-function Joinroom(){
-    document.getElementById('select room').style.display='none';
-    document.getElementById('join room').style.display='block';
+function Joinroom() {
+    document.getElementById('select room').style.display = 'none';
+    document.getElementById('join room').style.display = 'block';
 }
 
-function Createroom(){
-    document.getElementById('select room').style.display='none';
-    document.getElementById('create room').style.display='block';
-    document.getElementById('croomid').innerHTML='加载中...';
+function Createroom() {
+    document.getElementById('select room').style.display = 'none';
+    document.getElementById('create room').style.display = 'block';
+    document.getElementById('croomid').innerHTML = '加载中...';
     var message = JSON.stringify({
         'type': 'room',
         'pid': playerID,
@@ -167,26 +166,26 @@ function Createroom(){
     wsfSend(message);
 }
 
-function Finding(){
-    document.getElementById('select mode').style.display='none';
+function Finding() {
+    document.getElementById('select mode').style.display = 'none';
 }
 
-function Mode(){
-    document.getElementById('select room').style.display='none';
-    document.getElementById('select mode').style.display='block';
+function Mode() {
+    document.getElementById('select room').style.display = 'none';
+    document.getElementById('select mode').style.display = 'block';
 }
 
-function Room(){
-    document.getElementById('select mode').style.display='none';
-    document.getElementById('select room').style.display='block';
-    document.getElementById('join room').style.display='none';
-    document.getElementById('create room').style.display='none';
+function Room() {
+    document.getElementById('select mode').style.display = 'none';
+    document.getElementById('select room').style.display = 'block';
+    document.getElementById('join room').style.display = 'none';
+    document.getElementById('create room').style.display = 'none';
 }
 
-function room(id){
-    document.getElementById('croomid').innerHTML=id;
+function room(id) {
+    document.getElementById('croomid').innerHTML = id;
 }
 
-function index(){
+function index() {
     window.location.href = "index.html";
 }

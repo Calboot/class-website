@@ -68,7 +68,7 @@
     color: #ccc;
     cursor: pointer;
     text-decoration: none;
-    width:100%;
+    width: 100%;
 }
 
 .a-upload p {
@@ -96,16 +96,19 @@
     clear: both
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width: 400px) {
     .box {
         width: 250px;
     }
+
     .word {
         width: 250px;
     }
+
     .albumName {
         width: 250px;
     }
+
     .btn {
         width: 50px;
         margin-left: 5px;

@@ -1,5 +1,6 @@
 import pymongo
 from flask import Blueprint, render_template
+
 notice_app = Blueprint('notice_app', __name__)
 
 client = pymongo.MongoClient("mongodb://localhost:27017")

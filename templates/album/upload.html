@@ -9,66 +9,66 @@
     <link rel="stylesheet" href="/static/album/css/upload.css">
 </head>
 <body>
-    <div class="mask"></div>
-    <div id="bg"></div>
+<div class="mask"></div>
+<div id="bg"></div>
 
-    <div id="container">
-        <header>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
-                <a href="/album_list" class="goBack">
-                    <img src="/static/album/images/back.png">
-                    <span class="goBackIndex">返回</span>
-                </a>
-            </div>
-            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
-                <img class="" src="/static/album/images/avatar.png">
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-                <img src="/static/album/images/avatar.png">
-                <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
-
-            </div>
-        </header>
-        <div class="main">
-            <div class="box">
-                <p class="word">上传文件</p>
-                <!--
-                    上传文件时，表单提交的方式必须是post
-                    上传文件时，表单必须设置属性enctype为multipart/form-data
-                    multipart/form-data为编码类型，处理上传文件的相关操作
-                -->
-                <form action="/upload_check" method="post" enctype="multipart/form-data">
-            
-                    <select  class="albumName" name="albumname" required>
-                        <option value="" disabled selected>选择文件库</option>
-                        {% for album in t_album_list %}
-                          
-                            <option value="{{album._id}}">{{album._id}}</option>
-            
-                        {% endfor %}
-            
-                    </select>
-              
-                    <div class="a-upload">
-                        <label class="label" for="file">选择文件</label>
-                        <input class="file" id="file" type="file" name="img" required>
-                    </div>
-                   
-                    <button class="btn" type="submit">上传</button>
-                </form>
-                <div class="clearfloat"></div>
-            </div>
-            <div class="clearfloat"></div>
-           
+<div id="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/album_list" class="goBack">
+                <img src="/static/album/images/back.png">
+                <span class="goBackIndex">返回</span>
+            </a>
         </div>
-     
+        <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+            <img class="" src="/static/album/images/avatar.png">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/album/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+
+        </div>
+    </header>
+    <div class="main">
+        <div class="box">
+            <p class="word">上传文件</p>
+            <!--
+                上传文件时，表单提交的方式必须是post
+                上传文件时，表单必须设置属性enctype为multipart/form-data
+                multipart/form-data为编码类型，处理上传文件的相关操作
+            -->
+            <form action="/upload_check" method="post" enctype="multipart/form-data">
+
+                <select class="albumName" name="albumname" required>
+                    <option value="" disabled selected>选择文件库</option>
+                    {% for album in t_album_list %}
+
+                        <option value="{{ album._id }}">{{ album._id }}</option>
+
+                    {% endfor %}
+
+                </select>
+
+                <div class="a-upload">
+                    <label class="label" for="file">选择文件</label>
+                    <input class="file" id="file" type="file" name="img" required>
+                </div>
+
+                <button class="btn" type="submit">上传</button>
+            </form>
+            <div class="clearfloat"></div>
+        </div>
+        <div class="clearfloat"></div>
+
     </div>
-    <div id="footer">
-        COPYRIGHT© {{t_username}} 2022
-    </div>
-    <script src="/static/album/js/jquery-3.3.1.min.js"></script>
-    <script src="/static/album/js/input.js"></script>
+
+</div>
+<div id="footer">
+    COPYRIGHT© {{ t_username }} 2022
+</div>
+<script src="/static/album/js/jquery-3.3.1.min.js"></script>
+<script src="/static/album/js/input.js"></script>
 </body>
 </html>

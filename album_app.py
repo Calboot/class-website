@@ -13,6 +13,7 @@ client = pymongo.MongoClient("mongodb://localhost:27017")
 db_album = client['db_web']
 c_album = db_album['album']
 
+
 @album_app.before_request
 def before_request():
     if user_app.check_login():
@@ -114,7 +115,6 @@ def delete_all():
             c_album.delete_one({'_id': ObjectId(item["_id"])})
         return redirect("/image_list?albumname=回收站")
     return redirect("/album_list")
-
 
 
 @album_app.route('/upload')

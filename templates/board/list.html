@@ -33,7 +33,7 @@
     <div class="main row">
         <div class="taskDateWrap" style="padding-top: 0px; padding-bottom: 0px">
             <div class="mainTop col-xs-12 col-md-12 col-sm-12 col-lg-12">
-                            <span style="font-size: 30px; font-weight: bold">讨论区</span>
+                <span style="font-size: 30px; font-weight: bold">讨论区</span>
                 <a class="addtask" href="/board/add">
                     <img width="46" src="/static/board/images/addtask.png" alt="">
                     <span class="hidden-xs">发帖</span>
@@ -45,15 +45,15 @@
                         <label for="object" class="object">板块：</label>
                         <select name="subject" onchange="f1.submit()" id="object">
                             {% for item in t_subject_options %}
-                            {% if item==t_subject %}
-                            <option value="{{ item }}" selected>{{ item }}</option>
-                            {% else %}
-                            <option value="{{ item }}">{{ item }}</option>
-                            {% endif %}
+                                {% if item==t_subject %}
+                                    <option value="{{ item }}" selected>{{ item }}</option>
+                                {% else %}
+                                    <option value="{{ item }}">{{ item }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
-                    <input type="text" id="kw" value="{{t_kw}}" name="kw" style="border: 1px solid rgba(32,53,128,0.16); height: 34px">
+                    <input type="text" id="kw" value="{{ t_kw }}" name="kw" style="border: 1px solid rgba(32,53,128,0.16); height: 34px">
                     <input type="submit" value="搜索" class="btn btn-primary">
                     <input type="submit" onclick="$('#kw').val('')" value="重置" class="btn btn-default">
                 </form>
@@ -64,19 +64,19 @@
             <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
                     {% for item in t_board_list %}
-                    <li class="listItem clearfix">
-                        <p>
-                        <span class="time">{{item.date}}&nbsp;</span>
-                        <a class="note">
-                            {% if item.sticky == 1 %}
-                                <span class="label label-info">置顶</span>
-                            {% endif %}
-                            <span class="label label-success">{{item.subject}}</span>
-                            <span class="label label-default">{{item.owner}}</span>
-                            <a class="noteCont" href="/board_list?id={{item._id}}" style="color: blue; 1text-decoration: underline">{{ item.title }}</a>
-                        </a>
-                        </p>
-                    </li>
+                        <li class="listItem clearfix">
+                            <p>
+                                <span class="time">{{ item.date }}&nbsp;</span>
+                                <a class="note">
+                                    {% if item.sticky == 1 %}
+                                        <span class="label label-info">置顶</span>
+                                    {% endif %}
+                                    <span class="label label-success">{{ item.subject }}</span>
+                                    <span class="label label-default">{{ item.owner }}</span>
+                                    <a class="noteCont" href="/board_list?id={{ item._id }}" style="color: blue; 1text-decoration: underline">{{ item.title }}</a>
+                                </a>
+                            </p>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -86,7 +86,7 @@
     </div>
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2019
+    COPYRIGHT© {{ t_username }} 2019
 </div>
 <script src="/static/board/js/jquery-3.3.1.min.js"></script>
 </body>

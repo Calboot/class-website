@@ -53,12 +53,14 @@
 .container .image {
     margin-bottom: 30px;
 }
-.container .image div{
+
+.container .image div {
     position: relative;
     overflow: hidden;
     height: 150px;
     border-radius: 5px;
 }
+
 .pic {
     cursor: pointer;
     width: 100%;
@@ -69,7 +71,7 @@
     transform: translate(-50%, -50%) scale(1.5);
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
 
     .main {
         margin: 0 10px;
@@ -100,18 +102,21 @@
         width: 35%;
     }
 }
-@media screen and (max-width:990px) {
+
+@media screen and (max-width: 990px) {
 
     .container .image {
         height: 160px !important;
     }
 }
-@media screen and (max-width:767px) {
+
+@media screen and (max-width: 767px) {
 
     .container .image {
         height: 180px !important;
     }
-    .container .image div{
-        height:180px;
+
+    .container .image div {
+        height: 180px;
     }
 }

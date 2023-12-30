@@ -9,469 +9,480 @@
     <link rel="stylesheet" type="text/css" href="/static/typing/css/index.css">
 </head>
 <body>
-    <div class = "mask"></div>
-    <div id ="bg"></div>
-    <div id="container">
-        <header>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
-                <a href="/main" class="goBack">
-                    <img src="/static/typing/images/back.png">
-                    <span class="goBackIndex">返回首页</span>
-                </a>
-            </div>
-            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
-                <img class="" src="/static/typing/images/avatar.png">
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-                 <img src="/static/monkey/images/avatar.png">
-                <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
-            </div>
+<div class="mask"></div>
+<div id="bg"></div>
+<div id="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/main" class="goBack">
+                <img src="/static/typing/images/back.png">
+                <span class="goBackIndex">返回首页</span>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+            <img class="" src="/static/typing/images/avatar.png">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/monkey/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ session.get("username") }}的工具箱</span>
+        </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
-                <div class="pull-right welcomt"></div>
-            </div>
-        </header>
-    
-        <div class="main">
-            <div class="gameWrap">
-                <div id = "game">
-                    <canvas id="main" width="800" height="530">
-                    </canvas>
-                </div>
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+            <div class="pull-right welcomt"></div>
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="gameWrap">
+            <div id="game">
+                <canvas id="main" width="800" height="530">
+                </canvas>
             </div>
         </div>
     </div>
+</div>
 
-    <div style="position: absolute;
+<div style="position: absolute;
     right: 5%;
     width: 20%;
     top: 140px;
     z-index: 100;">
-                <table class="table table-strip table-bordered">
-                    <tr>
-                        <th>名次</th>
-                        <th>用户名</th>
-                        <th>得分</th>
-                    </tr>
-                    {% set ns = namespace(s=1) %}
-                {% for item in t_scoreList %}
-                          <tr {% if item.username == t_username %}style="color: blue; font-weight:bold"{% endif %}>
-                            <td>{{ns.s}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.score}}</td>
-                        </tr>
-                    {% set ns.s=ns.s+1 %}
-                {% endfor %}
-                    </table>
-            </div>
-    
-    <div id="footer">
-        COPYRIGHT©  2022
-    </div>
-    <script>
-        var bgImg = new Image()
-        bgImg.src = 'static/typing/images/bg.png'
-        var scoreImg = new Image()
-        scoreImg.src = 'static/typing/images/score.png'
-        var timeImg = new Image()
-        timeImg.src = 'static/typing/images/time.png'
-        var missImg = new Image()
-        missImg.src = 'static/typing/images/miss.png'
-        var levelAry = []
-        for(var i = 0; i < 7; i++){
-            var levelImg = new Image()
-            levelImg.src = 'static/typing/images/level' + i + '.png'
-            levelAry.push(levelImg)
-        }
-        var canvasWidth = 800
-        var canvasHeight = 530
-        var canvas = document.getElementById('main')
-        var ctx = canvas.getContext('2d')
-        var wordsLib = [
-            [
-             { "en": "memset", "zh": "设置数组???(a,?,sizeof(a))" }, 
-             { "en": "stack", "zh": "栈" }, 
-             { "en": "vector", "zh": "可变数组" }, 
-             { "en": "queue", "zh": "队列" }, 
-             { "en": "include", "zh": "包含" }, 
-             { "en": "string", "zh": "字符串" }, 
-             { "en": "dp", "zh": "动态规划" }, 
-             { "en": "struct", "zh": "结构体" }, 
-             { "en": "algorithm", "zh": "算法" }, 
-             { "en": "father", "zh": "父" }, 
-             { "en": "hamster", "zh": "仓鼠(lzm)" }, 
-             { "en": "depth", "zh": "深度" }, 
-             { "en": "first", "zh": "优先" }, 
-             { "en": "search", "zh": "搜索" }, 
-             { "en": "tree", "zh": "树" }, 
-             { "en": "treap", "zh": "平衡树" }, 
-             { "en": "priority", "zh": "优先" }, 
-             { "en": "add", "zh": "添加" }, 
-             { "en": "reset", "zh": "重置" }, 
-             { "en": "interval", "zh": "间歇" }, 
-             { "en": "curves", "zh": "曲线" }, 
-             { "en": "push", "zh": "进" }, 
-             { "en": "pop", "zh": "弹出" }, 
-             { "en": "tarjan", "zh": "缩点(某算法)" }, 
-             { "en": "insert", "zh": "插入" }, 
-             { "en": "cheat", "zh": "作弊" }, 
-             { "en": "update", "zh": "上传" }, 
-             { "en": "download", "zh": "下载" }, 
-             { "en": "query", "zh": "询问" }, 
-             { "en": "change", "zh": "修改" }, 
-             { "en": "init", "zh": "初始化" },
-             { "en": "lkzhangnn", "zh": "ZLK" },
-             { "en": "gdyrdfz", "zh": "危" },
-             { "en": "marjorie", "zh": "!" },
-             { "en": "yzzyyds", "zh": "yzz" },
-             { "en": "kkksc03", "zh": "kkk站长" },
-             { "en": "chenzhe", "zh": "aya" },
-             { "en": "noip", "zh": "毒瘤" },
-             { "en": "ccfnoi", "zh": "死！" },
-             { "en": "taopianfangzhu", "zh": "陶片放逐" },
-             { "en": "report", "zh": "举报" },
-             { "en": "chaotijie", "zh": "抄题解" },
-             { "en": "accept", "zh": "通过" },
-             { "en": "wonderful answer", "zh": "完美的答案" },
-             { "en": "wrong answer", "zh": "错误答案" },
-             { "en": "compile error", "zh": "编译错误" },
-             { "en": "compile easily", "zh": "容易编译" },
-             { "en": "judging", "zh": "评测中" },
-             { "en": "remotejudge", "zh": "远程评测" },
-             { "en": "merge sort", "zh": "归并排序" },
-             { "en": "runtime excellent", "zh": "完美运行" },
-             { "en": "runtime error", "zh": "运行时错误" },
-             { "en": "time limit enough", "zh": "时间足够" },
-             { "en": "time limit exceed", "zh": "时间超限" },
-             { "en": "memory limit enough", "zh": "内存足够" },
-             { "en": "memory limit exceed", "zh": "内存超限" },
-             { "en": "outputLimit exceed", "zh": "输出超限" },
-             { "en": "outputLimit enough", "zh": "输出足够" },
-             { "en": "unknown error", "zh": "未知错误" },
-             { "en": "unknown excellent", "zh": "未知的完美" },
-             { "en": "partically correct", "zh": "部分正确" },
-             { "en": "presentation excellent", "zh": "PE" },
-             { "en": "presentation error", "zh": "PE" },
-             { "en": "special judge error", "zh": "SPJ错误" },
-             { "en": "special judge excellent", "zh": "SPJ完美" },
-             { "en": "denial of judging", "zh": "拒绝评测" },
-             { "en": "au", "zh": "AU" },
-             { "en": "allkilled", "zh": "AK" },
-             { "en": "development programming", "zh": "动态规划" }
-            ],
+    <table class="table table-strip table-bordered">
+        <tr>
+            <th>名次</th>
+            <th>用户名</th>
+            <th>得分</th>
+        </tr>
+        {% set ns = namespace(s=1) %}
+        {% for item in t_scoreList %}
+            <tr {% if item.username == t_username %}style="color: blue; font-weight:bold"{% endif %}>
+                <td>{{ ns.s }}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.score }}</td>
+            </tr>
+            {% set ns.s=ns.s+1 %}
+        {% endfor %}
+    </table>
+</div>
 
-            [
-            { "en": "pen", "zh": "钢笔" }, 
-            { "en": "pencil", "zh": "铅笔" }, 
-            { "en": "pencil-case", "zh": "铅笔盒" }, 
-            { "en": "ruler", "zh": "尺子" }, 
-            { "en": "book", "zh": "书" }, 
-            { "en": "bag", "zh": "包" }, 
-            { "en": "post card", "zh": "明信片" }, 
-            { "en": "newspaper", "zh": "报纸" },
-            { "en": "schoolbag", "zh": "书包" }, 
-            { "en": "eraser", "zh": "橡皮" }, 
-            { "en": "crayon", "zh": "蜡笔" }, 
-            { "en": "sharpener", "zh": "卷笔刀" }, 
-            { "en": "story-book", "zh": "故事书" }, 
-            { "en": "notebook", "zh": "笔记本" },
-            { "en": "broom", "zh": "扫把" },
-            { "en": "locker", "zh": "柜子" },
-            { "en": "laptop", "zh": "笔记本电脑" },
-            { "en": "air conditioner", "zh": "空调" },
-            { "en": "bucket", "zh": "桶" },
-            { "en": "remote control", "zh": "遥控器" },
-            { "en": "projector", "zh": "投影仪" },
-            { "en": "notice board", "zh": "备忘贴" },
-            { "en": "one by one", "zh": "逐一地" },
-            { "en": "on all fours", "zh": "完全一致" },
-            { "en": "in twos and threes", "zh": "三三两两地" },
-            { "en": "give me five", "zh": "击掌庆贺" },
-            { "en": "at sixes and sevens", "zh": "乱七八糟" },
-            { "en": "a nine day's wonder", "zh": "昙花一现" },
-            { "en": "clip", "zh": "曲别针" },
-            { "en": "calculator", "zh": "计算器" },
-            { "en": "gule stick", "zh": "胶棒" },
-            { "en": "push pin", "zh": "大头针" },
-            { "en": "correction tape", "zh": "修正带" },
-            { "en": "postit", "zh": "便签" },
-            { "en": "stapler", "zh": "订书器" },
-            { "en": "e-dictionary", "zh": "电子字典" },
-            { "en": "cycling", "zh": "自行车" },
-            { "en": "kongfu", "zh": "功夫" },
-            { "en": "martial art", "zh": "武术" },
-            { "en": "mountain climbing", "zh": "登山" },
-            { "en": "fencing", "zh": "击剑" },
-            { "en": "horseriding", "zh": "赛马" },
-            { "en": "weightlifting", "zh": "举重" },
-            { "en": "shooting", "zh": "射击" },
-            { "en": "diving", "zh": "潜水" },
-            { "en": "bowling", "zh": "保龄球" },
-            { "en": "bumjee jumping", "zh": "蹦极" },
-            { "en": "gymnastic", "zh": "体操" },
-            { "en": "fats", "zh": "脂肪" },
-            { "en": "proteins", "zh": "蛋白质" },
-            { "en": "fibre", "zh": "纤维" },
-            { "en": "water", "zh": "水" },
-            { "en": "carbohyrates", "zh": "碳水化合物" },
-            { "en": "vitamin", "zh": "维生素" },
-            { "en": "calcium", "zh": "钙" },
-            { "en": "minerals", "zh": "矿物质" },
-            { "en": "fig", "zh": "无花果" },
-            { "en": "tangerine", "zh": "蜜桔" },
-            { "en": "durain", "zh": "榴莲" },
-            { "en": "avocado", "zh": "牛油果" },
-            { "en": "plum", "zh": "李子" },
-            { "en": "date", "zh": "枣" },
-            { "en": "coconut", "zh": "椰子" },
-            { "en": "longan", "zh": "龙眼" },
-            { "en": "jackfruit", "zh": "菠萝蜜" }
-            ],
+<div id="footer">
+    COPYRIGHT© 2022
+</div>
+<script>
+    var bgImg = new Image()
+    bgImg.src = 'static/typing/images/bg.png'
+    var scoreImg = new Image()
+    scoreImg.src = 'static/typing/images/score.png'
+    var timeImg = new Image()
+    timeImg.src = 'static/typing/images/time.png'
+    var missImg = new Image()
+    missImg.src = 'static/typing/images/miss.png'
+    var levelAry = []
+    for (var i = 0; i < 7; i++) {
+        var levelImg = new Image()
+        levelImg.src = 'static/typing/images/level' + i + '.png'
+        levelAry.push(levelImg)
+    }
+    var canvasWidth = 800
+    var canvasHeight = 530
+    var canvas = document.getElementById('main')
+    var ctx = canvas.getContext('2d')
+    var wordsLib = [
+        [
+            {"en": "memset", "zh": "设置数组???(a,?,sizeof(a))"},
+            {"en": "stack", "zh": "栈"},
+            {"en": "vector", "zh": "可变数组"},
+            {"en": "queue", "zh": "队列"},
+            {"en": "include", "zh": "包含"},
+            {"en": "string", "zh": "字符串"},
+            {"en": "dp", "zh": "动态规划"},
+            {"en": "struct", "zh": "结构体"},
+            {"en": "algorithm", "zh": "算法"},
+            {"en": "father", "zh": "父"},
+            {"en": "hamster", "zh": "仓鼠(lzm)"},
+            {"en": "depth", "zh": "深度"},
+            {"en": "first", "zh": "优先"},
+            {"en": "search", "zh": "搜索"},
+            {"en": "tree", "zh": "树"},
+            {"en": "treap", "zh": "平衡树"},
+            {"en": "priority", "zh": "优先"},
+            {"en": "add", "zh": "添加"},
+            {"en": "reset", "zh": "重置"},
+            {"en": "interval", "zh": "间歇"},
+            {"en": "curves", "zh": "曲线"},
+            {"en": "push", "zh": "进"},
+            {"en": "pop", "zh": "弹出"},
+            {"en": "tarjan", "zh": "缩点(某算法)"},
+            {"en": "insert", "zh": "插入"},
+            {"en": "cheat", "zh": "作弊"},
+            {"en": "update", "zh": "上传"},
+            {"en": "download", "zh": "下载"},
+            {"en": "query", "zh": "询问"},
+            {"en": "change", "zh": "修改"},
+            {"en": "init", "zh": "初始化"},
+            {"en": "lkzhangnn", "zh": "ZLK"},
+            {"en": "gdyrdfz", "zh": "危"},
+            {"en": "marjorie", "zh": "!"},
+            {"en": "yzzyyds", "zh": "yzz"},
+            {"en": "kkksc03", "zh": "kkk站长"},
+            {"en": "chenzhe", "zh": "aya"},
+            {"en": "noip", "zh": "毒瘤"},
+            {"en": "ccfnoi", "zh": "死！"},
+            {"en": "taopianfangzhu", "zh": "陶片放逐"},
+            {"en": "report", "zh": "举报"},
+            {"en": "chaotijie", "zh": "抄题解"},
+            {"en": "accept", "zh": "通过"},
+            {"en": "wonderful answer", "zh": "完美的答案"},
+            {"en": "wrong answer", "zh": "错误答案"},
+            {"en": "compile error", "zh": "编译错误"},
+            {"en": "compile easily", "zh": "容易编译"},
+            {"en": "judging", "zh": "评测中"},
+            {"en": "remotejudge", "zh": "远程评测"},
+            {"en": "merge sort", "zh": "归并排序"},
+            {"en": "runtime excellent", "zh": "完美运行"},
+            {"en": "runtime error", "zh": "运行时错误"},
+            {"en": "time limit enough", "zh": "时间足够"},
+            {"en": "time limit exceed", "zh": "时间超限"},
+            {"en": "memory limit enough", "zh": "内存足够"},
+            {"en": "memory limit exceed", "zh": "内存超限"},
+            {"en": "outputLimit exceed", "zh": "输出超限"},
+            {"en": "outputLimit enough", "zh": "输出足够"},
+            {"en": "unknown error", "zh": "未知错误"},
+            {"en": "unknown excellent", "zh": "未知的完美"},
+            {"en": "partically correct", "zh": "部分正确"},
+            {"en": "presentation excellent", "zh": "PE"},
+            {"en": "presentation error", "zh": "PE"},
+            {"en": "special judge error", "zh": "SPJ错误"},
+            {"en": "special judge excellent", "zh": "SPJ完美"},
+            {"en": "denial of judging", "zh": "拒绝评测"},
+            {"en": "au", "zh": "AU"},
+            {"en": "allkilled", "zh": "AK"},
+            {"en": "development programming", "zh": "动态规划"}
+        ],
 
-            [
-             { "en": "bike", "zh": "自行车" },
-             { "en": "bus", "zh": "公共汽车" }, 
-             { "en": "train", "zh": "火车" }, 
-             { "en": "boat", "zh": "小船" }, 
-             { "en": "ship", "zh": "轮船" }, 
-             { "en": "yacht", "zh": "快艇" }, 
-             { "en": "car", "zh": "小汽车" }, 
-             { "en": "taxi", "zh": "出租车" }, 
-             { "en": "jeep", "zh": " 吉普车" }, 
-             { "en": "van", "zh": " 小货车" }, 
-             { "en": "plane", "zh": "飞机" }, 
-             { "en": "vehicle", "zh": "车辆" },
-             { "en": "subway", "zh": "地铁" }, 
-             { "en": "motor cycle", "zh": "摩托车" },
-             { "en": "bjmtr", "zh":"京港地铁" },
-             { "en": "beijing south railway station", "zh": "北京南站" },
-             { "en": "universal resort", "zh": "环球度假区" },
-             { "en": "metro", "zh": "地铁" },
-             { "en": "renmin daxue", "zh": "人民大学" },
-             { "en": "renmin university", "zh": "人民大学" },
-             { "en": "national library", "zh": "国家图书馆" },
-             { "en": "guojia tushuguan", "zh": "国家图书馆" },
-             { "en": "beijing zoo", "zh": "动物园" },
-             { "en": "dongwuyuan", "zh": "动物园" },
-             { "en": "haidian huangzhuang", "zh": "海淀黄撞" },
-             { "en": "xinshougang", "zh": "新首钢" },
-             { "en": "shougang park", "zh": "新首钢" },
-             { "en": "lize shangwuqu", "zh": "丽折商务区" },
-             { "en": "yizhuang huochezhan", "zh": "亦庄火车站" },
-             { "en": "beijing zhan", "zh": "北京站" },
-             { "en": "terminal 3", "zh": "三号航站楼" },
-             { "en": "sanhao hangzhanlou", "zh": "三号航站楼" },
-             { "en": "shengming kexueyuan", "zh": "生命科学园" },
-             { "en": "sihuidong", "zh": "四惠东" },
-             { "en": "qinghe railway station", "zh": "清河站" },
-             { "en": "qinghe zhan", "zh": "清河站" },
-             { "en": "zhoujiazhuang", "zh": "周家撞" },
-             { "en": "platform", "zh": "站台" },
-             { "en": "station hall", "zh": "站厅" },
-             { "en": "daxing airport", "zh": "大兴机场" },
-             { "en": "daxing jichang", "zh": "大兴机场" },
-             { "en": "beijing daxue dongmen", "zh": "北京大学东门" },
-             { "en": "beijing west railway station", "zh": "北京西站" },
-             { "en": "beijingxizhan", "zh": "北京西站" },
-             { "en": "niujie", "zh": "牛街" },
-             { "en": "cow street", "zh": "牛街" },
-             { "en": "drum building big street", "zh": "鼓楼大街" },
-             { "en": "big clock temple", "zh": "大钟寺" },
-             { "en": "lama temple", "zh": "雍和宫" },
-             { "en": "yonghegong", "zh": "雍和宫" },
-             { "en": "expo garden", "zh": "园博园" },
-             { "en": "yuanboyuan", "zh": "园博园" },
-             { "en": "biomedical base", "zh": "生物医药基地" },
-             { "en": "shengwuyiyao jidi", "zh": "生物医药基地" },
-             { "en": "huangcun huochezhan", "zh": "黄村火车站" },
-             { "en": "huangcun railway station", "zh": "黄村火车站" },
-             { "en": "beitaipingzhuang", "zh": "北太平庄" },
-             { "en": "moshikou", "zh": "模式口" },
-             { "en": "jingfengmen", "zh": "景风门" },
-             { "en": "pinganli", "zh": "平安里" },
-             { "en": "taipingqiao", "zh": "太平桥" }
-            ]
+        [
+            {"en": "pen", "zh": "钢笔"},
+            {"en": "pencil", "zh": "铅笔"},
+            {"en": "pencil-case", "zh": "铅笔盒"},
+            {"en": "ruler", "zh": "尺子"},
+            {"en": "book", "zh": "书"},
+            {"en": "bag", "zh": "包"},
+            {"en": "post card", "zh": "明信片"},
+            {"en": "newspaper", "zh": "报纸"},
+            {"en": "schoolbag", "zh": "书包"},
+            {"en": "eraser", "zh": "橡皮"},
+            {"en": "crayon", "zh": "蜡笔"},
+            {"en": "sharpener", "zh": "卷笔刀"},
+            {"en": "story-book", "zh": "故事书"},
+            {"en": "notebook", "zh": "笔记本"},
+            {"en": "broom", "zh": "扫把"},
+            {"en": "locker", "zh": "柜子"},
+            {"en": "laptop", "zh": "笔记本电脑"},
+            {"en": "air conditioner", "zh": "空调"},
+            {"en": "bucket", "zh": "桶"},
+            {"en": "remote control", "zh": "遥控器"},
+            {"en": "projector", "zh": "投影仪"},
+            {"en": "notice board", "zh": "备忘贴"},
+            {"en": "one by one", "zh": "逐一地"},
+            {"en": "on all fours", "zh": "完全一致"},
+            {"en": "in twos and threes", "zh": "三三两两地"},
+            {"en": "give me five", "zh": "击掌庆贺"},
+            {"en": "at sixes and sevens", "zh": "乱七八糟"},
+            {"en": "a nine day's wonder", "zh": "昙花一现"},
+            {"en": "clip", "zh": "曲别针"},
+            {"en": "calculator", "zh": "计算器"},
+            {"en": "gule stick", "zh": "胶棒"},
+            {"en": "push pin", "zh": "大头针"},
+            {"en": "correction tape", "zh": "修正带"},
+            {"en": "postit", "zh": "便签"},
+            {"en": "stapler", "zh": "订书器"},
+            {"en": "e-dictionary", "zh": "电子字典"},
+            {"en": "cycling", "zh": "自行车"},
+            {"en": "kongfu", "zh": "功夫"},
+            {"en": "martial art", "zh": "武术"},
+            {"en": "mountain climbing", "zh": "登山"},
+            {"en": "fencing", "zh": "击剑"},
+            {"en": "horseriding", "zh": "赛马"},
+            {"en": "weightlifting", "zh": "举重"},
+            {"en": "shooting", "zh": "射击"},
+            {"en": "diving", "zh": "潜水"},
+            {"en": "bowling", "zh": "保龄球"},
+            {"en": "bumjee jumping", "zh": "蹦极"},
+            {"en": "gymnastic", "zh": "体操"},
+            {"en": "fats", "zh": "脂肪"},
+            {"en": "proteins", "zh": "蛋白质"},
+            {"en": "fibre", "zh": "纤维"},
+            {"en": "water", "zh": "水"},
+            {"en": "carbohyrates", "zh": "碳水化合物"},
+            {"en": "vitamin", "zh": "维生素"},
+            {"en": "calcium", "zh": "钙"},
+            {"en": "minerals", "zh": "矿物质"},
+            {"en": "fig", "zh": "无花果"},
+            {"en": "tangerine", "zh": "蜜桔"},
+            {"en": "durain", "zh": "榴莲"},
+            {"en": "avocado", "zh": "牛油果"},
+            {"en": "plum", "zh": "李子"},
+            {"en": "date", "zh": "枣"},
+            {"en": "coconut", "zh": "椰子"},
+            {"en": "longan", "zh": "龙眼"},
+            {"en": "jackfruit", "zh": "菠萝蜜"}
+        ],
+
+        [
+            {"en": "bike", "zh": "自行车"},
+            {"en": "bus", "zh": "公共汽车"},
+            {"en": "train", "zh": "火车"},
+            {"en": "boat", "zh": "小船"},
+            {"en": "ship", "zh": "轮船"},
+            {"en": "yacht", "zh": "快艇"},
+            {"en": "car", "zh": "小汽车"},
+            {"en": "taxi", "zh": "出租车"},
+            {"en": "jeep", "zh": " 吉普车"},
+            {"en": "van", "zh": " 小货车"},
+            {"en": "plane", "zh": "飞机"},
+            {"en": "vehicle", "zh": "车辆"},
+            {"en": "subway", "zh": "地铁"},
+            {"en": "motor cycle", "zh": "摩托车"},
+            {"en": "bjmtr", "zh": "京港地铁"},
+            {"en": "beijing south railway station", "zh": "北京南站"},
+            {"en": "universal resort", "zh": "环球度假区"},
+            {"en": "metro", "zh": "地铁"},
+            {"en": "renmin daxue", "zh": "人民大学"},
+            {"en": "renmin university", "zh": "人民大学"},
+            {"en": "national library", "zh": "国家图书馆"},
+            {"en": "guojia tushuguan", "zh": "国家图书馆"},
+            {"en": "beijing zoo", "zh": "动物园"},
+            {"en": "dongwuyuan", "zh": "动物园"},
+            {"en": "haidian huangzhuang", "zh": "海淀黄撞"},
+            {"en": "xinshougang", "zh": "新首钢"},
+            {"en": "shougang park", "zh": "新首钢"},
+            {"en": "lize shangwuqu", "zh": "丽折商务区"},
+            {"en": "yizhuang huochezhan", "zh": "亦庄火车站"},
+            {"en": "beijing zhan", "zh": "北京站"},
+            {"en": "terminal 3", "zh": "三号航站楼"},
+            {"en": "sanhao hangzhanlou", "zh": "三号航站楼"},
+            {"en": "shengming kexueyuan", "zh": "生命科学园"},
+            {"en": "sihuidong", "zh": "四惠东"},
+            {"en": "qinghe railway station", "zh": "清河站"},
+            {"en": "qinghe zhan", "zh": "清河站"},
+            {"en": "zhoujiazhuang", "zh": "周家撞"},
+            {"en": "platform", "zh": "站台"},
+            {"en": "station hall", "zh": "站厅"},
+            {"en": "daxing airport", "zh": "大兴机场"},
+            {"en": "daxing jichang", "zh": "大兴机场"},
+            {"en": "beijing daxue dongmen", "zh": "北京大学东门"},
+            {"en": "beijing west railway station", "zh": "北京西站"},
+            {"en": "beijingxizhan", "zh": "北京西站"},
+            {"en": "niujie", "zh": "牛街"},
+            {"en": "cow street", "zh": "牛街"},
+            {"en": "drum building big street", "zh": "鼓楼大街"},
+            {"en": "big clock temple", "zh": "大钟寺"},
+            {"en": "lama temple", "zh": "雍和宫"},
+            {"en": "yonghegong", "zh": "雍和宫"},
+            {"en": "expo garden", "zh": "园博园"},
+            {"en": "yuanboyuan", "zh": "园博园"},
+            {"en": "biomedical base", "zh": "生物医药基地"},
+            {"en": "shengwuyiyao jidi", "zh": "生物医药基地"},
+            {"en": "huangcun huochezhan", "zh": "黄村火车站"},
+            {"en": "huangcun railway station", "zh": "黄村火车站"},
+            {"en": "beitaipingzhuang", "zh": "北太平庄"},
+            {"en": "moshikou", "zh": "模式口"},
+            {"en": "jingfengmen", "zh": "景风门"},
+            {"en": "pinganli", "zh": "平安里"},
+            {"en": "taipingqiao", "zh": "太平桥"}
         ]
-        var index = parseInt(Math.random() * wordsLib.length)
-        var words = wordsLib[index]
-        var wordList = [nextWord()]
-        var line = ''
-        var score = 0
-        var time = 120
-        var isMiss = false
-        var sign = false
-        var count = 0
-        var lastScore = 0
-        window.onload = function() {
-            document.onkeydown = function (e) {
-                if (e.keyCode == 8) {
-                    if (line.length > 0) {
-                        line = line.substr(0, line.length - 1)
-                    }
-                } else {
-                    line = line + e.key
+    ]
+    var index = parseInt(Math.random() * wordsLib.length)
+    var words = wordsLib[index]
+    var wordList = [nextWord()]
+    var line = ''
+    var score = 0
+    var time = 120
+    var isMiss = false
+    var sign = false
+    var count = 0
+    var lastScore = 0
+    window.onload = function () {
+        document.onkeydown = function (e) {
+            if (e.keyCode == 8) {
+                if (line.length > 0) {
+                    line = line.substr(0, line.length - 1)
                 }
+            } else {
+                line = line + e.key
             }
-            var timerNextWord = setInterval(function () {
-                wordList.push(nextWord())
-            }, 1500)
-            var timerCanvas = setInterval(gameHandler, 1000 / 120)
-            var timer = setInterval(function() {
-                time = time - 1
-                if (time < 0) time = 0
-            }, 1000)
-            setTimeout(function() {
-                clearInterval(timer)
-                clearInterval(timerNextWord)
-                clearInterval(timerCanvas)
-                drawTime()
-                saveScore()
-            }, (time + 1) * 1000)
         }
-        function saveScore(){
-            $.post(
-                "/update_score",
-                {"name": "typing", "score": score},
-                function( data ) {
-                    console.log(data);
-                },
-                "json"
-            );
-        }
-        function gameHandler() {
-            // 绘制背景
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-            ctx.drawImage(bgImg, 0, 0)
-            ctx.font = "30px Arial"
-            ctx.fillStyle = "#ffffff"
-            ctx.fillText(line, 300, 470)
-            drawScore()
+        var timerNextWord = setInterval(function () {
+            wordList.push(nextWord())
+        }, 1500)
+        var timerCanvas = setInterval(gameHandler, 1000 / 120)
+        var timer = setInterval(function () {
+            time = time - 1
+            if (time < 0) time = 0
+        }, 1000)
+        setTimeout(function () {
+            clearInterval(timer)
+            clearInterval(timerNextWord)
+            clearInterval(timerCanvas)
             drawTime()
-            if (isMiss == true) {
-                ctx.drawImage(missImg, 653, 433)
+            saveScore()
+        }, (time + 1) * 1000)
+    }
+
+    function saveScore() {
+        $.post(
+            "/update_score",
+            {"name": "typing", "score": score},
+            function (data) {
+                console.log(data);
+            },
+            "json"
+        );
+    }
+
+    function gameHandler() {
+        // 绘制背景
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+        ctx.drawImage(bgImg, 0, 0)
+        ctx.font = "30px Arial"
+        ctx.fillStyle = "#ffffff"
+        ctx.fillText(line, 300, 470)
+        drawScore()
+        drawTime()
+        if (isMiss == true) {
+            ctx.drawImage(missImg, 653, 433)
+        }
+        drawWord()
+        moveWord()
+        matchWord()
+        deleteWord()
+        showLevel()
+    }
+
+    function getWordX(word) {
+        // 与绘制文字时使用的大小和字体保持一致
+        ctx.font = "20px Arial"
+        var minX = 124
+        var maxX = (canvasWidth - 124) - ctx.measureText(word).width
+        var x = parseInt(Math.random() * (maxX - minX) + minX)
+        return x
+    }
+
+    // 绘制得分
+    function drawScore() {
+        ctx.drawImage(scoreImg, 5, 5)
+        ctx.font = "20px Arial"
+        ctx.fillStyle = "#074f6d"
+        ctx.fillText('' + score, 20, 45)
+    }
+
+    // 绘制时间
+    function drawTime() {
+        ctx.drawImage(timeImg, 647, 10)
+        ctx.font = "20px Arial"
+        ctx.fillStyle = "#074f6d"
+        ctx.fillText('' + time, 670, 52)
+    }
+
+    // 定义函数绘制数组中的单词
+    function drawWord() {
+        for (var i = 0; i < wordList.length; i++) {
+            var word = wordList[i]
+            if (word.isShow == true) {
+                ctx.font = "20px Arial"
+                ctx.fillStyle = "#ffffff"
+                ctx.fillText(word.text, word.x, word.y)
+                ctx.fillStyle = "#ffff00"
+                ctx.fillText(word.m, word.x, word.y)
             }
-            drawWord()
-            moveWord()
-            matchWord()
-            deleteWord()
-            showLevel()
         }
-        function getWordX(word) {
-            // 与绘制文字时使用的大小和字体保持一致
-            ctx.font = "20px Arial"
-            var minX = 124
-            var maxX = (canvasWidth-124) - ctx.measureText(word).width
-            var x = parseInt(Math.random() * (maxX - minX) + minX)
-            return x
-        }
-        // 绘制得分
-        function drawScore() {
-            ctx.drawImage(scoreImg, 5, 5)
-            ctx.font = "20px Arial"
-            ctx.fillStyle = "#074f6d"
-            ctx.fillText('' + score, 20, 45)
-        }
-        // 绘制时间
-        function drawTime() {
-            ctx.drawImage(timeImg, 647, 10)
-            ctx.font = "20px Arial"
-            ctx.fillStyle = "#074f6d"
-            ctx.fillText('' + time, 670, 52)
-        }
-        // 定义函数绘制数组中的单词
-        function drawWord() {
-            for (var i = 0; i < wordList.length; i++) {
-                var word = wordList[i]
-                if (word.isShow == true) {
-                    ctx.font = "20px Arial"
-                    ctx.fillStyle = "#ffffff"
-                    ctx.fillText(word.text, word.x, word.y)
-                    ctx.fillStyle = "#ffff00"
-                    ctx.fillText(word.m, word.x, word.y)
+    }
+
+    function moveWord() {
+        for (var i = 0; i < wordList.length; i++) {
+            var word = wordList[i]
+            if (word.isShow == true) {
+                word.y = word.y + 0.5
+                if (word.y >= 400) {
+                    word.isShow = false
+                    isMiss = true
+                    setTimeout(function () {
+                        isMiss = false
+                    }, 500)
+                    if (isMiss == true) {
+                        count = 0
+                    }
                 }
             }
         }
-        function moveWord() {
-            for (var i = 0; i < wordList.length; i++) {
-                var word = wordList[i]
-                if (word.isShow == true) {
-                    word.y = word.y + 0.5
-                    if (word.y >= 400) {
+    }
+
+    function nextWord() {
+        var i = parseInt(Math.random() * words.length)
+        var word = {}
+        word.text = words[i].en + ' ' + words[i].zh
+        var x = getWordX(word.text)
+        word.x = x
+        word.y = 0
+        word.isShow = true
+        word.en = words[i].en
+        word.m = ''
+        return word
+    }
+
+    function matchWord() {
+        var flag = false
+        for (var i = 0; i < wordList.length; i++) {
+            var word = wordList[i]
+            if (word.isShow == true) {
+                var index = word.en.indexOf(line)
+                if (index == 0) {
+                    if (word.en.length == line.length) {
+                        flag = true
                         word.isShow = false
-                        isMiss = true
-                        setTimeout(function(){
-                            isMiss = false
-                        },500)
-                        if (isMiss == true) {
-                            count = 0
-                        }
+                        score = score + 100
+                        sign = true
+                        count = count + 1
+                        setTimeout(function () {
+                            sign = false
+                        }, 500)
                     }
+                    word.m = line
+                } else {
+                    word.m = ''
                 }
             }
         }
-        function nextWord() {
-            var i = parseInt(Math.random() * words.length)
-            var word = {}
-            word.text = words[i].en + ' ' + words[i].zh
-            var x = getWordX(word.text)
-            word.x = x
-            word.y = 0
-            word.isShow = true 
-            word.en = words[i].en
-            word.m = ''
-            return word    
+        if (flag == true) {
+            line = ''
         }
-        function matchWord() {
-            var flag = false
-            for (var i = 0; i < wordList.length; i++) {
-                var word = wordList[i]
-                if (word.isShow == true) {
-                    var index = word.en.indexOf(line)
-                    if (index == 0) {
-                        if (word.en.length == line.length) {
-                            flag = true
-                            word.isShow = false
-                            score = score + 100
-                            sign = true
-                            count = count + 1
-                            setTimeout(function(){
-                                sign = false
-                            },500)
-                        }
-                        word.m = line
-                    } else {
-                        word.m = ''
-                    }
-                }
-            }
-            if (flag == true) {
-                line = ''
+    }
+
+    function deleteWord() {
+        for (var i = wordList.length - 1; i >= 0; i--) {
+            var word = wordList[i]
+            if (word.isShow == false) {
+                wordList.splice(i, 1)
             }
         }
-        function deleteWord() {
-            for (var i = wordList.length - 1; i >= 0; i--) {
-                var word = wordList[i]
-                if (word.isShow == false) {
-                    wordList.splice(i, 1)
-                }
-            }
+    }
+
+    function showLevel() {
+        if (sign == false) {
+            return
         }
-        function showLevel(){
-            if (sign == false){
-                return 
-            }
-            if (count>=5 && count<10){
-                ctx.drawImage(levelAry[count-5],653,433)
-            }else if (count>=10 && count<30){
-                ctx.drawImage(levelAry[5],653,433)
-            }else if (count>=30){
-                ctx.drawImage(levelAry[6],653,433)
-            }
+        if (count >= 5 && count < 10) {
+            ctx.drawImage(levelAry[count - 5], 653, 433)
+        } else if (count >= 10 && count < 30) {
+            ctx.drawImage(levelAry[5], 653, 433)
+        } else if (count >= 30) {
+            ctx.drawImage(levelAry[6], 653, 433)
         }
-            
-        
-    </script>
-    <script src="./static/calorie/js/jquery-3.3.1.min.js"></script>
+    }
+
+
+</script>
+<script src="./static/calorie/js/jquery-3.3.1.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
 <script>
     if (typeof DisableDevtool == 'undefined') history.back();

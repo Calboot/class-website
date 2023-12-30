@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{t_title}}</title>
+    <title>{{ t_title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/board/bootstrap-3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/board/css/common.css">
@@ -12,57 +12,64 @@
     <link rel="stylesheet" href="/static/board/css/markdown-palettes.css">
     <link rel="stylesheet" href="/static/board/css/styles.css">
     <script src="/static/board/js/jquery-3.3.1.min.js"></script>
-<script src="/static/board/js/markdown-palettes.min.js"></script>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-          // customised options
-          // • auto-render specific keys, e.g.:
-          delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false},
-              {left: '\\(', right: '\\)', display: false},
-              {left: '\\[', right: '\\]', display: true},
-              {left: "\\begin{equation}", right: "\\end{equation}", display: true},
-              {left: "\\begin{align}", right: "\\end{align}", display: true},
-              {left: "\\begin{alignat}", right: "\\end{alignat}", display: true},
-              {left: "\\begin{gather}", right: "\\end{gather}", display: true},
-              {left: "\\begin{CD}", right: "\\end{CD}", display: true},
-              {left: "\\[", right: "\\]", display: true}
-          ],
-          // • rendering keys, e.g.:
-          throwOnError : false
+    <script src="/static/board/js/markdown-palettes.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: "\\begin{equation}", right: "\\end{equation}", display: true},
+                    {left: "\\begin{align}", right: "\\end{align}", display: true},
+                    {left: "\\begin{alignat}", right: "\\end{alignat}", display: true},
+                    {left: "\\begin{gather}", right: "\\end{gather}", display: true},
+                    {left: "\\begin{CD}", right: "\\end{CD}", display: true},
+                    {left: "\\[", right: "\\]", display: true}
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
         });
-    });
-</script>
+    </script>
     <style>
         .my-content ul {
             margin-left: 20px
         }
+
         .my-content ul li {
             list-style: outside disc;
         }
+
         .my-content ol {
             margin-left: 20px
         }
+
         .my-content ol li {
             list-style: outside decimal;
         }
+
         .my-content table tr th,
         .my-content table tr td {
             padding: 6px 13px;
             border: 1px solid #ddd;
         }
+
         form {
             line-height: inherit;
         }
+
         .my-content a {
             text-decoration: underline;
             color: blue;
         }
+
         .my-content .codehilite pre {
             font-size: 120%;
         }
@@ -93,36 +100,36 @@
         <div class="clearfix"></div>
         <div id="content" style="height: auto; width: auto; padding-top: 0px">
             <div style="text-align: center; font-size:30px; margin-bottom: 25px">
-                {{t_parent.title}}
-                <label class="label label-success">{{t_parent.subject}}</label>
+                {{ t_parent.title }}
+                <label class="label label-success">{{ t_parent.subject }}</label>
             </div>
             <div style="margin-bottom:30px" class="public cont clearfix">
                 <ul>
                     {% for item in t_board_list %}
-                    <li class="listItem clearfix">
-                        <p>
-                        <span class="time">{{item.date}}&nbsp;</span>
-                        <a class="note">
-                            <span class="label label-default">{{item.owner}}</span><br>
-                        </a>
-                        </p>
-                        <div class="my-content">
-                            {{item.html|safe}}
-                        </div>
-                    </li>
+                        <li class="listItem clearfix">
+                            <p>
+                                <span class="time">{{ item.date }}&nbsp;</span>
+                                <a class="note">
+                                    <span class="label label-default">{{ item.owner }}</span><br>
+                                </a>
+                            </p>
+                            <div class="my-content">
+                                {{ item.html|safe }}
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
             <form action="reply_check" method="post" id="form1">
-                <input type="hidden" name="id" value="{{t_id}}">
-                <div class="textareaBox clearfix" >
+                <input type="hidden" name="id" value="{{ t_id }}">
+                <div class="textareaBox clearfix">
                     <label class="fl" style="width: auto" for="contText">回复：</label><br>
                 </div>
                 <div id="editor-container" style="height: 300px;">
-                      <div id="editor"></div>
-                    </div>
+                    <div id="editor"></div>
+                </div>
                 <div class="textareaBox clearfix" style="height: 60px">
-                    <label class="submitLabel"  style="left: 0; top: 20px"  for="sub"></label>
+                    <label class="submitLabel" style="left: 0; top: 20px" for="sub"></label>
                     <input id="sub" type="submit" value="">
                 </div>
                 <input type="hidden" name="content" id="hidden-content">
@@ -131,18 +138,18 @@
     </div>
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2019
+    COPYRIGHT© {{ t_username }} 2019
 </div>
 <script>
-  var markdownEditor = new MarkdownPalettes("#editor");
-  //markdownEditor.contenet = "**content**";
-  var code = markdownEditor.content;
-  $(function(){
-    $('#form1').submit(function(){
-        var code = markdownEditor.content;
-        $('#hidden-content').val(code);
+    var markdownEditor = new MarkdownPalettes("#editor");
+    //markdownEditor.contenet = "**content**";
+    var code = markdownEditor.content;
+    $(function () {
+        $('#form1').submit(function () {
+            var code = markdownEditor.content;
+            $('#hidden-content').val(code);
+        });
     });
-  });
 </script>
 </body>
 </html>

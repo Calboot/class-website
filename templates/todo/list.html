@@ -34,7 +34,7 @@
         <div class="taskDateWrap" style="padding-bottom: 0px">
             <div class="mainTop col-xs-12 col-md-12 col-sm-12 col-lg-12">
                         <span class="user">
-                            <span class="userName">{{t_username}}的任务本</span>
+                            <span class="userName">{{ t_username }}的任务本</span>
                         </span>
                 <img class="monkey" height="90" src="/static/images/work.png" alt="">
                 <a class="addtask" href="/todo/add">
@@ -48,11 +48,11 @@
                         <label for="object" class="object">科目：</label>
                         <select name="subject" onchange="f1.submit()" id="object">
                             {% for item in t_subject_options %}
-                            {% if item==t_subject %}
-                            <option value="{{ item }}" selected>{{ item }}</option>
-                            {% else %}
-                            <option value="{{ item }}">{{ item }}</option>
-                            {% endif %}
+                                {% if item==t_subject %}
+                                    <option value="{{ item }}" selected>{{ item }}</option>
+                                {% else %}
+                                    <option value="{{ item }}">{{ item }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -64,20 +64,20 @@
             <div class="noFinsh cont clearfix">
                 <ul>
                     {% for item in t_todo_list %}
-                    {% if item.state == 'unfinished' and item.public != '1' %}
-                    <li class="listItem clearfix">
-                        <p>
-                        <span class="time">{{item.date}}</span>
-                        <span class="note"><span class="biancheng object">【{{item.subject}}】</span>
-                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
-                        </p>
-                        <p>
-                            <a class="delBtn btn fr" href="/todo/deleted?_id={{ item._id }}"></a>
-                            <a class="rightBtn btn fr" href="/todo/finished?_id={{ item._id }}"></a>
-                        </p>
-                    </li>
+                        {% if item.state == 'unfinished' and item.public != '1' %}
+                            <li class="listItem clearfix">
+                                <p>
+                                    <span class="time">{{ item.date }}</span>
+                                    <span class="note"><span class="biancheng object">【{{ item.subject }}】</span>
+                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{ s|safe }}</span></span>
+                                </p>
+                                <p>
+                                    <a class="delBtn btn fr" href="/todo/deleted?_id={{ item._id }}"></a>
+                                    <a class="rightBtn btn fr" href="/todo/finished?_id={{ item._id }}"></a>
+                                </p>
+                            </li>
 
-                    {% endif %}
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -85,14 +85,14 @@
             <div class="finshed cont clearfix">
                 <ul>
                     {% for item in t_todo_list %}
-                    {% if item.state == 'finished' %}
-                    <li class="listItem clearfix">
-                        <span class="time">{{item.date}}</span>
-                        <span class="note"><span class="math object">【{{item.subject}}】</span>
-                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{s|safe}}</span></span>
-                        <a class="repeatBtn btn fr" href="/todo/unfinished?_id={{ item._id }}"></a>
-                    </li>
-                    {% endif %}
+                        {% if item.state == 'finished' %}
+                            <li class="listItem clearfix">
+                                <span class="time">{{ item.date }}</span>
+                                <span class="note"><span class="math object">【{{ item.subject }}】</span>
+                            <span class="noteCont">{% set s = '<br>'.join(item.content.split('\n')) %}{{ s|safe }}</span></span>
+                                <a class="repeatBtn btn fr" href="/todo/unfinished?_id={{ item._id }}"></a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -100,7 +100,7 @@
     </div>
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2019
+    COPYRIGHT© {{ t_username }} 2019
 </div>
 <script src="/static/todo/js/jquery-3.3.1.min.js"></script>
 </body>

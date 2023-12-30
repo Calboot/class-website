@@ -2,10 +2,12 @@ html, body {
     width: 100%;
     height: 100%;
 }
+
 body {
     background: url(../images/mainbg.jpg) no-repeat;
     background-size: 100% 100%;
 }
+
 .mask {
     position: fixed;
     width: 100%;
@@ -14,13 +16,15 @@ body {
     opacity: 0.76;
     z-index: 1;
 }
-form{
+
+form {
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .loginBox {
     position: relative;
     width: 20rem;
@@ -32,52 +36,61 @@ form{
     z-index: 666;
     color: #fff;
 }
+
 a {
     color: #fff;
     text-decoration: none;
 }
+
 .loginBox-top {
     width: 100%;
     font-size: 0.8rem;
 }
+
 .loginBox-top img {
     height: 0.8rem;
     max-height: 100%;
     max-width: 100%;
     vertical-align: middle;
-    cursor: pointer;        
+    cursor: pointer;
 }
-#account,#password, #repassword, #repassword2{
+
+#account, #password, #repassword, #repassword2 {
     margin-top: 2rem;
     width: 100%;
     height: 2rem;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     background: transparent;
-    padding:0 10px;
+    padding: 0 10px;
     font-size: 0.6rem;
     line-height: 2rem;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
     box-sizing: border-box;
 }
+
 #password, #repassword, #repassword2 {
     margin-top: 1.2rem;
 }
+
 .mid {
     margin-top: 0.5rem;
     line-height: 2rem;
     font-size: 0.6rem;
 }
+
 .mid a {
     float: right;
     color: #4D84FF;
 }
+
 #remember {
     width: 0.6rem;
     height: 0.6rem;
     vertical-align: middle;
     margin-right: 8px;
 }
+
 .login-btn {
     margin-top: 35px;
     background: #407FFF;
@@ -89,7 +102,7 @@ a {
     cursor: pointer;
 }
 
-#sub1,.register {
+#sub1, .register {
     display: block;
     margin-top: 1.5rem;
     background: #407FFF;
@@ -100,15 +113,17 @@ a {
     font-size: 0.6rem;
     border-radius: 4px;
     cursor: pointer;
-    color:white;
+    color: white;
     border: 0px solid transparent;
 }
-.register{
+
+.register {
     background: transparent;
     margin: 0;
 }
+
 .msg {
-    margin-left:5px;
+    margin-left: 5px;
     font-size: 0.8rem;
     color: red;
     opacity: 0.8;

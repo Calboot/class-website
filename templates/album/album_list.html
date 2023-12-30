@@ -11,73 +11,73 @@
 </head>
 
 <body>
-    <div class="mask"></div>
-    <div id="bg"></div>
+<div class="mask"></div>
+<div id="bg"></div>
 
-    <div id="container">
-        <header>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
-                <a href="/main" class="goBack">
-                    <img src="/static/album/images/back.png">
-                    <span class="goBackIndex">返回</span>
-                </a>
-            </div>
-            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
-                <img class="" src="/static/album/images/avatar.png">
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-                <img src="/static/album/images/avatar.png">
-                <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
-            </div>
+<div id="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/main" class="goBack">
+                <img src="/static/album/images/back.png">
+                <span class="goBackIndex">返回</span>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+            <img class="" src="/static/album/images/avatar.png">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/album/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+        </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
 
+        </div>
+    </header>
+    <div class="main">
+
+        <div class="albumList container">
+            <div class="btn">
+                <a href="#"></a>
+                <span class="album">文件库列表</span>
+                <a href="/upload">上传文件</a>
             </div>
-        </header>
-        <div class="main">
-
-            <div class="albumList container">
-                <div class="btn">
-                    <a href="#"></a>
-                    <span class="album">文件库列表</span>
-                    <a href="/upload">上传文件</a>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover createAlbum">
-                    <div class="createImg">
-                        <div>
-                            <a href="/create">
-                                <img src="/static/album/images/createAlbum.png"
-                                    style=" height:auto;max-width:100%">
-                            </a>
-                        </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover createAlbum">
+                <div class="createImg">
+                    <div>
+                        <a href="/create">
+                            <img src="/static/album/images/createAlbum.png"
+                                 style=" height:auto;max-width:100%">
+                        </a>
                     </div>
-                    <p class="albumNum"></p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
-                    <div class="coverImg">
-                        <div style="text-align: center; margin-top: 50px">
-                            <a style="font-size: 30px; color: grey; font-weight: bold" href="/image_list?albumname=回收站">
-                                回收站
-                            </a>
-                        </div>
+                <p class="albumNum"></p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
+                <div class="coverImg">
+                    <div style="text-align: center; margin-top: 50px">
+                        <a style="font-size: 30px; color: grey; font-weight: bold" href="/image_list?albumname=回收站">
+                            回收站
+                        </a>
                     </div>
-                    <p class="albumNum">
-                        ({{t_deleted_total}}个文件)
-                    </p>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
-                    <div class="coverImg">
-                        <div style="text-align: center; margin-top: 50px">
-                            <a style="font-size: 30px; color: green; font-weight: bold" href="/image_list?albumname=共享的文件">
-                                共享的文件
-                            </a>
-                        </div>
+                <p class="albumNum">
+                    ({{ t_deleted_total }}个文件)
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
+                <div class="coverImg">
+                    <div style="text-align: center; margin-top: 50px">
+                        <a style="font-size: 30px; color: green; font-weight: bold" href="/image_list?albumname=共享的文件">
+                            共享的文件
+                        </a>
                     </div>
-                    <p class="albumNum">
-                        ({{t_total}}个文件)
-                    </p>
                 </div>
-                {% for album in t_album_list %}
+                <p class="albumNum">
+                    ({{ t_total }}个文件)
+                </p>
+            </div>
+            {% for album in t_album_list %}
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 albumCover">
                     <!-- 创建超链接，点击相册封面图片(超链接)进入图片列表页面
                              地址：/image_list
@@ -85,25 +85,25 @@
                         -->
                     <div class="coverImg">
                         <div style="text-align: center; margin-top: 50px">
-                            <a style="font-size: 30px" href="/image_list?albumname={{album._id}}">
+                            <a style="font-size: 30px" href="/image_list?albumname={{ album._id }}">
                                 {{ album._id }}
                             </a>
                         </div>
                     </div>
                     <p class="albumNum">
-                        {{album.albumname}} ({{album.num}}个文件)
+                        {{ album.albumname }} ({{ album.num }}个文件)
                     </p>
                 </div>
 
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
+    </div>
 
-    </div>
-    <div id="footer">
-        COPYRIGHT© {{t_username}} 2020
-    </div>
-    <script src="/static/album/js/jquery-3.3.1.min.js"></script>
+</div>
+<div id="footer">
+    COPYRIGHT© {{ t_username }} 2020
+</div>
+<script src="/static/album/js/jquery-3.3.1.min.js"></script>
 </body>
 
 </html>

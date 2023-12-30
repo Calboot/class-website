@@ -2,7 +2,7 @@ console.log("服务器启动中...");
 const ws = require('ws').Server;
 const WebSocket = require('ws');
 const PORT = 3888;
-const wss = new ws({ port: PORT });
+const wss = new ws({port: PORT});
 console.log("服务器启动成功!");
 
 var players = [];
@@ -114,8 +114,7 @@ wss.on('connection', function (ws) {
                         }
                     }
                     wsSend(pid, rooms[roomsIndex]);
-                }
-                else if (msg.msgtype == 'join') {
+                } else if (msg.msgtype == 'join') {
                     var id = msg.roomid;
                     for (var i = 0; i <= roomsIndex; i++) {
                         if (rooms[i].id == id) {
@@ -161,7 +160,7 @@ wss.on('connection', function (ws) {
                 for (var i = 0; i <= playersIndex; i++) {
                     if (players[i].pid == pid) {
                         players[i].status = 'waiting';
-                        if(nowwaitingpid==players[i].pid)nowwaitingpid='null';
+                        if (nowwaitingpid == players[i].pid) nowwaitingpid = 'null';
                         return;
                     }
                 }

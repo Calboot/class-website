@@ -11,96 +11,96 @@
 </head>
 
 <body>
-    <div class="mask"></div>
-    <div id="bg"></div>
+<div class="mask"></div>
+<div id="bg"></div>
 
-    <div id="container">
-        <header>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
-                <a href="/album_list" class="goBack">
-                    <img src="/static/album/images/back.png">
-                    <span class="goBackIndex">返回</span>
-                </a>
-            </div>
-            <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
-                <img class="" src="/static/album/images/avatar.png">
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
-                <img src="/static/album/images/avatar.png">
-                <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
-            </div>
+<div id="container">
+    <header>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 margin0 padding0 width28 gobackWrap">
+            <a href="/album_list" class="goBack">
+                <img src="/static/album/images/back.png">
+                <span class="goBackIndex">返回</span>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 hidden-sm hidden-md hidden-lg margin0 padding0 width12 fanIcon ">
+            <img class="" src="/static/album/images/avatar.png">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 hidden-xs wel">
+            <img src="/static/album/images/avatar.png">
+            <span class="welcomtitle">欢迎使用{{ t_username }}的工具箱</span>
+        </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 pull-right">
 
-            </div>
-        </header>
-        <div class="main">
-            <!-- <div class="city">
+        </div>
+    </header>
+    <div class="main">
+        <!-- <div class="city">
                 <span>{{ city }}</span><span class="picNum"></span>
             </div> -->
-            <!-- 显示相册名 -->
-            <h2>{{t_albumname}}
+        <!-- 显示相册名 -->
+        <h2>{{ t_albumname }}
             {% if t_albumname == '回收站' %}
-                    <input type="submit" value="清空回收站" onclick="if(confirm('是否确定清空回收站？')){document.location.href='/album/delete_all';}" class="btn btn-danger btn-sm">
+                <input type="submit" value="清空回收站" onclick="if(confirm('是否确定清空回收站？')){document.location.href='/album/delete_all';}" class="btn btn-danger btn-sm">
             {% endif %}
-                </h2>
-            <div class="container">
-                <!-- 模板变量t_imgs_list存储该相册所有图片地址-->
-                {% for img in t_imgs_list %}
+        </h2>
+        <div class="container">
+            <!-- 模板变量t_imgs_list存储该相册所有图片地址-->
+            {% for img in t_imgs_list %}
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 image">
                     {% if t_albumname == '共享的文件' %}
-                        由{{img.owner}}上传于{{img.time}}：
+                        由{{ img.owner }}上传于{{ img.time }}：
                     {% else %}
-                        上传于{{img.time}}：
+                        上传于{{ img.time }}：
                     {% endif %}
                     {% set arr = img.path.split('.') %}
                     {% if arr[-1] != 'png' and arr[-1] != 'jpg' and arr[-1] != 'jpeg' %}
                         <div style="display: flex;align-items: center;justify-content: center;" class="well well-sm">
-                            <a href="/download?id={{img._id}}" style="font-size: 24px;">{{ img.name }}</a>
+                            <a href="/download?id={{ img._id }}" style="font-size: 24px;">{{ img.name }}</a>
                         </div>
                     {% else %}
                         <div>
-                            <img src="{{img.path}}" class="pic">
+                            <img src="{{ img.path }}" class="pic">
                         </div>
                     {% endif %}
                     {% if img.owner == session.get("username") and t_albumname != '回收站' %}
                         {% if img.public == "1" %}
-                            <input type="submit" value="取消分享" onclick="document.location.href='/album/set_share?id={{img._id}}';" class="btn btn-primary">
+                            <input type="submit" value="取消分享" onclick="document.location.href='/album/set_share?id={{ img._id }}';" class="btn btn-primary">
                         {% else %}
-                            <input type="submit" value="分享" onclick="document.location.href='/album/set_share?id={{img._id}}';" class="btn btn-primary">
+                            <input type="submit" value="分享" onclick="document.location.href='/album/set_share?id={{ img._id }}';" class="btn btn-primary">
                         {% endif %}
                     {% endif %}
                     {% if t_albumname == '回收站' %}
-                        <input type="submit" value="恢复" onclick="document.location.href='/album/set_delete?id={{img._id}}';" class="btn btn-primary">
+                        <input type="submit" value="恢复" onclick="document.location.href='/album/set_delete?id={{ img._id }}';" class="btn btn-primary">
                     {% endif %}
                     {% if img.owner == session.get("username") %}
                         {% if ('deleted' is not in img or img.deleted == '0') and t_albumname != '共享的文件' %}
-                            <input type="submit" value="删除" onclick="if(confirm('是否确定删除此文件？')){document.location.href='/album/set_delete?id={{img._id}}';}" class="btn btn-danger">
+                            <input type="submit" value="删除" onclick="if(confirm('是否确定删除此文件？')){document.location.href='/album/set_delete?id={{ img._id }}';}" class="btn btn-danger">
                         {% endif %}
                         {% if img.deleted == '1' %}
-                            <input type="submit" value="彻底删除" onclick="if(confirm('是否确定彻底删除此文件？')){document.location.href='/album/delete_file?id={{img._id}}';}" class="btn btn-danger">
+                            <input type="submit" value="彻底删除" onclick="if(confirm('是否确定彻底删除此文件？')){document.location.href='/album/delete_file?id={{ img._id }}';}" class="btn btn-danger">
                         {% endif %}
                     {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-            <!-- <a href="/album_list">返回相册列表</a> -->
+                </div>
+            {% endfor %}
         </div>
-
-    </div>
-    <!--图片放大层-->
-    <div id="outerdiv"
-        style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:99;width:100%;height:100%;display:none;">
-        <div id="innerdiv" style="position:absolute;">
-            <img id="bigimg" style="border:5px solid #fff;" src="" />
-        </div>
+        <!-- <a href="/album_list">返回相册列表</a> -->
     </div>
 
-    <div id="footer">
-        COPYRIGHT© {{t_username}} 2020
+</div>
+<!--图片放大层-->
+<div id="outerdiv"
+     style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:99;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="bigimg" style="border:5px solid #fff;" src=""/>
     </div>
-    <script src="/static/album/js/jquery-3.3.1.min.js"></script>
-    <script src="/static/album/js/bigImg.js"></script>
+</div>
+
+<div id="footer">
+    COPYRIGHT© {{ t_username }} 2020
+</div>
+<script src="/static/album/js/jquery-3.3.1.min.js"></script>
+<script src="/static/album/js/bigImg.js"></script>
 </body>
 
 </html>

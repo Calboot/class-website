@@ -1,6 +1,7 @@
 # Winter Card Game-Multiplayer
 
 #### 介绍
+
 全新的版本！
 
 WCG(Winter Card Game) 联机版
@@ -13,11 +14,11 @@ WCG(Winter Card Game) 联机版
 
 #### 参与编写
 
-1.  liucang
-1.  run26
-1.  songhx
-1.  CALLSIGN_NONE
-1.  Ian_Shi_rdfz
-1.  July_july
+1. liucang
+1. run26
+1. songhx
+1. CALLSIGN_NONE
+1. Ian_Shi_rdfz
+1. July_july
 
 (排名无先后顺序)

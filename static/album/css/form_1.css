@@ -1,21 +1,24 @@
-.mon-ban{
-    width:83px;
-    height:95px;
+.mon-ban {
+    width: 83px;
+    height: 95px;
 }
-.main{
-    padding:147px 0;
+
+.main {
+    padding: 147px 0;
 }
-.contentTop{
+
+.contentTop {
     width: 356px;
     margin: 0 auto;
 }
+
 .contentTop .title {
     display: inline-block;
     width: 251px;
     height: 87px;
     margin-right: 16px;
     line-height: 33px;
-    color:rgba(71,72,76,1);
+    color: rgba(71, 72, 76, 1);
     font-size: 24px;
     font-weight: 500;
     text-align: right;
@@ -24,59 +27,69 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
-.title .titletxt{
+
+.title .titletxt {
     margin-top: 54px;
     display: inline-block;
 }
-.content{
+
+.content {
     padding-top: 50px;
     box-sizing: border-box;
     text-align: center;
     line-height: 40px;
 }
-.cont{
+
+.cont {
     width: 457px;
     margin: 0 auto;
 }
-.flag{
+
+.flag {
     font-size: 16px;
-    color:rgba(73,74,87,1);
+    color: rgba(73, 74, 87, 1);
     margin-right: 10px;
 }
-select{
-    width:163px;
-    height:40px;
+
+select {
+    width: 163px;
+    height: 40px;
     line-height: 40px;
-    background:rgba(32,53,128,0.01);
-    border-radius:3px;
-    border:1px solid rgba(32,53,128,0.16);
+    background: rgba(32, 53, 128, 0.01);
+    border-radius: 3px;
+    border: 1px solid rgba(32, 53, 128, 0.16);
     font-size: 16px;
-    color:rgba(0,0,0,1);
-    appearance:none;  
-    -moz-appearance:none;  
-    -webkit-appearance:none;  
-    /*在选择框的最右侧b中间显示小箭头图片*/  
+    color: rgba(0, 0, 0, 1);
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    /*在选择框的最右侧b中间显示小箭头图片*/
     background-image: url("../images/Shape.png");
     background-repeat: no-repeat;
     background-size: 10px 5px;
     background-position: 148px 16px;
-    /*为下拉小箭头留出一点位置，避免被文字覆盖*/  
-    padding-right: 14px;  
-    padding-left: 4px; 
-    box-sizing: border-box; 
+    /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+    padding-right: 14px;
+    padding-left: 4px;
+    box-sizing: border-box;
 }
-/*清除ie的默认选择框样式清除，隐藏下拉箭头*/  
-select::-ms-expand { display: none; }  
-.nextBtn{
+
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand {
     display: none;
 }
-option{
+
+.nextBtn {
+    display: none;
+}
+
+option {
     line-height: 40px;
 }
 
 
-.nextBtn-label{
-    width:150px;
+.nextBtn-label {
+    width: 150px;
     height: 53px;
     display: inline-block;
     cursor: pointer;
@@ -87,40 +100,47 @@ option{
     background-image: url(../images/next.png);
 }
 
-@media screen and (max-width:480px){
+@media screen and (max-width: 480px) {
     .cityListWrap {
         padding: 0;
         float: left;
         width: 50%;
     }
-    .city{
+
+    .city {
         width: 91%;
         height: 4rem;
         border-radius: 10px;
-        margin:0 1rem;
+        margin: 0 1rem;
     }
-    .m-text{
+
+    .m-text {
         max-width: 920px;
         padding: 0 0px;
         margin-top: 20px;
     }
-    .m-text >div{
+
+    .m-text > div {
         text-align: left;
         display: block;
         padding: 0 3rem;
         font-size: 1rem;
         line-height: 1.5rem;
     }
-    .city div{
+
+    .city div {
         line-height: 4rem;
     }
-    .cityair,.cityname{
+
+    .cityair, .cityname {
         font-size: 1rem;
     }
-    .cityList{
+
+    .cityList {
         width: 100%;
     }
-    .location{
+
+    .location {
         width: 85%;
         height: 11rem;
         margin: 0;
@@ -128,65 +148,82 @@ option{
         padding: 10px;
         margin-bottom: 1.5rem;
     }
-    .main{
+
+    .main {
         margin: 0 10px;
         padding: 50px 0;
     }
-    header{
+
+    header {
         padding: 10px;
     }
-    .margin0{
+
+    .margin0 {
         margin: 0;
     }
-    .padding0{
+
+    .padding0 {
         padding: 0;
     }
-    .width28{
+
+    .width28 {
         width: 35%;
     }
-    .width12{
+
+    .width12 {
         width: 12%;
     }
-    .gobackWrap{
+
+    .gobackWrap {
         width: 35%;
     }
-    .contentTop{
+
+    .contentTop {
         width: 100%;
     }
-    .contentTop .title{
+
+    .contentTop .title {
         width: 200px;
     }
-    .cont{
+
+    .cont {
         width: 39%;
         min-width: auto;
         position: relative;
         left: 5%;
     }
-    .flag{
+
+    .flag {
         margin-right: 1%;
         position: absolute;
         left: -56%;
     }
-    .nextBtn-label{
+
+    .nextBtn-label {
         margin: 0;
         margin-top: 20px;
     }
-    .seleJiaTxt{
+
+    .seleJiaTxt {
         position: absolute;
         left: -65apx;
     }
-    .city{
+
+    .city {
         text-align: left;
     }
-    select{
+
+    select {
         width: 100%;
     }
 }
-@media screen and (max-width:320px){
-    .flag{
+
+@media screen and (max-width: 320px) {
+    .flag {
         left: -65%;
     }
-    .cont{
+
+    .cont {
         width: 45%;
         left: 13%;
     }

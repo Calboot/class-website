@@ -3,83 +3,96 @@
     height: 90px;
     text-align: center;
 }
-.container{
+
+.container {
     width: 100%;
 }
-.mainTop .user{
+
+.mainTop .user {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    width:240px;
-    height:87px;
+    width: 240px;
+    height: 87px;
     background-image: url(../images/taskbook.png);
     background-size: 236px 52px;
     background-position: center right;
     background-repeat: no-repeat;
     margin-right: 8px;
-    font-size:24px;
-    color:rgba(71,72,76,1);
+    font-size: 24px;
+    color: rgba(71, 72, 76, 1);
     text-align: right;
 }
-.user .userName{
-    line-height:33px;
+
+.user .userName {
+    line-height: 33px;
     position: absolute;
     bottom: 0;
     right: 3px;
 }
-.mainTop .monkey{
+
+.mainTop .monkey {
     margin-right: 27px;
 }
-.mainTop .addtask{
-    font-size:14px;
-    color:rgba(73,74,87,1);
+
+.mainTop .addtask {
+    font-size: 14px;
+    color: rgba(73, 74, 87, 1);
     cursor: pointer;
 }
-.mainTop .addtask img{
+
+.mainTop .addtask img {
     margin-right: 10px;
 }
-#content{
+
+#content {
     padding: 40px 80px 30px;
     box-sizing: border-box;
 }
-form{
+
+form {
     line-height: 40px;
-    color:rgba(73,74,87,1);
+    color: rgba(73, 74, 87, 1);
     margin-bottom: 30px;
     min-width: 478px;
 }
-select{
-    width:163px;
-    height:40px;
-    background-color:rgba(32,53,128,0.01);
-    border-radius:3px;
-    border:1px solid rgba(32,53,128,0.16);
+
+select {
+    width: 163px;
+    height: 40px;
+    background-color: rgba(32, 53, 128, 0.01);
+    border-radius: 3px;
+    border: 1px solid rgba(32, 53, 128, 0.16);
     margin-right: 5%;
     margin-left: 3px;
-    appearance:none;  
-    -moz-appearance:none;  
-    -webkit-appearance:none;  
-    /*在选择框的最右侧b中间显示小箭头图片*/  
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    /*在选择框的最右侧b中间显示小箭头图片*/
     background-image: url("../images/Shape.png");
     background-repeat: no-repeat;
     background-size: 10px 6px;
     background-position: 148px 16px;
-    /*为下拉小箭头留出一点位置，避免被文字覆盖*/  
-    padding-right: 14px;  
-    padding-left: 4px; 
-    box-sizing: border-box; 
+    /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+    padding-right: 14px;
+    padding-left: 4px;
+    box-sizing: border-box;
 }
-/*清除ie的默认选择框样式清除，隐藏下拉箭头*/  
-select::-ms-expand { display: none; } 
 
-.cont{
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand {
+    display: none;
+}
+
+.cont {
     position: relative;
     padding: 24px;
-    box-sizing: border-box; 
-    border-radius:8px;
-    border:1px solid rgba(233,236,241,1);
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid rgba(233, 236, 241, 1);
 }
-.cont::before{
+
+.cont::before {
     content: "";
     position: absolute;
     top: -14px;
@@ -87,118 +100,143 @@ select::-ms-expand { display: none; }
     width: 89px;
     height: 39px;
     background-size: 89px 39px;
-    background-position:center;
+    background-position: center;
     background-repeat: no-repeat;
 }
-.noFinsh::before{
+
+.noFinsh::before {
     background-image: url(../images/nofinish.png);
 }
-.noFinsh{
+
+.noFinsh {
     margin-bottom: 36px;
 }
-.finshed::before{
+
+.finshed::before {
     background-image: url(../images/hadfinish.png);
 }
-.listItem{
+
+.listItem {
     padding-bottom: 10px;
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     margin-bottom: 8px;
-    box-shadow:0px 4px 8px 0px rgba(132,132,132,0.17);
-    border-radius:4px;
+    box-shadow: 0px 4px 8px 0px rgba(132, 132, 132, 0.17);
+    border-radius: 4px;
     padding-left: 15px;
     padding-right: 25px;
     box-sizing: border-box;
 }
-.listItem + .listItem{
+
+.listItem + .listItem {
     margin-top: 16px;
 }
-.listItem .time{
+
+.listItem .time {
     font-size: 12px;
-    color: rgba(169,169,169,0.8);
+    color: rgba(169, 169, 169, 0.8);
     margin-right: 0px;
     float: left;
 }
-.listItem p:nth-of-type(1){
+
+.listItem p:nth-of-type(1) {
     overflow: hidden;
 }
 
-.note .object{
+.note .object {
     font-size: 12px;
 }
-.object.biancheng{
-    color:rgba(220,99,99,1);
+
+.object.biancheng {
+    color: rgba(220, 99, 99, 1);
 }
-.object.math{
-    color:rgba(86,144,240,1);
+
+.object.math {
+    color: rgba(86, 144, 240, 1);
 }
-.listItem .noteCont{
+
+.listItem .noteCont {
     font-size: 13px;
-    color:rgba(48,59,74,0.8);
+    color: rgba(48, 59, 74, 0.8);
 }
+
 .biancheng {
     float: left;
 }
-.btn{
+
+.btn {
     width: 40px;
     height: 26px;
     margin-left: 8px;
     margin-top: 14px;
     background-size: contain;
-    background-position:center;
+    background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
 }
-.rightBtn{
+
+.rightBtn {
     background-image: url(../images/b-finish.png);
 }
-.delBtn{
+
+.delBtn {
     background-image: url(../images/b-del.png);
 }
-.repeatBtn{
+
+.repeatBtn {
     background-image: url(../images/b-repeat.png);
 }
+
 .subjectTime {
     padding-top: 65px;
     min-width: 500px;
 }
-.dateSubjectWrap{
+
+.dateSubjectWrap {
     display: inline;
 }
-.taskDateWrap{
+
+.taskDateWrap {
     padding: 40px 80px 30px;
     overflow: hidden;
 }
-@media screen and (min-width:768px) and (max-width:1336px){
-    .mainTop,.subjectTime {
+
+@media screen and (min-width: 768px) and (max-width: 1336px) {
+    .mainTop, .subjectTime {
         position: relative;
         left: 50%;
         transform: translate(-50%);
     }
-    .mainTop{
+
+    .mainTop {
         padding: 40px 80px 30px;
     }
-    .subjectTime{
+
+    .subjectTime {
         padding-top: 70px;
         padding-left: 0;
     }
 }
 
 
-@media screen and (min-width:480px) and (max-width:767px){
-    .main{
+@media screen and (min-width: 480px) and (max-width: 767px) {
+    .main {
         margin: 0 -7px;
     }
-    .mainTop{
+
+    .mainTop {
         min-width: auto;
         padding: 0;
     }
-    .taskDateWrap{
+
+    .taskDateWrap {
         padding: 10px 10px 10px;
     }
-    #content{
+
+    #content {
         padding: 10px 10px 10px;
     }
-    .noteCont{
+
+    .noteCont {
         width: 58%;
         display: inline-block;
         overflow: hidden;
@@ -206,73 +244,90 @@ select::-ms-expand { display: none; }
         white-space: nowrap;
         float: left;
     }
+
     .subjectTime {
         padding-left: 0;
     }
 
 }
 
-@media screen and (min-width:320px) and (max-width:480px){
-    .mainTop{
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .mainTop {
         min-width: 330px;
         padding: 0;
     }
-    .mainTop .user{
+
+    .mainTop .user {
         width: 48%;
         background-size: 90px 52px;
     }
-    .user .userName{
+
+    .user .userName {
         line-height: 25px;
     }
-    .monkey{
+
+    .monkey {
         width: 3.5rem;
         height: 3.5rem;
     }
-    .userName{
+
+    .userName {
         font-size: 1rem;
     }
-    .subject{
-        width:60%;
+
+    .subject {
+        width: 60%;
     }
-    .time{
+
+    .time {
         width: 22%;
     }
-    .displaInline label{
+
+    .displaInline label {
         display: block;
     }
+
     .cityListWrap {
         padding: 0;
         float: left;
         width: 50%;
     }
-    .city{
+
+    .city {
         width: 91%;
         height: 4rem;
         border-radius: 10px;
-        margin:0 1rem;
+        margin: 0 1rem;
     }
-    .m-text{
+
+    .m-text {
         max-width: 920px;
         padding: 0 0px;
         margin-top: 20px;
     }
-    .m-text >div{
+
+    .m-text > div {
         text-align: left;
         display: block;
         padding: 0 3rem;
-        font-size: 1rem;s
+        font-size: 1rem;
+        s
         line-height: 1.5rem;
     }
-    .city div{
+
+    .city div {
         line-height: 4rem;
     }
-    .cityair,.cityname{
+
+    .cityair, .cityname {
         font-size: 1rem;
     }
-    .cityList{
+
+    .cityList {
         width: 100%;
     }
-    .location{
+
+    .location {
         width: 85%;
         height: 11rem;
         margin: 0;
@@ -280,52 +335,66 @@ select::-ms-expand { display: none; }
         padding: 10px;
         margin-bottom: 1.5rem;
     }
-    .main{
+
+    .main {
         margin: 0 -7px;
     }
-    header{
+
+    header {
         padding: 10px;
     }
-    .margin0{
+
+    .margin0 {
         margin: 0;
     }
-    .padding0{
+
+    .padding0 {
         padding: 0;
     }
-    .width28{
+
+    .width28 {
         width: 35%;
     }
-    .width12{
+
+    .width12 {
         width: 12%;
     }
-    .gobackWrap{
+
+    .gobackWrap {
         width: 35%;
     }
-    .subjectTime{
+
+    .subjectTime {
         min-width: auto;
         padding-top: 20px;
         padding-left: 0;
     }
-    .subjectTime form{
+
+    .subjectTime form {
         min-width: auto;
     }
-    .subjectTime select{
+
+    .subjectTime select {
         width: auto;
         margin: 0;
     }
-    #content{
+
+    #content {
         padding: 1rem;
         margin: 0;
     }
-    .taskDateWrap{
+
+    .taskDateWrap {
         padding: 3px;
         overflow: hidden;
     }
-    .note{
+
+    .note {
         width: 65%;
         display: inline-block;
     }
-    .noteCont{
+
+    .noteCont {
         width: 58%;
         display: inline-block;
         overflow: hidden;
@@ -334,67 +403,83 @@ select::-ms-expand { display: none; }
         float: left;
     }
 }
-@media screen and (max-width:320px){
-    .mainTop{
+
+@media screen and (max-width: 320px) {
+    .mainTop {
         min-width: auto;
         padding: 0;
     }
-    .mainTop .user{
+
+    .mainTop .user {
         width: 43%;
         background-size: 90px 52px;
     }
-    .user .userName{
+
+    .user .userName {
         line-height: 25px;
     }
-    .monkey{
+
+    .monkey {
         width: 3.5rem;
         height: 3.5rem;
     }
-    .userName{
+
+    .userName {
         font-size: 1rem;
     }
-    .subject{
-        width:60%;
+
+    .subject {
+        width: 60%;
     }
-    .time{
+
+    .time {
         width: 22%;
     }
-    .displaInline label{
+
+    .displaInline label {
         display: block;
     }
+
     .cityListWrap {
         padding: 0;
         float: left;
         width: 50%;
     }
-    .city{
+
+    .city {
         width: 91%;
         height: 4rem;
         border-radius: 10px;
-        margin:0 1rem;
+        margin: 0 1rem;
     }
-    .m-text{
+
+    .m-text {
         max-width: 920px;
         padding: 0 0px;
         margin-top: 20px;
     }
-    .m-text >div{
+
+    .m-text > div {
         text-align: left;
         display: block;
         padding: 0 3rem;
         font-size: 1rem;
         line-height: 1.5rem;
     }
-    .city div{
+
+    .city div {
         line-height: 4rem;
     }
-    .cityair,.cityname{
+
+    .cityair, .cityname {
         font-size: 1rem;
     }
-    .cityList{
+
+    .cityList {
         width: 100%;
     }
-    .location{
+
+    .location {
         width: 85%;
         height: 11rem;
         margin: 0;
@@ -402,55 +487,71 @@ select::-ms-expand { display: none; }
         padding: 10px;
         margin-bottom: 1.5rem;
     }
-    .main{
+
+    .main {
         margin: 0 -7px;
     }
-    header{
+
+    header {
         padding: 10px;
     }
-    .margin0{
+
+    .margin0 {
         margin: 0;
     }
-    .padding0{
+
+    .padding0 {
         padding: 0;
     }
-    .width28{
+
+    .width28 {
         width: 35%;
     }
-    .width12{
+
+    .width12 {
         width: 12%;
     }
-    .gobackWrap{
+
+    .gobackWrap {
         width: 35%;
     }
-    .subjectTime{
+
+    .subjectTime {
         min-width: auto;
         padding-top: 20px;
     }
-    .subjectTime form{
+
+    .subjectTime form {
         min-width: auto;
     }
-    .subjectTime select{
+
+    .subjectTime select {
         width: 90%;
     }
-    #content{
+
+    #content {
         padding: 1rem;
         margin: 0;
     }
-    .data,.object{
+
+    .data, .object {
         display: block;
     }
-    .dateSubjectWrap{
+
+    .dateSubjectWrap {
         width: 50%;
         float: left;
     }
-    .listItem{
+
+    .listItem {
         padding: 0;
     }
-    .taskDateWrap{
+
+    .taskDateWrap {
         padding: 3px;
     }
-    .noteCont{
+
+    .noteCont {
         width: 58%;
         display: inline-block;
         overflow: hidden;

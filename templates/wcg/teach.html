@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>保姆级教程</title>
-		<link type="text/css" rel="stylesheet" href="/static/wcg/style/style.css">
-	</head>
-	<body>
-		<div class="rtec">
-			<p style="font-size: 68px;">保姆级玩法教程</p>
-			基本游戏规则<br>
-			本游戏采用回合制，第X回合玩家会获得X个钻石，每张卡牌都需要一定数量的钻石来使用<br>
-			每张卡都可以让使用者获得+A攻击力+B防御力，简写为+A+B<br>
-			每回合，卡牌给予玩家的A的总和为本回合最终攻击力，B的总和为本回合最终防御力<br>
-			经典模式：如果你的攻击力>对手的防御力，对手扣一滴血，如果你对手的攻击力>你的防御力，你扣一滴血<br>
-			其他模式：如果你的攻击力>对手的防御力，对手扣你的攻击力-对手防御力滴血，反之亦然<br>
-			10回合过后，扣血翻倍<br>
-			每回合开始时，抽一张牌，15回合后抽每回合两张，玩家最大手牌是6，手牌达到上限时不会抽牌<br>
-			每张牌都有特殊效果，而且，优先级大于本规则<br><br>
-			<button id="exi">返回游戏</button>
-		</div>
-		<script>
-			document.getElementById('exi').onclick = function () {
-				window.location.href = "/wcg";
-			}
-		</script>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <title>保姆级教程</title>
+    <link type="text/css" rel="stylesheet" href="/static/wcg/style/style.css">
+</head>
+<body>
+<div class="rtec">
+    <p style="font-size: 68px;">保姆级玩法教程</p>
+    基本游戏规则<br>
+    本游戏采用回合制，第X回合玩家会获得X个钻石，每张卡牌都需要一定数量的钻石来使用<br>
+    每张卡都可以让使用者获得+A攻击力+B防御力，简写为+A+B<br>
+    每回合，卡牌给予玩家的A的总和为本回合最终攻击力，B的总和为本回合最终防御力<br>
+    经典模式：如果你的攻击力>对手的防御力，对手扣一滴血，如果你对手的攻击力>你的防御力，你扣一滴血<br>
+    其他模式：如果你的攻击力>对手的防御力，对手扣你的攻击力-对手防御力滴血，反之亦然<br>
+    10回合过后，扣血翻倍<br>
+    每回合开始时，抽一张牌，15回合后抽每回合两张，玩家最大手牌是6，手牌达到上限时不会抽牌<br>
+    每张牌都有特殊效果，而且，优先级大于本规则<br><br>
+    <button id="exi">返回游戏</button>
+</div>
+<script>
+    document.getElementById('exi').onclick = function () {
+        window.location.href = "/wcg";
+    }
+</script>
+</body>
 </html>

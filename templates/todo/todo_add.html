@@ -32,7 +32,7 @@
     <div class="main">
         <div class="mainLeft fl">
 				  <span class="user">
-					  <span class="userName">{{t_username}}的讨论区/任务本</span>
+					  <span class="userName">{{ t_username }}的讨论区/任务本</span>
 				  </span>
             <img class="monkey" height="90" src="/static/todo/images/work.png" alt="">
         </div>
@@ -43,7 +43,7 @@
                         <label class="fl" for="data">科目：</label>
                         <select name="subject" id="data">
                             {% for item in t_subject_options %}
-                            <option value={{ item }}>{{ item }}</option>
+                                <option value={{ item }}>{{ item }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -63,7 +63,7 @@
     </div>
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2019
+    COPYRIGHT© {{ t_username }} 2019
 </div>
 <script src="/static/todo/js/jquery-3.3.1.min.js"></script>
 </body>

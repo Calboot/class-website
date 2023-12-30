@@ -53,24 +53,24 @@
                     </div>
                     <div class="textarea">
                         <div class="textareaWrap">
-                            <textarea placeholder="请输入单词" name="txt" required>{{t_txt}}</textarea>
+                            <textarea placeholder="请输入单词" name="txt" required>{{ t_txt }}</textarea>
                             <input class="img" type="submit" value=" ">
                         </div>
                         <p class="answer">答案：</p>
                         <div class="trans-text">
-                            <p>{{t_txt}}</p>
-                            {{t_result}}
+                            <p>{{ t_txt }}</p>
+                            {{ t_result }}
                         </div>
 
                     </div>
-                    <input type="hidden" name="op" value="{{t_op}}">
+                    <input type="hidden" name="op" value="{{ t_op }}">
                 </div>
             </form>
         </div>
     </div>
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2020
+    COPYRIGHT© {{ t_username }} 2020
 </div>
 <script src="/static/trans/js/jquery-3.3.1.min.js"></script>
 <script src="/static/trans/js/switch.js"></script>

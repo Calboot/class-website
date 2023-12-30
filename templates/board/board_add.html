@@ -42,7 +42,7 @@
                         <label class="fl" for="data">板块：</label>
                         <select name="subject" id="data">
                             {% for item in t_subject_options %}
-                            <option value={{ item }}>{{ item }}</option>
+                                <option value={{ item }}>{{ item }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -60,12 +60,12 @@
                 </div>
 
                 <div id="editor-container" style="height: 300px;">
-                      <div id="editor"></div>
+                    <div id="editor"></div>
                 </div>
                 <div class="textareaBox clearfix" style="height: 60px">
-<!--                    <textarea name="content" id="contText" required></textarea>-->
-                    <label class="submitLabel"  style="left: 0; top: 20px"  for="sub"></label>
-                    <input id="sub"type="submit" value="">
+                    <!--                    <textarea name="content" id="contText" required></textarea>-->
+                    <label class="submitLabel" style="left: 0; top: 20px" for="sub"></label>
+                    <input id="sub" type="submit" value="">
                 </div>
                 <input type="hidden" name="content" id="hidden-content">
             </form>
@@ -75,20 +75,20 @@
 
 </div>
 <div id="footer">
-    COPYRIGHT© {{t_username}} 2019
+    COPYRIGHT© {{ t_username }} 2019
 </div>
 <script src="/static/board/js/jquery-3.3.1.min.js"></script>
 <script src="/static/board/js/markdown-palettes.min.js"></script>
 <script>
-  var markdownEditor = new MarkdownPalettes("#editor");
-  //markdownEditor.contenet = "**content**";
-  var code = markdownEditor.content;
-  $(function(){
-    $('#form1').submit(function(){
-        var code = markdownEditor.content;
-        $('#hidden-content').val(code);
+    var markdownEditor = new MarkdownPalettes("#editor");
+    //markdownEditor.contenet = "**content**";
+    var code = markdownEditor.content;
+    $(function () {
+        $('#form1').submit(function () {
+            var code = markdownEditor.content;
+            $('#hidden-content').val(code);
+        });
     });
-  });
 </script>
 </body>
 </html>

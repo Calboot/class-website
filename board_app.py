@@ -132,8 +132,8 @@ def find_board(condition, page=0, kw=''):
     if page == 0:
         res = c_board.find(cond).sort("date", pymongo.DESCENDING)
     else:
-        res = c_board.find(cond).sort([{"sticky", pymongo.DESCENDING}, {"date", pymongo.DESCENDING}])\
-            .skip((page-1) * per_page).limit(per_page)
+        res = c_board.find(cond).sort([{"sticky", pymongo.DESCENDING}, {"date", pymongo.DESCENDING}]) \
+            .skip((page - 1) * per_page).limit(per_page)
     alist = []
     for item in res:
         alist.append(item)

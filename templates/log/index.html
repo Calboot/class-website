@@ -22,11 +22,11 @@ task
     <div class="mainContiner container-fluid" style="padding-top: 0px">
         <div class="boxone row">
             {% for log in t_log %}
-            <div class="mainTitle col-xs-12" style="line-height: 30px; margin-bottom: 30px">{% set s = '<br>'.join(log.content.split('\n')) %}{{s|safe}}</div>
+                <div class="mainTitle col-xs-12" style="line-height: 30px; margin-bottom: 30px">{% set s = '<br>'.join(log.content.split('\n')) %}{{ s|safe }}</div>
             {% endfor %}
+        </div>
     </div>
-</div>
-<script src="/static/main/js/jquery-3.3.1.min.js"></script>
-<script src="/static/main/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/main/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/main/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

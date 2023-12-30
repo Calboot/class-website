@@ -2,20 +2,25 @@
     margin: 0;
     padding: 0;
 }
+
 html, body {
     width: 100%;
     height: 100%;
 }
+
 body {
     background: url(../images/mainbg.jpg) no-repeat;
     background-size: 100% 100%;
 }
-.pl{
-    padding-left: 0!important;
+
+.pl {
+    padding-left: 0 !important;
 }
-.vm{
-    vertical-align: middle!important;
+
+.vm {
+    vertical-align: middle !important;
 }
+
 .mask {
     position: fixed;
     width: 100%;
@@ -24,13 +29,15 @@ body {
     opacity: 0.76;
     z-index: 1;
 }
+
 /* 头部导航 */
 .navbar-default {
     background-color: transparent;
     border: none;
     height: 110px;
 }
-.navbar-toggle{
+
+.navbar-toggle {
     position: absolute;
     top: 0;
     right: 0;
@@ -42,21 +49,25 @@ body {
     color: #fff;
     text-decoration: none;
 }
+
 .navbar-default .navbar-brand:visited {
     color: #fff;
     text-decoration: none;
 }
-.navbar-default .navbar-nav>li>a:hover {
+
+.navbar-default .navbar-nav > li > a:hover {
     color: #fff;
     text-decoration: none;
 }
+
 .navbar-default .navbar-brand,
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
     color: #fff;
     text-decoration: none;
     font-size: 0.7rem;
-    
+
 }
+
 .box {
     position: relative;
     margin: 0 auto;
@@ -71,35 +82,45 @@ body {
 }
 
 /* 小屏幕（平板，大于等于 768px） */
-@media screen and (max-width: 768px) { 
-    .mynav_leftuser{line-height: 22px;padding-top: 8px;}
-    .navbar-header{height: 90px;}
+@media screen and (max-width: 768px) {
+    .mynav_leftuser {
+        line-height: 22px;
+        padding-top: 8px;
+    }
+
+    .navbar-header {
+        height: 90px;
+    }
+
     .navbar-default .navbar-collapse, .navbar-default .navbar-form {
         background-color: #e7e7e7;
     }
-    .mobiologinangregist{
-        background-color: rgba(255,255,255,0) !important;
-    }
-}
-@media screen and (min-width: 1000px){
-    .navbar-default {
-        border-bottom: 1px solid rgba(255,255,255,0.33);
-        margin-left:2.6rem;
-        margin-right:2.6rem;
-    }
-    .navbar-default .navbar-brand,
-    .navbar-default .navbar-nav>li>a {
-        font-size: 0.6rem;
-        line-height: 80px;
-    }
-.mynav_user{
-       position: fixed;
-       left: 50%;
-       top: 15px;
-       transform: translateX(-50%); 
+
+    .mobiologinangregist {
+        background-color: rgba(255, 255, 255, 0) !important;
     }
 }
 
+@media screen and (min-width: 1000px) {
+    .navbar-default {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.33);
+        margin-left: 2.6rem;
+        margin-right: 2.6rem;
+    }
+
+    .navbar-default .navbar-brand,
+    .navbar-default .navbar-nav > li > a {
+        font-size: 0.6rem;
+        line-height: 80px;
+    }
+
+    .mynav_user {
+        position: fixed;
+        left: 50%;
+        top: 15px;
+        transform: translateX(-50%);
+    }
+}
 
 
 .mainContiner {
@@ -118,7 +139,8 @@ body {
 .shape1 {
     margin-bottom: 1.25rem;
 }
-.shape1 a,.shape2 a{
+
+.shape1 a, .shape2 a {
     display: block;
     margin: 0 0.3rem;
     border: 1px solid #fff;
@@ -128,18 +150,24 @@ body {
     color: #fff;
     font-size: 0.8rem;
 }
-.shape1 a:hover,.shape2 a:hover{
+
+.shape1 a:hover, .shape2 a:hover {
     text-decoration: none;
     color: #407FFF;
     border: 1px solid #407FFF;
 }
-.loginBtn,.loginOutBtn{
-    display: inline-block!important;padding-right: 5px!important;
+
+.loginBtn, .loginOutBtn {
+    display: inline-block !important;
+    padding-right: 5px !important;
 }
-.registBtn{
-    display: inline-block!important;padding-left: 2px!important;
+
+.registBtn {
+    display: inline-block !important;
+    padding-left: 2px !important;
 }
-.manypeopleplay{
+
+.manypeopleplay {
     margin-top: 60px;
 }
 

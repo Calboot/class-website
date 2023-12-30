@@ -35,7 +35,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 
         var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距  
         var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距  
-        $(innerdiv).css({ "top": h, "left": w });//设置#innerdiv的top和left属性  
+        $(innerdiv).css({"top": h, "left": w});//设置#innerdiv的top和left属性
         $(outerdiv).fadeIn("fast");//淡入显示#outerdiv及.pimg  
     });
 

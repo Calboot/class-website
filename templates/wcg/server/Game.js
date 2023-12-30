@@ -2,14 +2,14 @@ console.log("服务器启动中...");
 const ws = require('ws').Server;
 const WebSocket = require('ws');
 const PORT = 4999;
-const wss = new ws({ port: PORT });
+const wss = new ws({port: PORT});
 const cards = 28;
-const cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3,5,2,4,3,1,2,1,4,3];//卡牌消费
-const pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4,1,12,3,1,2,3,3,3,1,1,2,1,2,3]; //卡牌提供的a
-const pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4,1,21,2,2,2,3,2,3,5,2,2,1,2,3]; 
+const cardcost = [0, 1, 1, 2, 8, 4, 6, 3, 5, 2, 3, 2, 1, 4, 2, 2, 7, 4, 4, 3, 5, 2, 4, 3, 1, 2, 1, 4, 3];//卡牌消费
+const pa = [0, 1, 1, 4, 8, 3, 4, 3, 1, 2, 5, 3, 1, 1, 4, 1, 12, 3, 1, 2, 3, 3, 3, 1, 1, 2, 1, 2, 3]; //卡牌提供的a
+const pb = [0, 1, 1, 1, 0, 2, 2, 1, 4, 1, 2, 2, 1, 1, 4, 1, 21, 2, 2, 2, 3, 2, 3, 5, 2, 2, 1, 2, 3];
 const mnum = 8;
 const snum = 4;//卡牌提供的b
-const monkeys = [7,9,13,20,21,22,23,24],spiders = [1,25,26,27];
+const monkeys = [7, 9, 13, 20, 21, 22, 23, 24], spiders = [1, 25, 26, 27];
 console.log("服务器启动成功！");
 
 var players = [];
@@ -30,8 +30,8 @@ function wsSend(pid, content) {
     }
 }
 
-function find(pid){
-    for (var i = 0; i <= playersIndex; i++){
+function find(pid) {
+    for (var i = 0; i <= playersIndex; i++) {
         if (players[i].pid == pid) return i;
     }
 }
@@ -156,7 +156,7 @@ function acticard(num, pid) {
                 pop(num, pid);
                 if (players[i].b < players[i].a) {
                     players[i].a -= 5;
-                    
+
                 }
                 players[i].gdy = 1;
                 return;
@@ -165,53 +165,52 @@ function acticard(num, pid) {
                 var x = Math.max(players[i].a, players[i].b);
                 players[i].a = x;
                 players[i].b = x;
-                
-                
+
+
             }
             if (players[i].pcd[num] == 8) {
-                for(var j=0;j<=playersIndex;j++){
-                    if(players[j].pid==players[i].epid){
-                        var a,b;
-                        if(players[j].pcard==0){
+                for (var j = 0; j <= playersIndex; j++) {
+                    if (players[j].pid == players[i].epid) {
+                        var a, b;
+                        if (players[j].pcard == 0) {
                             break;
                         }
-                        if(players[j].pcard==1){
-                            a=players[j].pcd[players[j].pcard];
-                            players[j].pcd[players[j].pcard]=0;
+                        if (players[j].pcard == 1) {
+                            a = players[j].pcd[players[j].pcard];
+                            players[j].pcd[players[j].pcard] = 0;
                             players[j].pcard--;
-                            b=0;
+                            b = 0;
+                        } else {
+                            a = players[j].pcd[players[j].pcard];
+                            players[j].pcd[players[j].pcard] = 0;
+                            players[j].pcard--;
+                            b = players[j].pcd[players[j].pcard];
+                            players[j].pcd[players[j].pcard] = 0;
+                            players[j].pcard--;
                         }
-                        else {
-                            a=players[j].pcd[players[j].pcard];
-                            players[j].pcd[players[j].pcard]=0;
-                            players[j].pcard--;
-                            b=players[j].pcd[players[j].pcard];
-                            players[j].pcd[players[j].pcard]=0;
-                            players[j].pcard--;
-                        }
-                        if(players[i].pcard==6){
+                        if (players[i].pcard == 6) {
                             break;
                         }
-                        if(players[i].pcard==5){
-                            players[i].pcd[players[i].pcard+1]=a;
-                            players[i].pcard+=1;
-                            wsSend(players[j].pid,players[j]);
-                            wsSend(players[i].pid,players[i]);
+                        if (players[i].pcard == 5) {
+                            players[i].pcd[players[i].pcard + 1] = a;
+                            players[i].pcard += 1;
+                            wsSend(players[j].pid, players[j]);
+                            wsSend(players[i].pid, players[i]);
                             break;
                         }
-                        players[i].pcd[players[i].pcard+1]=a;
-                        players[i].pcd[players[i].pcard+2]=b;
-                        players[i].pcard+=2;
-                        wsSend(players[j].pid,players[j]);
-                        wsSend(players[i].pid,players[i]);
+                        players[i].pcd[players[i].pcard + 1] = a;
+                        players[i].pcd[players[i].pcard + 2] = b;
+                        players[i].pcard += 2;
+                        wsSend(players[j].pid, players[j]);
+                        wsSend(players[i].pid, players[i]);
                     }
                 }
             }
             if (players[i].pcd[num] == 9) {
-                for(var j=0;j<=playersIndex;j++){
-                    if(players[j].pid==players[i].epid){
+                for (var j = 0; j <= playersIndex; j++) {
+                    if (players[j].pid == players[i].epid) {
                         players[j].d--;
-                        wsSend(players[j].pid,players[j]);
+                        wsSend(players[j].pid, players[j]);
                     }
                 }
             }
@@ -219,7 +218,7 @@ function acticard(num, pid) {
                 pop(num, pid);
                 players[i].pcard += 1;
                 players[i].pcd[players[i].pcard] = 2;
-                wsSend(players[i].pid,players[i]);
+                wsSend(players[i].pid, players[i]);
                 return;
             }
             if (players[i].pcd[num] == 12) {
@@ -245,7 +244,7 @@ function acticard(num, pid) {
                 return;
             }
             if (players[i].pcd[num] == 16) {
-                pop(num,pid);
+                pop(num, pid);
                 var x = Math.min(players[i].a, players[i].b);
                 players[i].a = x;
                 players[i].b = x;
@@ -302,31 +301,30 @@ function acticard(num, pid) {
                 players[i].had[players[i].pcd[players[i].pcard]] += 1;//记录
             }
             if (players[i].pcd[num] == 26) {
-                for(var j=0;j<=playersIndex;j++){
-                    if(players[j].pid==players[i].epid){
-                        if(players[j].pcard==0){
+                for (var j = 0; j <= playersIndex; j++) {
+                    if (players[j].pid == players[i].epid) {
+                        if (players[j].pcard == 0) {
                             break;
                         }
-                        if(players[j].pcard==1){
-                            players[j].pcd[players[j].pcard]=0;
+                        if (players[j].pcard == 1) {
+                            players[j].pcd[players[j].pcard] = 0;
+                            players[j].pcard--;
+                        } else {
+                            players[j].pcd[players[j].pcard] = 0;
+                            players[j].pcard--;
+                            players[j].pcd[players[j].pcard] = 0;
                             players[j].pcard--;
                         }
-                        else {
-                            players[j].pcd[players[j].pcard]=0;
-                            players[j].pcard--;
-                            players[j].pcd[players[j].pcard]=0;
-                            players[j].pcard--;
-                        }
-                        wsSend(players[j].pid,players[j]);
+                        wsSend(players[j].pid, players[j]);
                     }
                 }
             }
             if (players[i].pcd[num] == 27) {
-                pop(num,pid);
-                var TMP1 = players[i].pcard,TMP2;
+                pop(num, pid);
+                var TMP1 = players[i].pcard, TMP2;
                 for (var j = 0; j <= playersIndex; j++) {
                     if (players[j] == players[i].epid) {
-                        TMP2=players[j].pcard;
+                        TMP2 = players[j].pcard;
                         while (players[j].pcard > 0) pop(players[j].pcard, players[j].pid);
                     }
                 }
@@ -353,16 +351,16 @@ function usecard(num, pid) { //使用第num张手牌
             if (num > players[i].pcard || players[i].d < cardcost[players[i].pcd[num]]) return; //如果该位置无牌直接跳出
             players[i].d -= cardcost[players[i].pcd[num]]; //减去钻石
             acticard(num, pid);
-            wsSend(pid,players[i]);
-            for(var j = 0; j <= playersIndex; j++) {
-                if(players[j].pid==players[i].epid)wsSend(players[i].epid,players[j]);
+            wsSend(pid, players[i]);
+            for (var j = 0; j <= playersIndex; j++) {
+                if (players[j].pid == players[i].epid) wsSend(players[i].epid, players[j]);
             }
         }
     }
 }
 
 wss.on('connection', function (ws) {
-    
+
 
     ws.on("message", function (message) {
         var msg = JSON.parse(message);
@@ -371,50 +369,50 @@ wss.on('connection', function (ws) {
         var epid = msg.epid;
         switch (type) {
             case "connection":
-                for(var i=0;i<=playersIndex;i++){
-                    if(players[i].pid==pid){
-                        if(players[i].playing==true){
-                            playersws[i].ws=ws;
+                for (var i = 0; i <= playersIndex; i++) {
+                    if (players[i].pid == pid) {
+                        if (players[i].playing == true) {
+                            playersws[i].ws = ws;
                             console.log(ws.ping());
                             var p = players[i];
                             p.epid = epid;
-                            wsSend(pid,p);
-                            if (typeof players[find(epid)] != 'undefined'){
+                            wsSend(pid, p);
+                            if (typeof players[find(epid)] != 'undefined') {
                                 var ep = players[find(epid)];
                                 ep.epid = pid;
-                                wsSend(epid,ep);
+                                wsSend(epid, ep);
                             }
                             return;
                         }
                         players[i].epid = epid;
-                        players[i].pcd=[0,0,0,0,0,0,0,0];
-                        players[i].pcard=0;
-                        playersws[i].ws=ws;
-                        players[i].had=[2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        players[i].a=0;
-                        players[i].b=0;
-                        players[i].d=1;
-                        players[i].amt=1;
-                        players[i].monk=0;
-                        players[i].spid=0;
-                        players[i].skip=false;
-                        players[i].gdy=false;
-                        players[i].blood=100;
-                        players[i].playing=true;
-                        players[i].win=false;
-                        players[i].lose=false;
+                        players[i].pcd = [0, 0, 0, 0, 0, 0, 0, 0];
+                        players[i].pcard = 0;
+                        playersws[i].ws = ws;
+                        players[i].had = [2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        players[i].a = 0;
+                        players[i].b = 0;
+                        players[i].d = 1;
+                        players[i].amt = 1;
+                        players[i].monk = 0;
+                        players[i].spid = 0;
+                        players[i].skip = false;
+                        players[i].gdy = false;
+                        players[i].blood = 100;
+                        players[i].playing = true;
+                        players[i].win = false;
+                        players[i].lose = false;
                         console.log("客户端 [%s] 重新连接！", pid);
                         getcard(pid);
                         getcard(pid);
                         getcard(pid);
                         getcard(pid);
-                        wsSend(pid,players[i]);
+                        wsSend(pid, players[i]);
                         return;
                     }
                 }
                 players.push({
                     "pid": "null",
-                    "pcd": [0,0,0,0,0,0,0,0],
+                    "pcd": [0, 0, 0, 0, 0, 0, 0, 0],
                     "pcard": 0,
                     "had": [2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     "epid": "null",
@@ -442,7 +440,7 @@ wss.on('connection', function (ws) {
                 getcard(pid);
                 getcard(pid);
                 getcard(pid);
-                wsSend(pid,players[playersIndex]);
+                wsSend(pid, players[playersIndex]);
                 break;
             case "message":
                 if (msg.msgtype == "updateHand") {
@@ -453,77 +451,77 @@ wss.on('connection', function (ws) {
                     }
                 }
                 if (msg.msgtype == "skip") {
-                    var index,indexe;
-                    for(var i=0;i<=playersIndex;i++){
-                        if(pid==players[i].pid){
-                            index=i;
+                    var index, indexe;
+                    for (var i = 0; i <= playersIndex; i++) {
+                        if (pid == players[i].pid) {
+                            index = i;
                         }
-                        if(epid==players[i].pid){
-                            indexe=i;
+                        if (epid == players[i].pid) {
+                            indexe = i;
                         }
                     }
-                    players[index].skip=true;
-                    if(players[index].skip&&players[indexe].skip){
+                    players[index].skip = true;
+                    if (players[index].skip && players[indexe].skip) {
                         players[index].amt++;
-                        players[index].d=players[index].amt;
-                        players[index].skip=false;
+                        players[index].d = players[index].amt;
+                        players[index].skip = false;
                         players[indexe].amt++;
-                        players[indexe].d=players[indexe].amt;
-                        players[indexe].skip=false;
-                        if(players[index].a>players[indexe].b&&players[indexe].gdy==0){
-                            players[indexe].blood-=(players[index].a-players[indexe].b);
+                        players[indexe].d = players[indexe].amt;
+                        players[indexe].skip = false;
+                        if (players[index].a > players[indexe].b && players[indexe].gdy == 0) {
+                            players[indexe].blood -= (players[index].a - players[indexe].b);
                         }
-                        if(players[indexe].a>players[index].b&&players[index].gdy==0){
-                            players[index].blood-=(players[indexe].a-players[index].b);
+                        if (players[indexe].a > players[index].b && players[index].gdy == 0) {
+                            players[index].blood -= (players[indexe].a - players[index].b);
                         }
-                        players[index].a=0;
-                        players[indexe].a=0;
-                        players[index].b=0;
-                        players[indexe].b=0;
-                        players[index].gdy=0;
-                        players[indexe].gdy=0;
+                        players[index].a = 0;
+                        players[indexe].a = 0;
+                        players[index].b = 0;
+                        players[indexe].b = 0;
+                        players[index].gdy = 0;
+                        players[indexe].gdy = 0;
                         getcard(epid);
                         getcard(pid);
-                        wsSend(epid,players[indexe]);
+                        wsSend(epid, players[indexe]);
                     }
-                    if(players[index].blood<=0){
-                        players[index].lose=true;
-                        players[indexe].win=true;
-                        wsSend(epid,players[indexe]);
-                        wsSend(pid,players[index]);
+                    if (players[index].blood <= 0) {
+                        players[index].lose = true;
+                        players[indexe].win = true;
+                        wsSend(epid, players[indexe]);
+                        wsSend(pid, players[index]);
                         playersws[indexe].ws.close();
                         playersws[index].ws.close();
-                        players[indexe].playing=false;
-                        players[index].playing=false;
+                        players[indexe].playing = false;
+                        players[index].playing = false;
                         return;
                     }
-                    if(players[indexe].blood<=0){
-                        players[indexe].lose=true;
-                        players[index].win=true;
-                        wsSend(epid,players[indexe]);
-                        wsSend(pid,players[index]);
+                    if (players[indexe].blood <= 0) {
+                        players[indexe].lose = true;
+                        players[index].win = true;
+                        wsSend(epid, players[indexe]);
+                        wsSend(pid, players[index]);
                         playersws[indexe].ws.close();
                         playersws[index].ws.close();
-                        players[indexe].playing=false;
-                        players[index].playing=false;
+                        players[indexe].playing = false;
+                        players[index].playing = false;
                         return;
                     }
-                    wsSend(pid,players[index]);
+                    wsSend(pid, players[index]);
                 }
-                if(msg.msgtype == "exit"){
-                    var index,indexe;
-                    for(var i=0;i<=playersIndex;i++){
-                        if(pid==players[i].pid){
-                            index=i;
+                if (msg.msgtype == "exit") {
+                    var index, indexe;
+                    for (var i = 0; i <= playersIndex; i++) {
+                        if (pid == players[i].pid) {
+                            index = i;
                         }
-                        if(epid==players[i].pid){
-                            indexe=i;
+                        if (epid == players[i].pid) {
+                            indexe = i;
                         }
                     }
-                    players[index].playing=false;
-                    players[indexe].playing=false;
-                    players[indexe].win=true;
-                    wsSend(epid,players[indexe]);
+                    players[index].playing = false;
+                    players[indexe].playing = false;
+                    players[indexe].win = true;
+                    wsSend(epid, players[indexe]);
                 }
                 console.log("客户端 [%s] 发送消息 [%s]", pid, msg.msgtype);
         }
