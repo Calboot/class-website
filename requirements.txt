@@ -8,3 +8,4 @@ ybc_commons
 ybc_exception
 ybc_config
 requests
+gunicorn
